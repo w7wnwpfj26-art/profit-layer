@@ -2,7 +2,7 @@
 import { createPublicClient, createWalletClient, http, encodeFunctionData, formatEther, maxUint256 } from "viem";
 import { arbitrum } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
-import { loadConfig } from "@defi-yield/common";
+import { loadConfig } from "@profitlayer/common";
 
 loadConfig();
 

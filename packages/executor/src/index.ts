@@ -22,8 +22,8 @@ import {
   query,
   QUEUES,
   type ExecuteTxJob,
-} from "@defi-yield/common";
-import { adapterRegistry, registerAllAdapters } from "@defi-yield/adapters";
+} from "@profitlayer/common";
+import { adapterRegistry, registerAllAdapters } from "@profitlayer/adapters";
 import { WalletManager } from "./wallet/WalletManager.js";
 import { TxExecutor } from "./transaction/TxExecutor.js";
 import { TxSimulator } from "./transaction/TxSimulator.js";

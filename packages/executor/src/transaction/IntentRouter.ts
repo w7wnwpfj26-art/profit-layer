@@ -11,7 +11,7 @@
  * - Direct DEX - 小额 / 非 EVM 链
  */
 
-import { createLogger, type Chain } from "@defi-yield/common";
+import { createLogger, type Chain } from "@profitlayer/common";
 
 const logger = createLogger("executor:intent-router");
 
@@ -201,7 +201,7 @@ export class IntentRouter {
       slippageBps: order.slippageBps,
       receiver: order.receiver || walletAddress,
       validTo: order.deadline || Math.floor(Date.now() / 1000) + 1800, // 30min
-      appData: JSON.stringify({ appCode: "nexus-yield-agent" }),
+      appData: JSON.stringify({ appCode: "profit-layer" }),
     };
 
     const quoteResp = await fetch(`${apiBase}/quote`, {

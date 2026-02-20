@@ -2,8 +2,8 @@
 // Token Swap Strategy Action
 // ============================================
 
-import { createLogger, TxType, type Chain } from "@defi-yield/common";
-import type { ILPAdapter } from "@defi-yield/adapters";
+import { createLogger, TxType, type Chain } from "@profitlayer/common";
+import type { ILPAdapter } from "@profitlayer/adapters";
 import type { TxExecutor } from "../transaction/TxExecutor.js";
 
 const logger = createLogger("executor:swap");

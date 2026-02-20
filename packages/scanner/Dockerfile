@@ -18,8 +18,8 @@ COPY packages/common/ packages/common/
 COPY packages/scanner/ packages/scanner/
 
 # Build
-RUN pnpm --filter @defi-yield/common build
-RUN pnpm --filter @defi-yield/scanner build
+RUN pnpm --filter @profitlayer/common build
+RUN pnpm --filter @profitlayer/scanner build
 
 # ---- Production ----
 FROM node:20-alpine

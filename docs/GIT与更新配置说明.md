@@ -13,17 +13,17 @@
    - 用户名：`wangqi`
    - 密码：（在 Git 服务后台设置或使用 Access Token）
 3. 在页面上找到「新建仓库」/「New Repository」：
-   - 仓库名称建议：`dapp` 或 `defi-yield`
+   - 仓库名称建议：`dapp` 或 `profit-layer`
    - 可见性按需选择（私有/公开）
    - 若需要，可勾选「使用 README 初始化」
-4. 创建完成后，记下仓库的 **克隆地址**（如 `https://github.com/your-org/nexus-yield.git`），用于本地推送。
+4. 创建完成后，记下仓库的 **克隆地址**（如 `https://github.com/your-org/profit-layer.git`），用于本地推送。
 
 ### 本地推送到该 Git
 
 ```bash
 # 若尚未初始化 git
 git init
-git remote add origin https://github.com/your-org/nexus-yield.git
+git remote add origin https://github.com/your-org/profit-layer.git
 
 # 推送（首次可能需输入你的 Git 用户名与密码或 Token）
 git add .
@@ -55,8 +55,8 @@ git push -u origin main
    - 从本机 `packages/desktop/dist/` 里复制：
      - `latest.yml`（Windows 用）
      - `latest-mac.yml`、`latest-mac-arm64.yml`（Mac 用）
-     - `Nexus Yield Setup x.x.x.exe`（Windows 安装包）
-     - `Nexus Yield-x.x.x.dmg`、`Nexus Yield-x.x.x-arm64.dmg`（Mac 安装包）
+     - `ProfitLayer Setup x.x.x.exe`（Windows 安装包）
+     - `ProfitLayer-x.x.x.dmg`、`ProfitLayer-x.x.x-arm64.dmg`（Mac 安装包）
    - 放到服务器的 `/var/www/updates/`。
 3. 用 Nginx（或其它 Web 服务）把该目录对外暴露为你的更新 URL（例如 `https://your-domain.com/updates/`，访问 `https://your-domain.com/updates/latest.yml` 能下载到文件）。
 
@@ -77,8 +77,8 @@ git push -u origin main
   - 窗口大小、位置
   - 本地账户信息（如 `localAccount.id`、`localAccount.name`，供后续扩展「账户机制」）
 - **存储位置**（由 Electron 管理，无需客户操作）：
-  - Windows：`%APPDATA%/defi-yield-desktop/` 下的 `settings.json`
-  - macOS：`~/Library/Application Support/defi-yield-desktop/` 下的 `settings.json`
+  - Windows：`%APPDATA%/profit-layer-desktop/` 下的 `settings.json`
+  - macOS：`~/Library/Application Support/profit-layer-desktop/` 下的 `settings.json`
 
 因此：**每次更新只会替换程序文件，不会覆盖上述目录**，客户已有的设置和本地账户数据会保留。
 

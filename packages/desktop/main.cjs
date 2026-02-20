@@ -37,7 +37,7 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
     },
-    title: "Nexus Yield - Dashboard",
+    title: "ProfitLayer - Dashboard",
     show: false,
   });
 

@@ -35,7 +35,7 @@ interface DocItem {
 const docs: DocItem[] = [
   {
     title: "快速开始",
-    description: "5 分钟快速部署和使用 Nexus Yield Agent - Docker Compose 一键启动,连接钱包即可使用",
+    description: "5 分钟快速部署和使用 ProfitLayer Agent - Docker Compose 一键启动,连接钱包即可使用",
     href: "/docs/quickstart",
     icon: <Zap className="w-6 h-6" />,
     tag: "推荐",
@@ -126,14 +126,14 @@ export default function DocsPage() {
                 Knowledge Base v2.0
               </div>
               <span className="text-muted text-[10px] font-black uppercase tracking-widest">
-                Nexus Yield 智慧大脑
+                ProfitLayer 智慧大脑
               </span>
             </div>
             <h2 className="text-6xl font-black text-white tracking-tighter leading-tight">
               文档 <span className="text-gradient-accent">中心</span>
             </h2>
             <p className="text-muted text-base mt-6 max-w-xl leading-relaxed font-medium opacity-80">
-              这里是 Nexus Yield 的核心知识库。了解 AI 引擎如何驱动你的资产矩阵，
+              这里是 ProfitLayer 的核心知识库。了解 AI 引擎如何驱动你的资产矩阵，
               探索策略配置背后的逻辑，并掌握多链资产安全管理的最佳实践。
             </p>
           </div>
@@ -267,7 +267,7 @@ export default function DocsPage() {
           <div className="relative z-10">
             <h3 className="text-2xl font-black text-white tracking-tight mb-4">没找到你需要的内容？</h3>
             <p className="text-muted text-sm font-medium opacity-80 max-w-lg leading-relaxed">
-              我们的 AI 助手可以实时回答你关于 Nexus Yield 的任何技术疑问。点击侧边栏的 <strong className="text-white">AI 对话</strong> 或右下角的 <strong className="text-white">AI 浮窗</strong> 立即开始。
+              我们的 AI 助手可以实时回答你关于 ProfitLayer 的任何技术疑问。点击侧边栏的 <strong className="text-white">AI 对话</strong> 或右下角的 <strong className="text-white">AI 浮窗</strong> 立即开始。
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link 
@@ -277,7 +277,7 @@ export default function DocsPage() {
                 <MessageSquare className="w-4 h-4" /> 咨询 AI 专家
               </Link>
               <a 
-                href="https://github.com/your-org/nexus-yield/issues"
+                href="https://github.com/your-org/profit-layer/issues"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-accent/30 text-white text-[11px] font-black uppercase tracking-widest transition-all active:scale-95"

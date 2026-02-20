@@ -26,7 +26,7 @@ importers:
       '@aptos-labs/ts-sdk':
         specifier: ^1.33.0
         version: 1.39.0(axios@1.13.4)(got@11.8.6)
-      '@defi-yield/common':
+      '@profitlayer/common':
         specifier: workspace:*
         version: link:../common
       '@solana/web3.js':
@@ -178,10 +178,10 @@ importers:
       '@aptos-labs/ts-sdk':
         specifier: ^1.33.0
         version: 1.39.0(axios@1.13.4)(got@11.8.6)
-      '@defi-yield/adapters':
+      '@profitlayer/adapters':
         specifier: workspace:*
         version: link:../adapters
-      '@defi-yield/common':
+      '@profitlayer/common':
         specifier: workspace:*
         version: link:../common
       '@solana/web3.js':
@@ -209,7 +209,7 @@ importers:
 
   packages/scanner:
     dependencies:
-      '@defi-yield/common':
+      '@profitlayer/common':
         specifier: workspace:*
         version: link:../common
       '@types/uuid':

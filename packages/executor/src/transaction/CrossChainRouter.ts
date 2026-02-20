@@ -8,7 +8,7 @@
  * - Bridge 安全评分
  */
 
-import { createLogger, Chain, type TransactionPayload } from "@defi-yield/common";
+import { createLogger, Chain, type TransactionPayload } from "@profitlayer/common";
 import { getHyperBridgeAdapter } from "../integrations/hyperbridge.js";
 
 const logger = createLogger("executor:cross-chain");

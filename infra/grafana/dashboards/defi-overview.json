@@ -156,7 +156,7 @@
   "time": { "from": "now-7d", "to": "now" },
   "timepicker": {},
   "timezone": "browser",
-  "title": "Nexus Yield - 系统监控",
-  "uid": "defi-yield-overview",
+  "title": "ProfitLayer - 系统监控",
+  "uid": "profit-layer-overview",
   "version": 1
 }

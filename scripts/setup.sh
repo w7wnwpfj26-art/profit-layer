@@ -1,12 +1,12 @@
 #!/bin/bash
 # ============================================
-# Nexus Yield Agent - One-Click Setup
+# ProfitLayer - One-Click Setup
 # ============================================
 
 set -e
 
 echo "=========================================="
-echo "  Nexus Yield Agent - Setup"
+echo "  ProfitLayer - Setup"
 echo "=========================================="
 
 # 1. Check prerequisites

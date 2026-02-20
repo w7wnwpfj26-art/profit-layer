@@ -15,7 +15,7 @@ import {
   type TransactionPayload,
   createLogger,
   CHAIN_CONFIGS,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { encodeFunctionData, createPublicClient, http } from "viem";
 import { mainnet, arbitrum, polygon, bsc, base, optimism, avalanche } from "viem/chains";
 import type { TxExecutor } from "./TxExecutor.js";

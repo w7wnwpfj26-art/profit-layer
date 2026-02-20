@@ -287,7 +287,7 @@ export default function ReportPage() {
           <div className="relative z-10 flex flex-col md:flex-row justify-between items-start gap-8">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 text-accent text-[9px] font-black uppercase tracking-[0.2em] mb-4 border border-accent/20">
-                Nexus Yield Intelligence Report
+                ProfitLayer Intelligence Report
               </div>
               <h3 className="text-3xl font-black text-white tracking-tight">智能投资决策报告</h3>
               <p className="text-muted text-sm mt-3 font-medium opacity-80">
@@ -479,7 +479,7 @@ export default function ReportPage() {
 
         <div className="flex flex-col items-center justify-center pt-10 border-t border-white/5 opacity-30 text-center space-y-2">
           <p className="text-[10px] font-black text-muted uppercase tracking-[0.4em]">Quantum Matrix Financial Report</p>
-          <p className="text-[9px] text-muted-strong font-bold uppercase tracking-widest">此报告由 Nexus Yield 核心引擎自动生成 · 仅供参考</p>
+          <p className="text-[9px] text-muted-strong font-bold uppercase tracking-widest">此报告由 ProfitLayer 核心引擎自动生成 · 仅供参考</p>
         </div>
       </div>
     </div>

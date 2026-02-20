@@ -19,9 +19,9 @@ import {
   createLogger,
   query,
   type TransactionPayload,
-} from "@defi-yield/common";
-import type { IProtocolAdapter } from "@defi-yield/adapters";
-import { adapterRegistry } from "@defi-yield/adapters";
+} from "@profitlayer/common";
+import type { IProtocolAdapter } from "@profitlayer/adapters";
+import { adapterRegistry } from "@profitlayer/adapters";
 import type { TxExecutor } from "../transaction/TxExecutor.js";
 import { DexAggregator, type SwapQuote } from "./DexAggregator.js";
 

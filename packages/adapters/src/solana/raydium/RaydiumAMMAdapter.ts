@@ -15,7 +15,7 @@ import {
   type WithdrawParams,
   type HarvestParams,
   type CompoundParams,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { Connection, PublicKey } from "@solana/web3.js";
 import type { ILPAdapter, LPInfo } from "../../base/ILPAdapter.js";
 

@@ -1,5 +1,5 @@
 // 手动触发一笔 Arbitrum 交易测试
-import { Chain, TxType, createLogger } from "@defi-yield/common";
+import { Chain, TxType, createLogger } from "@profitlayer/common";
 import { WalletManager } from "./wallet/WalletManager.js";
 import { TxExecutor } from "./transaction/TxExecutor.js";
 import { TxSimulator } from "./transaction/TxSimulator.js";

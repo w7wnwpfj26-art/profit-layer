@@ -14,7 +14,7 @@ import {
   type WithdrawParams,
   type HarvestParams,
   type CompoundParams,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { createPublicClient, http, encodeFunctionData, formatUnits, type Chain as ViemChain } from "viem";
 import { mainnet, arbitrum, polygon, optimism, base, avalanche } from "viem/chains";
 import type { ILendingAdapter, LendingMarket, BorrowPosition } from "../../base/ILendingAdapter.js";

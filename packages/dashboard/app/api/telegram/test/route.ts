@@ -3,7 +3,7 @@ import { sendTelegramMessage } from "../../../lib/telegram";
 
 // POST: 测试 Telegram 通知
 export async function POST() {
-  const testMessage = `🔔 <b>测试通知</b>\n\nNexus Yield Agent 通知服务已连接成功！\n\n⏰ ${new Date().toLocaleString("zh-CN")}`;
+  const testMessage = `🔔 <b>测试通知</b>\n\nProfitLayer 通知服务已连接成功！\n\n⏰ ${new Date().toLocaleString("zh-CN")}`;
   
   const result = await sendTelegramMessage(testMessage);
   

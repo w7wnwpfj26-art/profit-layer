@@ -1,6 +1,6 @@
 <div align="center">
 
-# Nexus Yield
+# ProfitLayer
 
 **AI 驱动的多链 DeFi 自动化收益优化系统**
 
@@ -15,16 +15,16 @@
 
 ---
 
-Nexus Yield 扫描 10+ 条链上的 200+ DeFi 协议，通过 AI 模型进行风险评分与组合优化，自动执行收益策略 — 全部通过专业级 Dashboard 管理，支持 Google Authenticator 二次验证。
+ProfitLayer 扫描 10+ 条链上的 200+ DeFi 协议，通过 AI 模型进行风险评分与组合优化，自动执行收益策略 — 全部通过专业级 Dashboard 管理，支持 Google Authenticator 二次验证。
 
 > **当前状态：Research Preview / Beta**
 > 本项目仅供研究与教育用途。系统已集成完整的风控机制，但真实资金部署需谨慎操作。不构成任何投资建议。
 
 ## 核心差异化
 
-大多数开源 DeFi 工具只解决单一环节。Nexus Yield 将它们组合成一个完整可运行的系统：
+大多数开源 DeFi 工具只解决单一环节。ProfitLayer 将它们组合成一个完整可运行的系统：
 
-| 能力维度 | Hummingbot / Freqtrade | Yearn / Beefy | Nexus Yield |
+| 能力维度 | Hummingbot / Freqtrade | Yearn / Beefy | ProfitLayer |
 |---|---|---|---|
 | 多链执行 | 偏 CEX | 单链 Vault | 10+ 链 (EVM + Aptos + Solana) |
 | AI 策略引擎 | 规则驱动 | 固定 Vault 逻辑 | ML 风险评分 + 组合优化 |
@@ -75,8 +75,8 @@ Nexus Yield 扫描 10+ 条链上的 200+ DeFi 协议，通过 AI 模型进行风
 ### 1. 克隆与配置
 
 ```bash
-git clone https://github.com/user/nexus-yield.git
-cd nexus-yield
+git clone https://github.com/user/profit-layer.git
+cd profit-layer
 cp .env.example .env   # 编辑填入你的密钥
 ```
 
@@ -106,7 +106,7 @@ uvicorn src.api.main:app --port 8000
 ## 项目结构
 
 ```
-nexus-yield/
+profit-layer/
 ├── packages/
 │   ├── common/          # 共享类型、数据库、Redis、配置
 │   ├── scanner/         # DefiLlama 池子扫描服务
@@ -198,6 +198,6 @@ nexus-yield/
 
 <div align="center">
 
-**[完整文档](./docs/)** · **[提交 Bug](https://github.com/user/nexus-yield/issues)** · **[路线图](./docs/ROADMAP.md)**
+**[完整文档](./docs/)** · **[提交 Bug](https://github.com/user/profit-layer/issues)** · **[路线图](./docs/ROADMAP.md)**
 
 </div>

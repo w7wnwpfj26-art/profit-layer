@@ -8,7 +8,7 @@
  * - 自动证明处理
  */
 
-import { Chain, createLogger } from "@defi-yield/common";
+import { Chain, createLogger } from "@profitlayer/common";
 
 const logger = createLogger("hyperbridge-adapter");
 

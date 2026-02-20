@@ -2,7 +2,7 @@
 // Staking Protocol Adapter Interface
 // ============================================
 
-import type { TransactionPayload } from "@defi-yield/common";
+import type { TransactionPayload } from "@profitlayer/common";
 import type { IProtocolAdapter } from "./IProtocolAdapter.js";
 
 export interface StakingInfo {

@@ -1,6 +1,6 @@
 ---
 name: rename_project_to_intelligent_asset_matrix
-overview: "将项目名称从“DeFi 智能收益系统”统一更新为“Nexus Yield: 智能资产矩阵 (Intelligent Asset Matrix)”，涵盖所有文档、前端标题及客户端描述。"
+overview: "将项目名称从“DeFi 智能收益系统”统一更新为“ProfitLayer: 智能资产矩阵 (Intelligent Asset Matrix)”，涵盖所有文档、前端标题及客户端描述。"
 todos:
   - id: update-docs-titles
     content: 更新 docs 目录下设置指南、快速开始和 AI 能力说明的 H1 标题为新项目名称
@@ -30,7 +30,7 @@ todos:
 
 ## 产品概述
 
-本项目已确定更名为 "Nexus Yield: 智能资产矩阵 (Intelligent Asset Matrix)"。现需将代码库中所有残留的旧名称 "DeFi 智能收益系统"（包括简体和繁体形式）更新为新名称，以提升专业形象并保持品牌一致性。
+本项目已确定更名为 "ProfitLayer: 智能资产矩阵 (Intelligent Asset Matrix)"。现需将代码库中所有残留的旧名称 "DeFi 智能收益系统"（包括简体和繁体形式）更新为新名称，以提升专业形象并保持品牌一致性。
 
 ## 核心任务
 
@@ -46,7 +46,7 @@ todos:
 1. **全局搜索与替换**：
 
 - 针对 "DeFi 智能收益系统" 进行全局不区分简繁体的搜索。
-- 替换为 "Nexus Yield: 智能资产矩阵"。
+- 替换为 "ProfitLayer: 智能资产矩阵"。
 
 2. **文档更新**：
 

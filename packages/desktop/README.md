@@ -1,4 +1,4 @@
-# Nexus Yield - 桌面客户端
+# ProfitLayer - 桌面客户端
 
 Electron 桌面端，默认加载本地 Dashboard（`http://localhost:3002`）。支持 Windows / macOS 打包，并通过 **自建更新服务（Generic）** 或 GitHub Releases 实现安装用户自动更新。**客户端的设置与本地账户数据保存在 userData，应用更新不会丢失。**
 
@@ -33,8 +33,8 @@ pnpm build:desktop:mac
 pnpm build:desktop
 ```
 
-- **Windows**：`dist/Nexus Yield Setup x.x.x.exe`（NSIS 安装程序）
-- **macOS**：`dist/Nexus Yield-x.x.x.dmg`（及 .arm64.dmg）
+- **Windows**：`dist/ProfitLayer Setup x.x.x.exe`（NSIS 安装程序）
+- **macOS**：`dist/ProfitLayer-x.x.x.dmg`（及 .arm64.dmg）
 
 ## 自动更新（Generic 自建 / GitHub）
 

@@ -73,7 +73,7 @@ cd dapp
 git filter-repo --path .env --invert-paths --force
 
 # 4. 重新添加远程仓库
-git remote add origin https://github.com/your-org/nexus-yield.git
+git remote add origin https://github.com/your-org/profit-layer.git
 
 # 5. 强制推送
 git push origin --force --all
@@ -147,7 +147,7 @@ git log --all --oneline | grep -E "(配置|GLM|API)"
 1. 备份你的本地更改
 2. 删除本地仓库
 3. 重新 clone:
-   git clone https://github.com/your-org/nexus-yield.git
+   git clone https://github.com/your-org/profit-layer.git
 
 注意: 不要尝试 pull 或 merge,历史已不兼容
 ```
@@ -251,10 +251,10 @@ grep -r "0x[a-fA-F0-9]{64}" --include="*.env*" .
 移除或替换内网 Git URL:
 ```bash
 # 当前
-git clone https://github.com/your-org/nexus-yield.git
+git clone https://github.com/your-org/profit-layer.git
 
 # 改为
-git clone https://github.com/your-username/nexus-yield.git
+git clone https://github.com/your-username/profit-layer.git
 ```
 
 ### 3. 创建新的干净仓库 (可选,最安全)
@@ -265,8 +265,8 @@ git clone https://github.com/your-username/nexus-yield.git
 # 1. 在 GitHub 创建新仓库
 # 2. 复制当前代码 (不包括 .git)
 cd /Users/wangqi/Documents/ai
-mkdir nexus-yield-clean
-cd nexus-yield-clean
+mkdir profit-layer-clean
+cd profit-layer-clean
 cp -r ../dapp/* .
 cp -r ../dapp/.gitignore .
 rm -rf .git
@@ -277,7 +277,7 @@ git add .
 git commit -m "Initial commit - clean history"
 
 # 4. 推送到 GitHub
-git remote add origin https://github.com/your-username/nexus-yield.git
+git remote add origin https://github.com/your-username/profit-layer.git
 git branch -M main
 git push -u origin main
 ```

@@ -13,7 +13,7 @@ import type {
   WithdrawParams,
   HarvestParams,
   CompoundParams,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 
 /**
  * Base interface for all DeFi protocol adapters.

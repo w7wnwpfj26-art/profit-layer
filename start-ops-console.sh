@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Nexus Yield Agent 运维控制台启动脚本
+# ProfitLayer 运维控制台启动脚本
 
 echo "🚀 启动运维控制台..."
 

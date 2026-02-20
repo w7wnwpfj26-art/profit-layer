@@ -1,5 +1,5 @@
 import pg from 'pg';
-import { createLogger } from '@defi-yield/common';
+import { createLogger } from '@profitlayer/common';
 
 const logger = createLogger('monitor:liquidity');
 

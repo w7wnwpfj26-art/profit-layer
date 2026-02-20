@@ -14,7 +14,7 @@ import {
   type WithdrawParams,
   type HarvestParams,
   type CompoundParams,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
 import type { ILPAdapter, LPInfo } from "../../base/ILPAdapter.js";
 

@@ -1,6 +1,6 @@
 # 开源前检查清单
 
-**项目**: Nexus Yield - AI-Driven Multi-Chain DeFi Yield Optimization System  
+**项目**: ProfitLayer - AI-Driven Multi-Chain DeFi Yield Optimization System  
 **检查日期**: 2026-02-20  
 **检查人**: AI Assistant  
 
@@ -102,7 +102,7 @@
 - [x] **未提交文件**: 仅 `.env` 和 `ops/page.tsx` (已在 .gitignore)
 
 ### 远程仓库
-- [x] **Remote URL**: 使用 GitHub 仓库（如 https://github.com/your-org/nexus-yield.git）
+- [x] **Remote URL**: 使用 GitHub 仓库（如 https://github.com/your-org/profit-layer.git）
 - [x] **最新推送**: 9efc3c6 (2026-02-20)
 
 ---
@@ -163,7 +163,7 @@
 
 #### 2. 隐私保护
 - [x] **无个人信息**: ✅ README 中无手机号、邮箱等
-- [x] **无内网 IP**: 文档与脚本中已使用占位符（YOUR_ORG/nexus-yield、YOUR_UPDATE_SERVER 等）
+- [x] **无内网 IP**: 文档与脚本中已使用占位符（YOUR_ORG/profit-layer、YOUR_UPDATE_SERVER 等）
 
 #### 3. 添加示例数据
 - [ ] 提供示例池子数据 JSON
@@ -261,17 +261,17 @@
    ```
 
 2. **更新 README**:
-   - 使用 GitHub 仓库 URL: `https://github.com/your-org/nexus-yield`
+   - 使用 GitHub 仓库 URL: `https://github.com/your-org/profit-layer`
    - 添加徽章链接
 
 3. **创建 GitHub 仓库**:
-   - 仓库名: `nexus-yield`
-   - 描述: "AI-Driven Multi-Chain DeFi Yield Optimization System"
+   - 仓库名: `profit-layer`
+   - 描述: "ProfitLayer - AI-Driven Multi-Chain DeFi Yield Optimization System"
    - Topics: `defi`, `ai`, `yield-farming`, `multi-chain`, `typescript`, `python`
 
 4. **推送到 GitHub**:
    ```bash
-   git remote add github https://github.com/your-org/nexus-yield.git
+   git remote add github https://github.com/your-org/profit-layer.git
    git push github main
    ```
 

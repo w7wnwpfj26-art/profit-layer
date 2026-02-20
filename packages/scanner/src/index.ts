@@ -9,7 +9,7 @@ import {
   getRedisConnection,
   closeDbPool,
   closeRedis,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { runPoolScan } from "./jobs/scan-pools.js";
 import { runPriceScan } from "./jobs/scan-prices.js";
 import { runPositionUpdate } from "./jobs/update-positions.js";

@@ -26,8 +26,8 @@ import {
   CHAIN_CONFIGS,
   type StrategyComputeJob,
   type ExecuteTxJob,
-} from "@defi-yield/common";
-import { adapterRegistry } from "@defi-yield/adapters";
+} from "@profitlayer/common";
+import { adapterRegistry } from "@profitlayer/adapters";
 import type { TxExecutor } from "../transaction/TxExecutor.js";
 import { approveTokensIfNeeded } from "../transaction/TokenApprover.js";
 import { prepareFundsForDeposit, getWrappedNativeAddress, isWrappedNative } from "../transaction/FundPreparer.js";

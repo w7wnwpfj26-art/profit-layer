@@ -31,7 +31,7 @@ export default function APIPage() {
             </div>
           </div>
           <p className="text-muted text-sm max-w-2xl leading-relaxed mt-6">
-            Nexus Yield 提供完整的 HTTP API,支持自定义集成、数据查询、策略控制等功能。
+            ProfitLayer 提供完整的 HTTP API,支持自定义集成、数据查询、策略控制等功能。
             所有接口遵循 RESTful 规范,返回 JSON 格式数据。
           </p>
         </div>

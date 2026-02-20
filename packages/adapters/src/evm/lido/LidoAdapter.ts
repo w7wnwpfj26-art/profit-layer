@@ -14,7 +14,7 @@ import {
   type WithdrawParams,
   type HarvestParams,
   type CompoundParams,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { createPublicClient, http, encodeFunctionData, type Chain as ViemChain } from "viem";
 import { mainnet } from "viem/chains";
 import type { IStakingAdapter, StakingInfo, StakingPosition } from "../../base/IStakingAdapter.js";

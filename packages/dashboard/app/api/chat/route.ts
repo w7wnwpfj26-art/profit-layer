@@ -199,7 +199,7 @@ async function getSmartResponse(message: string, context: string): Promise<strin
 
   // 帮助
   if (lowerMsg.includes("帮助") || lowerMsg.includes("help") || lowerMsg.includes("能做什么") || lowerMsg.includes("你好") || lowerMsg.includes("hi")) {
-    return `你好！我是 Nexus Yield AI 助手 🤖\n\n${context}\n\n**我可以帮你：**\n• **「查看持仓」** - 查看当前所有持仓和盈亏\n• **「推荐池子」** - 获取高收益投资机会\n• **「查看告警」** - 查看风险告警\n• **「投资 xxx」** - 执行投资操作\n• **「撤销 xxx」** - 撤销某个持仓\n\n直接输入你的需求，我来帮你处理！`;
+    return `你好！我是 ProfitLayer AI 助手 🤖\n\n${context}\n\n**我可以帮你：**\n• **「查看持仓」** - 查看当前所有持仓和盈亏\n• **「推荐池子」** - 获取高收益投资机会\n• **「查看告警」** - 查看风险告警\n• **「投资 xxx」** - 执行投资操作\n• **「撤销 xxx」** - 撤销某个持仓\n\n直接输入你的需求，我来帮你处理！`;
   }
 
   // 默认：返回概览 + 持仓
@@ -221,7 +221,7 @@ async function callDirectLLM(
       ? `${baseUrl}/v1/chat/completions`
       : `${baseUrl}/v1/chat/completions`;
 
-  const systemPrompt = `你是 Nexus Yield 的 DeFi 智能助手。你有以下系统上下文：
+  const systemPrompt = `你是 ProfitLayer 的 DeFi 智能助手。你有以下系统上下文：
 
 ${context}
 
@@ -275,7 +275,7 @@ export async function POST(request: Request) {
       const messagesWithSystem = [
         {
           role: "system",
-          content: `You are Nexus Yield AI Assistant. Always respond in Chinese (Simplified). Use professional DeFi terminology. Context:\n${context}`,
+          content: `You are ProfitLayer AI Assistant. Always respond in Chinese (Simplified). Use professional DeFi terminology. Context:\n${context}`,
         },
         ...messages,
       ];

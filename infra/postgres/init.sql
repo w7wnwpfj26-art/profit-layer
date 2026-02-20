@@ -1,5 +1,5 @@
 -- ============================================
--- Nexus Yield Agent - Database Initialization
+-- ProfitLayer - Database Initialization
 -- ============================================
 
 -- Enable TimescaleDB extension

@@ -23,9 +23,9 @@ COPY packages/adapters/ ./packages/adapters/
 COPY packages/executor/ ./packages/executor/
 
 # 构建依赖包
-RUN pnpm --filter @defi-yield/common build
-RUN pnpm --filter @defi-yield/adapters build
-RUN pnpm --filter @defi-yield/executor build
+RUN pnpm --filter @profitlayer/common build
+RUN pnpm --filter @profitlayer/adapters build
+RUN pnpm --filter @profitlayer/executor build
 
 ENV NODE_ENV=production
 

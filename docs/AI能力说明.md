@@ -1,4 +1,4 @@
-# Nexus Yield: 智能资产矩阵 (Intelligent Asset Matrix) - AI 能力说明
+# ProfitLayer: 智能资产矩阵 (Intelligent Asset Matrix) - AI 能力说明
 
 本文档**详细说明**系统中与 AI 相关的全部能力：数据输入、推理逻辑、记忆与反馈、自主思考循环，以及如何在仪表盘与配置中使用这些能力。
 

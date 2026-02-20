@@ -27,7 +27,7 @@ export { RaydiumAMMAdapter } from "./solana/raydium/RaydiumAMMAdapter.js";
 export { MarinadeAdapter } from "./solana/marinade/MarinadeAdapter.js";
 
 // ---- Factory: Register all adapters ----
-import { Chain } from "@defi-yield/common";
+import { Chain } from "@profitlayer/common";
 import { adapterRegistry } from "./base/AdapterRegistry.js";
 import { UniswapV3Adapter } from "./evm/uniswap-v3/UniswapV3Adapter.js";
 import { UniswapV4Adapter } from "./evm/uniswap-v4/UniswapV4Adapter.js";

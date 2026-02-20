@@ -209,7 +209,7 @@ export function CommandPalette() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] text-muted-strong font-medium uppercase tracking-widest">Nexus Yield Command Center</span>
+            <span className="text-[10px] text-muted-strong font-medium uppercase tracking-widest">ProfitLayer Command Center</span>
           </div>
         </div>
       </div>

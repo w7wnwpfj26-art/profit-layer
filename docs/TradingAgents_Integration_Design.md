@@ -1,7 +1,7 @@
 # TradingAgents 集成架构设计
 
 ## 1. 集成目标
-将 TradingAgents 的多代理决策框架融入 Nexus Yield，实现：
+将 TradingAgents 的多代理决策框架融入 ProfitLayer，实现：
 - 多维度市场分析（基本面、情绪、新闻、技术）
 - 代理间协作决策
 - 专业风险管理
@@ -38,7 +38,7 @@
 └────────────────────────┼──────────────┼─────────────────────────┘
                          │              │
 ┌────────────────────────▼──────────────▼─────────────────────────┐
-│                    Nexus Yield 核心系统                        │
+│                    ProfitLayer 核心系统                        │
 ├───────────────────────────────────────────────────────────────┤
 │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌────────────┐ │
 │  │   数据聚合   │ │   策略引擎   │ │   执行器    │ │   监控器    │ │
@@ -392,7 +392,7 @@ class PortfolioManager:
 ### 5.1 数据接口
 ```python
 class TradingAgentsAdapter:
-    """TradingAgents 与 Nexus Yield 的适配器"""
+    """TradingAgents 与 ProfitLayer 的适配器"""
     
     def __init__(self):
         self.analyst_team = AnalystTeam()
@@ -502,4 +502,4 @@ interface TradingAgentsAPI {
 4. **适应性增强**：实时市场适应
 5. **用户体验**：更智能的投资建议
 
-这个集成将显著提升 Nexus Yield 的智能化水平，使其成为真正的多代理 DeFi 投资决策平台！
+这个集成将显著提升 ProfitLayer 的智能化水平，使其成为真正的多代理 DeFi 投资决策平台！

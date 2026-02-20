@@ -2,7 +2,7 @@
 // Secure Key Storage
 // ============================================
 
-import { createLogger } from "@defi-yield/common";
+import { createLogger } from "@profitlayer/common";
 import crypto from "node:crypto";
 
 const logger = createLogger("executor:keyvault");

@@ -1,5 +1,5 @@
 {
-  "name": "@defi-yield/scanner",
+  "name": "@profitlayer/scanner",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@defi-yield/common": "workspace:*",
+    "@profitlayer/common": "workspace:*",
     "@types/uuid": "^11.0.0",
     "uuid": "^13.0.0",
     "viem": "^2.0.0"

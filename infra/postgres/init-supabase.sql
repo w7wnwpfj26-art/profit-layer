@@ -1,5 +1,5 @@
 -- ============================================
--- Nexus Yield Agent - Supabase Database Init
+-- ProfitLayer - Supabase Database Init
 -- ============================================
 -- 适用于 Supabase (标准 PostgreSQL)
 -- 移除了 TimescaleDB 扩展依赖

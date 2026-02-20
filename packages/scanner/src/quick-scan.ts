@@ -1,4 +1,4 @@
-import { loadConfig, getDbPool, getRedisConnection, closeRedis } from '@defi-yield/common';
+import { loadConfig, getDbPool, getRedisConnection, closeRedis } from '@profitlayer/common';
 import { runPoolScan } from './jobs/scan-pools.js';
 
 async function quickScan() {

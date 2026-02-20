@@ -47,4 +47,4 @@ pnpm dashboard
 
 ## Full Changelog / 完整变更日志
 
-**Full Changelog**: https://github.com/user/nexus-yield/compare/v0.0.0...v0.0.0
+**Full Changelog**: https://github.com/user/profit-layer/compare/v0.0.0...v0.0.0

@@ -1,6 +1,6 @@
 """
 TradingAgents 集成模块
-将多代理交易框架集成到 Nexus Yield 系统
+将多代理交易框架集成到 ProfitLayer 系统
 """
 
 import asyncio

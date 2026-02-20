@@ -10,7 +10,7 @@ import {
   computeHealthScore,
   type Pool,
   type StrategyComputeJob,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { fetchAllPools } from "../sources/defillama.js";
 
 const logger = createLogger("scanner:scan-pools");

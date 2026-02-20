@@ -70,13 +70,13 @@ export default function RootLayout({
     }
   }, [pathname, router]);
 
-  if (pathname === "/login") return <html lang="zh-CN"><head><title>登录 - Nexus Yield: 智能资产矩阵</title></head><body className="dark">{children}</body></html>;
+  if (pathname === "/login") return <html lang="zh-CN"><head><title>登录 - ProfitLayer: 智能资产矩阵</title></head><body className="dark">{children}</body></html>;
 
   // 等待 auth 检查完成，显示 loading
   if (!authChecked) {
     return (
       <html lang="zh-CN">
-        <head><title>Nexus Yield: 智能资产矩阵</title></head>
+        <head><title>ProfitLayer: 智能资产矩阵</title></head>
         <body className="dark">
           <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f]">
             <div className="w-8 h-8 border-2 border-accent/30 border-t-accent rounded-full animate-spin" />
@@ -89,8 +89,8 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className="dark">
       <head>
-        <title>Nexus Yield: 智能资产矩阵 - 控制台</title>
-        <meta name="description" content="Nexus Yield: AI 驱动的智能资产矩阵 (Intelligent Asset Matrix)" />
+        <title>ProfitLayer: 智能资产矩阵 - 控制台</title>
+        <meta name="description" content="ProfitLayer: AI 驱动的智能资产矩阵 (Intelligent Asset Matrix)" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -112,7 +112,7 @@ export default function RootLayout({
                 <div className="w-9 h-9 rounded-xl bg-accent/15 flex items-center justify-center ring-1 ring-accent/20">
                   <Zap className="text-accent w-5 h-5 fill-accent/50" strokeWidth={1.5} />
                 </div>
-                <span className="text-sm font-black text-white font-outfit tracking-wider uppercase">Nexus Yield</span>
+                <span className="text-sm font-black text-white font-outfit tracking-wider uppercase">ProfitLayer</span>
               </div>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -170,7 +170,7 @@ export default function RootLayout({
                     <Zap className="text-accent w-6 h-6 fill-accent/50" strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h1 className="text-lg font-black text-white font-outfit tracking-wider uppercase leading-none mb-1">Nexus Yield</h1>
+                    <h1 className="text-lg font-black text-white font-outfit tracking-wider uppercase leading-none mb-1">ProfitLayer</h1>
                     <span className="text-[10px] text-muted-strong font-black uppercase tracking-[0.2em] opacity-60">Asset Matrix</span>
                   </div>
                 </div>

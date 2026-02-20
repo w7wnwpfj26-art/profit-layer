@@ -77,9 +77,9 @@ dist/
 ├── latest.yml                          # Windows 更新配置
 ├── latest-mac.yml                      # macOS x64 更新配置
 ├── latest-mac-arm64.yml                # macOS arm64 更新配置
-├── Nexus Yield Setup 0.1.1.exe      # Windows 安裝包
-├── Nexus Yield-0.1.1.dmg             # macOS x64 安裝包
-└── Nexus Yield-0.1.1-arm64.dmg       # macOS arm64 安裝包
+├── ProfitLayer Setup 0.1.1.exe      # Windows 安裝包
+├── ProfitLayer-0.1.1.dmg             # macOS x64 安裝包
+└── ProfitLayer-0.1.1-arm64.dmg       # macOS arm64 安裝包
 ```
 
 ### 3. 部署更新
@@ -137,10 +137,10 @@ curl https://YOUR_UPDATE_SERVER/updates/latest.yml
 ```yaml
 version: 0.1.1
 files:
-  - url: Nexus Yield Setup 0.1.1.exe
+  - url: ProfitLayer Setup 0.1.1.exe
     sha512: ...
     size: ...
-path: Nexus Yield Setup 0.1.1.exe
+path: ProfitLayer Setup 0.1.1.exe
 sha512: ...
 releaseDate: 2026-02-07T...
 ```
@@ -238,8 +238,8 @@ curl -o /tmp/test.exe "https://YOUR_UPDATE_SERVER/updates/Nexus%20Yield%20Setup%
 
 **數據位置：**
 
-- Windows: `%APPDATA%/defi-yield-desktop/settings.json`
-- macOS: `~/Library/Application Support/defi-yield-desktop/settings.json`
+- Windows: `%APPDATA%/profit-layer-desktop/settings.json`
+- macOS: `~/Library/Application Support/profit-layer-desktop/settings.json`
 
 ## 版本策略建議
 

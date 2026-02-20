@@ -1,9 +1,9 @@
 {
-  "name": "nexus-yield-desktop",
+  "name": "profit-layer-desktop",
   "version": "0.1.0",
-  "description": "Nexus Yield: 智能资产矩阵 - 桌面客户端",
+  "description": "ProfitLayer: 智能资产矩阵 - 桌面客户端",
   "main": "main.cjs",
-  "author": "Nexus Yield Team",
+  "author": "ProfitLayer Team",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder",
@@ -21,8 +21,8 @@
     "electron-builder": "^25.1.8"
   },
   "build": {
-    "appId": "com.nexusyield.desktop",
-    "productName": "Nexus Yield",
+    "appId": "com.profitlayer.desktop",
+    "productName": "ProfitLayer",
     "directories": {
       "output": "dist"
     },
@@ -48,7 +48,7 @@
         "zh_CN",
         "en_US"
       ],
-      "shortcutName": "Nexus Yield"
+      "shortcutName": "ProfitLayer"
     },
     "mac": {
       "target": [
@@ -65,7 +65,7 @@
       "gatekeeperAssess": false
     },
     "dmg": {
-      "title": "Nexus Yield Installer",
+      "title": "ProfitLayer Installer",
       "contents": [
         {
           "x": 130,

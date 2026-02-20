@@ -1,4 +1,4 @@
-# 🎉 DeFi Yield Agent - 系统修复完成报告
+# 🎉 ProfitLayer - 系统修复完成报告
 
 **生成时间**: 2026-02-20 12:54 CST  
 **操作人员**: AI Coding Assistant  

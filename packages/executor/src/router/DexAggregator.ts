@@ -18,7 +18,7 @@ import {
   CHAIN_TYPE_MAP,
   createLogger,
   type TransactionPayload,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { encodeFunctionData } from "viem";
 import { getOpenClawAdapter } from "../integrations/openclaw.js";
 import { getSlippageForAggregator } from "../config/aggregatorFeeConfig.js";

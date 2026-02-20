@@ -260,7 +260,7 @@ monitoring:
 
 # 集成配置
 integration:
-  # Nexus Yield 系统集成
+  # ProfitLayer 系统集成
   nexus_yield:
     # 数据同步
     data_sync:

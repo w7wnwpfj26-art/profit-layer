@@ -2,7 +2,7 @@
 // Price Scanning Job
 // ============================================
 
-import { createLogger, query, getRedisConnection } from "@defi-yield/common";
+import { createLogger, query, getRedisConnection } from "@profitlayer/common";
 
 const logger = createLogger("scanner:scan-prices");
 

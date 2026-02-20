@@ -38,7 +38,7 @@ export async function POST(request: Request) {
     // 生成 QR code
     const otpauth = generateURI({
       strategy: "totp",
-      issuer: "NexusYield",
+      issuer: "ProfitLayer",
       label: username || `user-${userId}`,
       secret,
     });

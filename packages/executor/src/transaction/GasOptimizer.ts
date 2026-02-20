@@ -2,8 +2,8 @@
 // Gas Optimization Engine
 // ============================================
 
-import { createLogger, type Chain, ChainType, CHAIN_TYPE_MAP } from "@defi-yield/common";
-import { CHAIN_CONFIGS } from "@defi-yield/common";
+import { createLogger, type Chain, ChainType, CHAIN_TYPE_MAP } from "@profitlayer/common";
+import { CHAIN_CONFIGS } from "@profitlayer/common";
 import { getGasMultiplierForAggregator } from "../config/aggregatorFeeConfig.js";
 import { createPublicClient, http, formatGwei, type Chain as ViemChain } from "viem";
 

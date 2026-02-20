@@ -9,7 +9,7 @@ import {
   CHAIN_CONFIGS,
   createLogger,
   query,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 
 const logger = createLogger("executor:gas-scheduler");
 

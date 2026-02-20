@@ -2,8 +2,8 @@
 // Rebalance Strategy Action
 // ============================================
 
-import { createLogger, TxType } from "@defi-yield/common";
-import type { IProtocolAdapter } from "@defi-yield/adapters";
+import { createLogger, TxType } from "@profitlayer/common";
+import type { IProtocolAdapter } from "@profitlayer/adapters";
 import { DEFAULT_SLIPPAGE_PCT } from "../constants.js";
 import type { TxExecutor } from "../transaction/TxExecutor.js";
 

@@ -2,8 +2,8 @@
 // Add Liquidity Strategy Action
 // ============================================
 
-import { createLogger, type TxType, TxType as TxTypeEnum } from "@defi-yield/common";
-import type { IProtocolAdapter } from "@defi-yield/adapters";
+import { createLogger, type TxType, TxType as TxTypeEnum } from "@profitlayer/common";
+import type { IProtocolAdapter } from "@profitlayer/adapters";
 import type { TxExecutor } from "../transaction/TxExecutor.js";
 import { DEFAULT_SLIPPAGE_PCT } from "../constants.js";
 

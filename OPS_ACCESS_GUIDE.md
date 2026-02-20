@@ -59,8 +59,8 @@ docker-compose up -d dashboard
 ## 紧急联系方式
 
 如有紧急问题，请通过以下方式联系：
-- Telegram: @defiyield_support
-- Email: support@defiyield.ai
+- Telegram: @profitlayer_support
+- Email: support@profitlayer.example
 
 ---
 *最后更新: 2026-02-14*

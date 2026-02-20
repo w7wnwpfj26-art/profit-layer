@@ -20,7 +20,7 @@ export default function QuickstartPage() {
             </div>
             <div>
               <h1 className="text-5xl font-black text-white tracking-tight">快速开始</h1>
-              <p className="text-muted-strong text-sm font-bold uppercase tracking-[0.2em] mt-2">5 分钟部署 Nexus Yield</p>
+              <p className="text-muted-strong text-sm font-bold uppercase tracking-[0.2em] mt-2">5 分钟部署 ProfitLayer</p>
             </div>
           </div>
         </div>
@@ -54,8 +54,8 @@ export default function QuickstartPage() {
           <StepCard 
             num="1.1"
             title="克隆代码仓库"
-            code={`git clone https://github.com/your-org/nexus-yield.git
-cd nexus-yield`}
+            code={`git clone https://github.com/your-org/profit-layer.git
+cd profit-layer`}
           />
 
           <StepCard 
@@ -238,7 +238,7 @@ pnpm --filter dashboard dev`}
         <div className="relative z-10">
           <h3 className="text-3xl font-black text-white tracking-tight mb-4">🎉 部署完成！</h3>
           <p className="text-muted text-sm mb-8 max-w-2xl leading-relaxed">
-            你的 Nexus Yield Agent 已成功启动。接下来可以探索更多功能：
+            你的 ProfitLayer Agent 已成功启动。接下来可以探索更多功能：
           </p>
           <div className="flex flex-wrap gap-4">
             <Link 

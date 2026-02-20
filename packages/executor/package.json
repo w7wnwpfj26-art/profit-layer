@@ -1,5 +1,5 @@
 {
-  "name": "@defi-yield/executor",
+  "name": "@profitlayer/executor",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@aptos-labs/ts-sdk": "^1.33.0",
-    "@defi-yield/adapters": "workspace:*",
-    "@defi-yield/common": "workspace:*",
+    "@profitlayer/adapters": "workspace:*",
+    "@profitlayer/common": "workspace:*",
 
     "@solana/web3.js": "^1.98.0",
     "bs58": "^6.0.0",

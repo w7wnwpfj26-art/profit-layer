@@ -13,7 +13,7 @@ export default function AIDocsPage() {
         </div>
         <div>
           <h1 className="text-2xl font-bold text-white">AI 能力说明</h1>
-          <p className="text-muted text-sm">Nexus Yield AI 能力详细文档</p>
+          <p className="text-muted text-sm">ProfitLayer AI 能力详细文档</p>
         </div>
       </div>
 

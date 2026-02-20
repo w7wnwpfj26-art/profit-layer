@@ -3,7 +3,7 @@
 // Supplements DefiLlama with real-time on-chain data
 // ============================================
 
-import { createLogger, type Pool, type Chain, CHAIN_CONFIGS } from "@defi-yield/common";
+import { createLogger, type Pool, type Chain, CHAIN_CONFIGS } from "@profitlayer/common";
 import { createPublicClient, http, type PublicClient, parseAbi } from "viem";
 import { mainnet, arbitrum, polygon, bsc, base, optimism, avalanche } from "viem/chains";
 

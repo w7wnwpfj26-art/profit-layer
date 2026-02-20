@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Nexus Yield Agent 健康检查脚本
+# ProfitLayer 健康检查脚本
 # 检查各组件运行状态，异常时发送告警
 
 set -euo pipefail

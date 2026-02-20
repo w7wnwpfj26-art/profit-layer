@@ -32,7 +32,7 @@ export function AIChatWidget() {
     {
       id: "welcome",
       role: "assistant",
-      content: "你好！我是 Nexus Yield AI 助手 🤖\n\n我可以帮你：\n- 查看和管理持仓\n- 寻找高收益机会\n- 执行投资操作\n- 监控风险告警\n\n有什么可以帮你的？",
+      content: "你好！我是 ProfitLayer AI 助手 🤖\n\n我可以帮你：\n- 查看和管理持仓\n- 寻找高收益机会\n- 执行投资操作\n- 监控风险告警\n\n有什么可以帮你的？",
       timestamp: new Date(),
     },
   ]);

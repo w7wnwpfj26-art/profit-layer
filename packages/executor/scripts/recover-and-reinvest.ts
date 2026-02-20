@@ -1,9 +1,9 @@
 // ============================================
 // 回收所有资金 + 更新配置为仅投 10000+ APY 池子、忽略安全分
-// 运行: pnpm --filter @defi-yield/executor exec tsx scripts/recover-and-reinvest.ts
+// 运行: pnpm --filter @profitlayer/executor exec tsx scripts/recover-and-reinvest.ts
 // ============================================
 
-import { getDbPool, getRedisConnection, closeDbPool, loadConfig } from "@defi-yield/common";
+import { getDbPool, getRedisConnection, closeDbPool, loadConfig } from "@profitlayer/common";
 
 const EXECUTE_TX_STREAM = "bull:execute-tx:events";
 

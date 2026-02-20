@@ -58,7 +58,7 @@ curl -I https://YOUR_UPDATE_SERVER/updates/
 ```bash
 # 如果打包进程还在运行，等待完成
 # 完成后会显示类似：
-# • building        target=macOS 12.0.0+ file=dist/DeFi Yield-0.1.0.dmg
+# • building        target=macOS 12.0.0+ file=dist/ProfitLayer-0.1.0.dmg
 
 # 检查生成的文件
 cd /Users/wangqi/Documents/ai/dapp/packages/desktop
@@ -68,8 +68,8 @@ ls -lh dist/
 **预期文件：**
 - `latest-mac.yml` - Mac x64 更新配置
 - `latest-mac-arm64.yml` - Mac ARM64 更新配置
-- `Nexus Yield-0.1.0.dmg` - Mac x64 安装包
-- `Nexus Yield-0.1.0-arm64.dmg` - Mac ARM64 安装包
+- `ProfitLayer-0.1.0.dmg` - Mac x64 安装包
+- `ProfitLayer-0.1.0-arm64.dmg` - Mac ARM64 安装包
 
 ---
 
@@ -101,7 +101,7 @@ curl https://YOUR_UPDATE_SERVER/updates/latest-mac.yml
 # 应该看到类似内容：
 # version: 0.1.0
 # files:
-#   - url: DeFi Yield-0.1.0.dmg
+#   - url: ProfitLayer-0.1.0.dmg
 #     ...
 
 # 2. 测试安装包下载（仅测试 HEAD，不下载）
@@ -123,7 +123,7 @@ open dist/DeFi\ Yield-0.1.0.dmg
 # 拖动到 Applications 文件夹安装
 
 # 2. 启动应用
-# 从 Launchpad 或 Applications 启动 Nexus Yield
+# 从 Launchpad 或 Applications 启动 ProfitLayer
 
 # 3. 等待更新检查
 # - 应用启动后 5 秒会自动检查更新

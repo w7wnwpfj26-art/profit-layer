@@ -1,5 +1,5 @@
 {
-  "name": "defi-yield-agent",
+  "name": "profit-layer",
   "version": "0.1.0",
   "private": true,
   "description": "AI-driven multi-chain DeFi automated yield system",
@@ -9,15 +9,15 @@
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "clear-test-data": "tsx scripts/clear-test-data.ts",
-    "recover-and-reinvest": "pnpm --filter @defi-yield/executor run recover-and-reinvest",
-    "scanner": "pnpm --filter @defi-yield/scanner dev",
-    "executor": "pnpm --filter @defi-yield/executor dev",
-    "dashboard": "pnpm --filter @defi-yield/dashboard dev",
+    "recover-and-reinvest": "pnpm --filter @profitlayer/executor run recover-and-reinvest",
+    "scanner": "pnpm --filter @profitlayer/scanner dev",
+    "executor": "pnpm --filter @profitlayer/executor dev",
+    "dashboard": "pnpm --filter @profitlayer/dashboard dev",
     "dashboard:check": "node scripts/dev-dashboard.mjs",
-    "desktop": "pnpm --filter defi-yield-desktop start",
-    "build:desktop": "pnpm --filter defi-yield-desktop build",
-    "build:desktop:win": "pnpm --filter defi-yield-desktop build:win",
-    "build:desktop:mac": "pnpm --filter defi-yield-desktop build:mac"
+    "desktop": "pnpm --filter profit-layer-desktop start",
+    "build:desktop": "pnpm --filter profit-layer-desktop build",
+    "build:desktop:win": "pnpm --filter profit-layer-desktop build:win",
+    "build:desktop:mac": "pnpm --filter profit-layer-desktop build:mac"
   },
   "engines": {
     "node": ">=20.0.0",

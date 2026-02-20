@@ -14,7 +14,7 @@ import {
   createLogger,
   query,
   loadConfig,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { createWalletClient, createPublicClient, http } from "viem";
 import type { WalletManager } from "../wallet/WalletManager.js";
 import { TxSimulator, type SimulationResult } from "./TxSimulator.js";
@@ -22,7 +22,7 @@ import { GasOptimizer } from "./GasOptimizer.js";
 import { IntentRouter, type IntentOrder, type ExecutionResult as IntentResult } from "./IntentRouter.js";
 import { CrossChainRouter, type CrossChainQuote, type CrossChainConfig } from "./CrossChainRouter.js";
 import { DexAggregator, type QuoteRequest } from "../router/DexAggregator.js";
-import { getContextFS } from "@defi-yield/common";
+import { getContextFS } from "@profitlayer/common";
 import path from "node:path";
 import { approveTokensIfNeeded } from "./TokenApprover.js";
 import crypto from "node:crypto";

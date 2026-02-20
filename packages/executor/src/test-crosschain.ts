@@ -29,7 +29,7 @@ try {
   console.log("⚠️ 未找到 .env 文件，使用环境变量");
 }
 
-import { Chain, createLogger } from "@defi-yield/common";
+import { Chain, createLogger } from "@profitlayer/common";
 import { WalletManager } from "./wallet/WalletManager.js";
 import { TxExecutor } from "./transaction/TxExecutor.js";
 import { TxSimulator } from "./transaction/TxSimulator.js";

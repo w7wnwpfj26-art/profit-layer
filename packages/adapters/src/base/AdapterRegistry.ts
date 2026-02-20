@@ -2,8 +2,8 @@
 // Protocol Adapter Registry
 // ============================================
 
-import type { Chain, ProtocolCategory } from "@defi-yield/common";
-import { createLogger } from "@defi-yield/common";
+import type { Chain, ProtocolCategory } from "@profitlayer/common";
+import { createLogger } from "@profitlayer/common";
 import type { IProtocolAdapter } from "./IProtocolAdapter.js";
 
 const logger = createLogger("adapters:registry");

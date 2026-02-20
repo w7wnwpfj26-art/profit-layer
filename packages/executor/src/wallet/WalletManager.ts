@@ -8,7 +8,7 @@ import {
   ChainType, 
   CHAIN_TYPE_MAP,
   loadConfig 
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { KeyVault } from "./KeyVault.js";
 import { createWalletClient, http, type WalletClient, type Account } from "viem";
 import { privateKeyToAccount } from "viem/accounts";

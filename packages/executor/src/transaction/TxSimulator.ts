@@ -10,7 +10,7 @@ import {
   ChainType,
   CHAIN_TYPE_MAP,
   CHAIN_CONFIGS,
-} from "@defi-yield/common";
+} from "@profitlayer/common";
 import { createPublicClient, http, type PublicClient } from "viem";
 import { mainnet, arbitrum, polygon, bsc, base, optimism, avalanche } from "viem/chains";
 

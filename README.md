@@ -1,6 +1,6 @@
 <div align="center">
 
-# Nexus Yield
+# ProfitLayer
 
 **AI-Driven Multi-Chain DeFi Yield Optimization System**
 
@@ -15,16 +15,16 @@
 
 ---
 
-Nexus Yield scans 200+ DeFi protocols across 10+ chains, uses AI models to score risk and optimize portfolio allocation, then executes strategies automatically — all managed through a professional-grade dashboard with 2FA security.
+ProfitLayer scans 200+ DeFi protocols across 10+ chains, uses AI models to score risk and optimize portfolio allocation, then executes strategies automatically — all managed through a professional-grade dashboard with 2FA security.
 
 > **Status: Research Preview / Beta**
 > This project is intended for research and educational purposes. It includes a fully integrated risk control system, but real-fund deployment requires caution. Not financial advice.
 
 ## What Makes This Different
 
-Most open-source DeFi tools solve one piece of the puzzle. Nexus Yield combines them into a working system:
+Most open-source DeFi tools solve one piece of the puzzle. ProfitLayer combines them into a working system:
 
-| Capability | Hummingbot / Freqtrade | Yearn / Beefy | Nexus Yield |
+| Capability | Hummingbot / Freqtrade | Yearn / Beefy | ProfitLayer |
 |---|---|---|---|
 | Multi-chain execution | CEX-focused | Single-chain vaults | 10+ chains (EVM + Aptos + Solana) |
 | AI strategy engine | Rule-based | Fixed vault logic | ML risk scoring + portfolio optimization |
@@ -74,8 +74,8 @@ Most open-source DeFi tools solve one piece of the puzzle. Nexus Yield combines 
 ### 1. Clone & Setup
 
 ```bash
-git clone https://github.com/YOUR_ORG/nexus-yield.git
-cd nexus-yield
+git clone https://github.com/YOUR_ORG/profit-layer.git
+cd profit-layer
 cp .env.example .env   # Edit with your keys (never commit .env)
 ```
 > **Open source**: Before publishing, ensure no real secrets are in the repo. See [SECURITY.md](./SECURITY.md).
@@ -106,7 +106,7 @@ See [Quick Start Guide](./docs/快速开始.md) for detailed instructions.
 ## Project Structure
 
 ```
-nexus-yield/
+profit-layer/
 ├── packages/
 │   ├── common/          # Shared types, DB, Redis, config
 │   ├── scanner/         # DefiLlama pool scanner
@@ -198,6 +198,6 @@ This project involves automated DeFi strategies and is provided for **research a
 
 <div align="center">
 
-**[Documentation](./docs/)** · **[Report Bug](https://github.com/YOUR_ORG/nexus-yield/issues)**
+**[Documentation](./docs/)** · **[Report Bug](https://github.com/YOUR_ORG/profit-layer/issues)**
 
 </div>

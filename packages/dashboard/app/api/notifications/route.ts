@@ -47,7 +47,7 @@ async function sendWebhook(payload: AlertPayload): Promise<boolean> {
       body: JSON.stringify({
         ...payload,
         timestamp: new Date().toISOString(),
-        app: "Nexus Yield",
+        app: "ProfitLayer",
       }),
     });
     return res.ok;
@@ -65,7 +65,7 @@ function formatTelegramMessage(alert: AlertPayload): string {
   }[alert.severity];
 
   return [
-    `${icon} <b>Nexus Yield - ${alert.severity.toUpperCase()}</b>`,
+    `${icon} <b>ProfitLayer - ${alert.severity.toUpperCase()}</b>`,
     ``,
     `<b>来源:</b> ${alert.source}`,
     `<b>消息:</b> ${alert.message}`,

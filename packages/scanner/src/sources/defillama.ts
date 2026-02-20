@@ -3,8 +3,8 @@
 // Docs: https://defillama.com/docs/api
 // ============================================
 
-import { createLogger, type Pool, type Protocol, ProtocolCategory } from "@defi-yield/common";
-import { DEFILLAMA_CHAIN_MAP, computeHealthScore } from "@defi-yield/common";
+import { createLogger, type Pool, type Protocol, ProtocolCategory } from "@profitlayer/common";
+import { DEFILLAMA_CHAIN_MAP, computeHealthScore } from "@profitlayer/common";
 
 const logger = createLogger("scanner:defillama");
 

@@ -138,15 +138,15 @@ v2.0.0 新增：**按文本匹配按钮**，自动识别包含以下关键词的
 - 同意 / Agree
 - 提交 / Submit
 
-## 🔗 与 DeFi Yield Dashboard 配合使用
+## 🔗 与 ProfitLayer Dashboard 配合使用
 
-本插件 v2.0.0 支持与 DeFi Yield Dashboard 的冷钱包自动化桥接功能集成。
+本插件 v2.0.0 支持与 ProfitLayer Dashboard 的冷钱包自动化桥接功能集成。
 
 ### 使用步骤
 
 1. **安装并启用插件**：按照上面的安装步骤加载插件
 2. **连接 OKX 钱包**：确保 OKX Wallet 扩展已安装并解锁
-3. **打开 Dashboard**：访问 DeFi Yield Dashboard
+3. **打开 Dashboard**：访问 ProfitLayer Dashboard
 4. **启动自动化**：点击「冷钱包自动化桥接」组件的「启动自动化」按钮
 5. **自动签名**：当 Dashboard 推送交易时，插件会自动调用 OKX 签名并返回结果
 
@@ -247,7 +247,7 @@ okx-auto-approve/
 
 ### v2.0.0 (2026-02-07)
 
-- ✨ **Dashboard 对接**：新增 `window.coldWallet` API，支持与 DeFi Yield Dashboard 冷钱包桥接集成
+- ✨ **Dashboard 对接**：新增 `window.coldWallet` API，支持与 ProfitLayer Dashboard 冷钱包桥接集成
 - 🔧 **修复按钮选择器**：移除无效的 `:contains()` 选择器，改用按文本内容匹配
 - 📝 **白名单/黑名单 UI**：在 popup 中新增白名单和黑名单编辑界面
 - 🔗 **多链支持**：支持通过 `chainId` 参数自动切换链
@@ -276,6 +276,6 @@ MIT License
 
 ---
 
-**开发者**: Nexus Yield Team  
-**项目**: Nexus Yield: 智能资产矩阵  
+**开发者**: ProfitLayer Team  
+**项目**: ProfitLayer: 智能资产矩阵  
 **联系**: 见主项目 README

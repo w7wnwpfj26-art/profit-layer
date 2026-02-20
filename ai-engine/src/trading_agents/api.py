@@ -1,6 +1,6 @@
 """
 TradingAgents API 集成模块
-为 Nexus Yield 提供 TradingAgents 功能的 API 接口
+为 ProfitLayer 提供 TradingAgents 功能的 API 接口
 """
 
 from fastapi import APIRouter, HTTPException, BackgroundTasks

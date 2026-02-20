@@ -68,7 +68,7 @@ if (!BOT_TOKEN) {
   // ---- /start ----
   bot.command("start", (ctx) => {
   ctx.reply(
-    "🤖 *Nexus Yield Bot*\n\n" +
+    "🤖 *ProfitLayer Bot*\n\n" +
     "可用命令:\n" +
     "/status - 查看系统状态与持仓\n" +
     "/pools - 查看推荐池子 Top 10\n" +
