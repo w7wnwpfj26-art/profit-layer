@@ -74,6 +74,8 @@ curl -fsSL https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/in
 
 完成！打开浏览器访问 http://localhost:3002
 
+> **提示：** 默认安装到 `~/profit-layer`，可通过 `INSTALL_DIR=/your/path` 环境变量自定义路径。
+
 ### Docker Compose（生产环境）
 
 需在完整仓库目录下执行（需要构建上下文与 `infra/postgres/init.sql`）。在仓库根目录执行：
@@ -86,6 +88,8 @@ docker compose -f docker-compose.prod.yml up -d
 ```
 
 访问控制台: http://localhost:3002
+
+> **安全提醒：** 生产部署前，务必在 `.env` 中修改 `POSTGRES_PASSWORD`、`JWT_SECRET` 和 `WALLET_ENCRYPTION_KEY` 的默认值。
 
 ```bash
 # 管理命令

@@ -73,6 +73,8 @@ curl -fsSL https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/in
 
 That's it! Open http://localhost:3002 in your browser.
 
+> **Note:** Installs to `~/profit-layer` by default. Set `INSTALL_DIR=/your/path` to customize.
+
 ### Docker Compose (Production)
 
 Requires the full repo (for build context and `infra/postgres/init.sql`). From repo root:
@@ -85,6 +87,8 @@ docker compose -f docker-compose.prod.yml up -d
 ```
 
 Access Dashboard: http://localhost:3002
+
+> **Security:** Before production deployment, edit `.env` to change `POSTGRES_PASSWORD`, `JWT_SECRET`, and `WALLET_ENCRYPTION_KEY` from their default values.
 
 ```bash
 # Management commands
