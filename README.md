@@ -9,7 +9,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://python.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://typescriptlang.org/)
 
-[English](./README.md) · [Quick Start](./docs/快速开始.md) · [API Docs](./docs/API.md) · [Architecture](./docs/ARCHITECTURE.md)
+[English](./README.md) · [简体中文](./README.zh-CN.md) · [Quick Start](./docs/快速开始.md) · [API Docs](./docs/API.md) · [Architecture](./docs/ARCHITECTURE.md)
 
 </div>
 
@@ -65,41 +65,64 @@ Most open-source DeFi tools solve one piece of the puzzle. ProfitLayer combines 
 
 ## Quick Start
 
-### Prerequisites
+### One-Click Install (Recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/install.sh | bash
+```
+
+That's it! Open http://localhost:3002 in your browser.
+
+### Docker Compose (Production)
+
+```bash
+# Download and start
+curl -O https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/docker-compose.prod.yml
+docker compose -f docker-compose.prod.yml up -d
+```
+
+Access Dashboard: http://localhost:3002
+
+```bash
+# Management commands
+docker compose -f docker-compose.prod.yml logs -f      # View logs
+docker compose -f docker-compose.prod.yml restart     # Restart
+docker compose -f docker-compose.prod.yml down        # Stop
+```
+
+### Manual Installation
+
+<details>
+<summary>Click to expand manual setup steps</summary>
+
+#### Prerequisites
 
 - Node.js 20+, pnpm 9+
 - Docker (for PostgreSQL/TimescaleDB + Redis)
 - Python 3.11+ (for AI engine, optional)
 
-### 1. Clone & Setup
+#### Steps
 
 ```bash
-git clone https://github.com/YOUR_ORG/profit-layer.git
+# 1. Clone
+git clone https://github.com/w7wnwpfj26-art/profit-layer.git
 cd profit-layer
-cp .env.example .env   # Edit with your keys (never commit .env)
-```
-> **Open source**: Before publishing, ensure no real secrets are in the repo. See [SECURITY.md](./SECURITY.md).
+cp .env.example .env   # Edit with your keys
 
-### 2. Start Infrastructure
+# 2. Start database
+bash scripts/start-database.sh --all
 
-```bash
-bash scripts/start-database.sh --all   # TimescaleDB + Redis
-```
-
-### 3. Run Dashboard
-
-```bash
+# 3. Run dashboard
 pnpm install
 pnpm dashboard        # http://localhost:3002
-```
 
-### 4. (Optional) Start AI Engine
-
-```bash
+# 4. (Optional) Start AI Engine
 cd ai-engine
 pip install -e .
 uvicorn src.api.server:app --port 8000
 ```
+
+</details>
 
 See [Quick Start Guide](./docs/快速开始.md) for detailed instructions.
 
@@ -198,6 +221,6 @@ This project involves automated DeFi strategies and is provided for **research a
 
 <div align="center">
 
-**[Documentation](./docs/)** · **[Report Bug](https://github.com/YOUR_ORG/profit-layer/issues)**
+**[Documentation](./docs/)** · **[Report Bug](https://github.com/w7wnwpfj26-art/profit-layer/issues)**
 
 </div>

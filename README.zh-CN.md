@@ -66,40 +66,64 @@ ProfitLayer 扫描 10+ 条链上的 200+ DeFi 协议，通过 AI 模型进行风
 
 ## 快速开始
 
-### 环境要求
+### 一键安装（推荐）
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/install.sh | bash
+```
+
+完成！打开浏览器访问 http://localhost:3002
+
+### Docker Compose（生产环境）
+
+```bash
+# 下载并启动
+curl -O https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/docker-compose.prod.yml
+docker compose -f docker-compose.prod.yml up -d
+```
+
+访问控制台: http://localhost:3002
+
+```bash
+# 管理命令
+docker compose -f docker-compose.prod.yml logs -f      # 查看日志
+docker compose -f docker-compose.prod.yml restart     # 重启
+docker compose -f docker-compose.prod.yml down        # 停止
+```
+
+### 手动安装
+
+<details>
+<summary>点击展开手动安装步骤</summary>
+
+#### 环境要求
 
 - Node.js 20+, pnpm 9+
 - Docker（用于 PostgreSQL/TimescaleDB + Redis）
 - Python 3.11+（AI 引擎，可选）
 
-### 1. 克隆与配置
+#### 安装步骤
 
 ```bash
-git clone https://github.com/user/profit-layer.git
+# 1. 克隆仓库
+git clone https://github.com/w7wnwpfj26-art/profit-layer.git
 cd profit-layer
 cp .env.example .env   # 编辑填入你的密钥
-```
 
-### 2. 启动基础设施
+# 2. 启动数据库
+bash scripts/start-database.sh --all
 
-```bash
-bash scripts/start-database.sh --all   # TimescaleDB + Redis
-```
-
-### 3. 运行 Dashboard
-
-```bash
+# 3. 运行 Dashboard
 pnpm install
 pnpm dashboard        # http://localhost:3002
-```
 
-### 4. （可选）启动 AI 引擎
-
-```bash
+# 4. （可选）启动 AI 引擎
 cd ai-engine
 pip install -r requirements.txt
 uvicorn src.api.main:app --port 8000
 ```
+
+</details>
 
 详细步骤请查看 [快速开始文档](./docs/快速开始.md)。
 
@@ -198,6 +222,6 @@ profit-layer/
 
 <div align="center">
 
-**[完整文档](./docs/)** · **[提交 Bug](https://github.com/user/profit-layer/issues)** · **[路线图](./docs/ROADMAP.md)**
+**[完整文档](./docs/)** · **[提交 Bug](https://github.com/w7wnwpfj26-art/profit-layer/issues)** · **[路线图](./docs/ROADMAP.md)**
 
 </div>
