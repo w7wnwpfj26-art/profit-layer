@@ -9,7 +9,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://python.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://typescriptlang.org/)
 
-[English](./README.md) · [简体中文](./README.zh-CN.md) · [Quick Start](./docs/快速开始.md) · [API Docs](./docs/API.md) · [Architecture](./docs/ARCHITECTURE.md)
+[English](./README.md) · [简体中文](./README.zh-CN.md) · [Quick Start](./docs/快速开始.md) · [API Docs](./docs/API.md) · [Architecture](./docs/ARCHITECTURE.md) · [Changelog](./CHANGELOG.md)
 
 </div>
 
@@ -75,9 +75,12 @@ That's it! Open http://localhost:3002 in your browser.
 
 ### Docker Compose (Production)
 
+Requires the full repo (for build context and `infra/postgres/init.sql`). From repo root:
+
 ```bash
-# Download and start
-curl -O https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/docker-compose.prod.yml
+git clone https://github.com/w7wnwpfj26-art/profit-layer.git
+cd profit-layer
+cp .env.example .env   # optional: edit with your keys
 docker compose -f docker-compose.prod.yml up -d
 ```
 
@@ -86,7 +89,7 @@ Access Dashboard: http://localhost:3002
 ```bash
 # Management commands
 docker compose -f docker-compose.prod.yml logs -f      # View logs
-docker compose -f docker-compose.prod.yml restart     # Restart
+docker compose -f docker-compose.prod.yml restart      # Restart
 docker compose -f docker-compose.prod.yml down        # Stop
 ```
 

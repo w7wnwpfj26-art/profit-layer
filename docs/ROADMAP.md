@@ -1,6 +1,6 @@
 # Roadmap / 路线图
 
-> Last updated: 2026-02-14
+> Last updated: 2026-02-07
 
 ---
 
@@ -55,7 +55,7 @@
 - [ ] Mobile companion app (React Native)
 - [ ] Webhook / API integration for external signals
 - [ ] DAO governance module for shared vaults
-- [ ] Multi-language dashboard (i18n)
+- [x] Multi-language dashboard (i18n) — English + Simplified Chinese
 - [ ] Public demo instance
 
 ---

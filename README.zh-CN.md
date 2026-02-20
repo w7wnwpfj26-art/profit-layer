@@ -9,7 +9,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://python.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://typescriptlang.org/)
 
-[English](./README.md) · [中文](./README.zh-CN.md) · [快速开始](./docs/快速开始.md) · [API 文档](./docs/API.md) · [架构设计](./docs/ARCHITECTURE.md) · [路线图](./docs/ROADMAP.md)
+[English](./README.md) · [中文](./README.zh-CN.md) · [快速开始](./docs/快速开始.md) · [API 文档](./docs/API.md) · [架构设计](./docs/ARCHITECTURE.md) · [路线图](./docs/ROADMAP.md) · [更新日志](./CHANGELOG.md)
 
 </div>
 
@@ -76,9 +76,12 @@ curl -fsSL https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/in
 
 ### Docker Compose（生产环境）
 
+需在完整仓库目录下执行（需要构建上下文与 `infra/postgres/init.sql`）。在仓库根目录执行：
+
 ```bash
-# 下载并启动
-curl -O https://raw.githubusercontent.com/w7wnwpfj26-art/profit-layer/main/docker-compose.prod.yml
+git clone https://github.com/w7wnwpfj26-art/profit-layer.git
+cd profit-layer
+cp .env.example .env   # 可选：填入你的配置
 docker compose -f docker-compose.prod.yml up -d
 ```
 
@@ -87,8 +90,8 @@ docker compose -f docker-compose.prod.yml up -d
 ```bash
 # 管理命令
 docker compose -f docker-compose.prod.yml logs -f      # 查看日志
-docker compose -f docker-compose.prod.yml restart     # 重启
-docker compose -f docker-compose.prod.yml down        # 停止
+docker compose -f docker-compose.prod.yml restart      # 重启
+docker compose -f docker-compose.prod.yml down         # 停止
 ```
 
 ### 手动安装
