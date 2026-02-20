@@ -1,0 +1,295 @@
+# TradingAgents 集成配置
+# 基于 https://github.com/TauricResearch/TradingAgents
+
+# LLM 配置
+llm:
+  # 主要 LLM 提供商
+  primary_provider: "openai"  # openai, anthropic, google, grok, openrouter
+  
+  # 各代理专用模型配置
+  models:
+    # 基本面分析师 - 需要强大的推理能力
+    fundamental_analyst:
+      provider: "openai"
+      model: "gpt-4-turbo-preview"
+      temperature: 0.3
+      max_tokens: 2000
+    
+    # 情绪分析师 - 需要理解细微差别
+    sentiment_analyst:
+      provider: "openai"
+      model: "gpt-4-turbo-preview"
+      temperature: 0.5
+      max_tokens: 1500
+    
+    # 新闻分析师 - 需要快速处理大量文本
+    news_analyst:
+      provider: "openai"
+      model: "gpt-3.5-turbo"
+      temperature: 0.4
+      max_tokens: 1000
+    
+    # 技术分析师 - 需要精确的模式识别
+    technical_analyst:
+      provider: "openai"
+      model: "gpt-4-turbo-preview"
+      temperature: 0.2
+      max_tokens: 1800
+    
+    # 研究员 - 需要批判性思维
+    researcher:
+      provider: "anthropic"
+      model: "claude-3-sonnet-20240229"
+      temperature: 0.6
+      max_tokens: 2500
+    
+    # 交易员 - 需要平衡的决策能力
+    trader:
+      provider: "openai"
+      model: "gpt-4-turbo-preview"
+      temperature: 0.4
+      max_tokens: 2000
+    
+    # 风险管理师 - 需要保守和精确
+    risk_manager:
+      provider: "anthropic"
+      model: "claude-3-sonnet-20240229"
+      temperature: 0.2
+      max_tokens: 2200
+
+# 数据源配置
+data_sources:
+  # DeFi 数据源
+  defi:
+    # 链上数据
+    onchain:
+      - provider: "defillama"
+        api_key: "${DEFILLAMA_API_KEY}"
+        enabled: true
+      - provider: "dune_analytics"
+        api_key: "${DUNE_API_KEY}"
+        enabled: true
+    
+    # 价格数据
+    prices:
+      - provider: "coingecko"
+        api_key: "${COINGECKO_API_KEY}"
+        enabled: true
+      - provider: "cryptocompare"
+        api_key: "${CRYPTOCOMPARE_API_KEY}"
+        enabled: true
+    
+    # 流动性数据
+    liquidity:
+      - provider: "1inch"
+        api_key: "${1INCH_API_KEY}"
+        enabled: true
+      - provider: "0x"
+        api_key: "${0X_API_KEY}"
+        enabled: true
+  
+  # 新闻和社交媒体数据
+  news_social:
+    # 新闻数据
+    news:
+      - provider: "cryptopanic"
+        api_key: "${CRYPTOPANIC_API_KEY}"
+        enabled: true
+      - provider: "newsapi"
+        api_key: "${NEWS_API_KEY}"
+        enabled: true
+    
+    # 社交媒体
+    social:
+      - provider: "twitter"
+        api_key: "${TWITTER_API_KEY}"
+        api_secret: "${TWITTER_API_SECRET}"
+        bearer_token: "${TWITTER_BEARER_TOKEN}"
+        enabled: true
+      - provider: "reddit"
+        client_id: "${REDDIT_CLIENT_ID}"
+        client_secret: "${REDDIT_CLIENT_SECRET}"
+        enabled: true
+
+# 分析参数配置
+analysis:
+  # 基本面分析
+  fundamental:
+    # TVL 稳定性评估
+    tvl_stability:
+      lookback_days: 90
+      volatility_threshold: 0.3
+      min_tvl_millions: 10
+    
+    # 收益率可持续性
+    yield_sustainability:
+      min_apr: 0.05  # 5%
+      max_apr: 2.0   # 200%
+      emission_weight: 0.3
+      fee_weight: 0.7
+    
+    # 协议健康度
+    protocol_health:
+      audit_score_weight: 0.4
+      tvl_growth_weight: 0.3
+      longevity_weight: 0.3
+      min_audit_score: 8.0
+  
+  # 情绪分析
+  sentiment:
+    # Twitter 情绪
+    twitter:
+      min_tweets: 100
+      sentiment_threshold: 0.1
+      influence_weight: 0.6
+      volume_weight: 0.4
+    
+    # 社群活跃度
+    community:
+      discord_members_weight: 0.4
+      telegram_members_weight: 0.3
+      github_activity_weight: 0.3
+      min_activity_score: 0.2
+    
+    # 鲸鱼活动
+    whale_activity:
+      min_whale_wallets: 10
+      whale_threshold_usd: 1000000
+      inflow_weight: 0.7
+      outflow_weight: 0.3
+  
+  # 技术分析
+  technical:
+    # 价格趋势
+    trend_analysis:
+      lookback_periods: [7, 14, 30, 90]
+      ma_periods: [20, 50, 200]
+      trend_strength_threshold: 0.6
+    
+    # 流动性分析
+    liquidity:
+      min_depth_usd: 1000000
+      spread_threshold: 0.02  # 2%
+      slippage_threshold: 0.01  # 1%
+    
+    # 无常损失风险
+    impermanent_loss:
+      correlation_threshold: 0.8
+      volatility_lookback: 30
+      il_threshold: 0.05  # 5%
+
+# 风险管理配置
+risk_management:
+  # 总体风险限制
+  global_limits:
+    max_portfolio_risk: 0.25  # 25%
+    max_single_position: 0.15  # 15%
+    max_sector_exposure: 0.4   # 40%
+    max_protocol_exposure: 0.3  # 30%
+  
+  # 风险指标阈值
+  risk_thresholds:
+    market_risk:
+      var_threshold: 0.05  # 5% VaR
+      max_drawdown: 0.2   # 20%
+    
+    liquidity_risk:
+      min_liquidity_ratio: 0.1  # 10%
+      max_exit_time_hours: 24
+    
+    concentration_risk:
+      max_single_asset: 0.2  # 20%
+      max_correlation: 0.8
+    
+    smart_contract_risk:
+      min_audit_score: 7.0
+      max_protocol_age_days: 365
+  
+  # 止损和止盈
+  stop_loss:
+    default_sl: 0.15  # 15%
+    trailing_sl: true
+    sl_adjustment_frequency: 24  # hours
+  
+  take_profit:
+    default_tp: 0.3  # 30%
+    partial_tp_levels: [0.15, 0.25, 0.4]  # 分段止盈
+    tp_adjustment_frequency: 48  # hours
+
+# 交易执行配置
+execution:
+  # 滑点控制
+  slippage:
+    max_slippage: 0.02  # 2%
+    emergency_slippage: 0.05  # 5%
+  
+  # Gas 优化
+  gas:
+    max_gas_price_gwei: 100
+    priority_fee_gwei: 2
+    gas_estimate_buffer: 1.2  # 20% buffer
+  
+  # 交易时机
+  timing:
+    avoid_high_volatility: true
+    max_volatility_threshold: 0.5  # 50%
+    preferred_trading_hours: "09:00-17:00"  # UTC
+  
+  # 分批执行
+  batching:
+    max_batch_size_usd: 100000
+    batch_interval_minutes: 30
+
+# 监控和告警配置
+monitoring:
+  # 性能监控
+  performance:
+    update_frequency_minutes: 15
+    metrics_retention_days: 90
+    
+  # 风险监控
+  risk:
+    check_frequency_minutes: 5
+    alert_threshold_multiplier: 1.2  # 超过阈值 20% 时告警
+  
+  # 系统健康
+  health:
+    agent_response_timeout_seconds: 30
+    max_concurrent_analyses: 10
+    circuit_breaker_threshold: 0.8  # 80% 失败率时熔断
+
+# 集成配置
+integration:
+  # Nexus Yield 系统集成
+  nexus_yield:
+    # 数据同步
+    data_sync:
+      frequency_minutes: 5
+      max_batch_size: 1000
+      retry_attempts: 3
+    
+    # API 集成
+    api:
+      base_url: "http://localhost:8000"
+      timeout_seconds: 30
+      rate_limit_per_minute: 100
+    
+    # 数据库集成
+    database:
+      connection_pool_size: 20
+      query_timeout_seconds: 30
+      cache_ttl_seconds: 300
+  
+  # 外部系统
+  external:
+    # 预言机
+    oracle:
+      providers: ["chainlink", "band", "pyth"]
+      timeout_seconds: 10
+      deviation_threshold: 0.01  # 1%
+    
+    # 跨链桥
+    bridge:
+      supported_chains: ["ethereum", "polygon", "arbitrum", "optimism"]
+      max_bridge_amount_usd: 50000
+      bridge_timeout_hours: 24

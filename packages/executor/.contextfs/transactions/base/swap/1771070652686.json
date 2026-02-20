@@ -1,0 +1,17 @@
+{
+  "txHash": "none",
+  "chain": "base",
+  "walletAddress": "0x41f74B75de939692191f87C3E671052Eaa956677",
+  "txType": "swap",
+  "amountUsd": 2.8,
+  "gasCostUsd": 0,
+  "status": "failed",
+  "metadata": {
+    "aggregator": "uniswap-v3",
+    "tokenIn": "0x4200000000000000000000000000000000000006",
+    "tokenOut": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "error": "Nonce provided for the transaction (1378) is lower than the current nonce of the account.\nTry increasing the nonce or find the latest nonce with `getTransactionCount`.\n\nRequest Arguments:\n  chain:                 Base (id: 8453)\n  from:                  0x41f74B75de939692191f87C3E671052Eaa956677\n  to:                    0xE592427A0AEce92De3Edee1F18E0157C05861564\n  value:                 0 ETH\n  data:                  0x414bf3890000000000000000000000004200000000000000000000000000000000000006000000000000000000000000833589fcd6edb6e08f4c7c32d4f71b54bda029130000000000000000000000000000000000000000000000000000000000000bb800000000000000000000000041f74b75de939692191f87c3e671052eaa956677000000000000000000000000000000000000000000000000000000006990670700000000000000000000000000000000000000000000000000038d7ea4c6800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\n  maxFeePerGas:          0.008958129 gwei\n  maxPriorityFeePerGas:  0.000814375 gwei\n  nonce:                 1378\n\nDetails: nonce too low: next nonce 1379, tx nonce 1378\nVersion: viem@2.45.1",
+    "failureReason": "execution_gas"
+  },
+  "createdAt": "2026-02-14T12:04:12.685Z"
+}

@@ -1,0 +1,15 @@
+{
+  "txHash": "0x777615826c82d735053acd21cc74880f596adab689e006496109c88a4a6ae4d6",
+  "chain": "base",
+  "walletAddress": "0x41f74B75de939692191f87C3E671052Eaa956677",
+  "txType": "swap",
+  "amountUsd": 2.8,
+  "gasCostUsd": 2.19132,
+  "status": "submitted",
+  "metadata": {
+    "aggregator": "uniswap-v3",
+    "tokenIn": "0x4200000000000000000000000000000000000006",
+    "tokenOut": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+  },
+  "createdAt": "2026-02-14T12:05:18.436Z"
+}

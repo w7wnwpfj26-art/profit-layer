@@ -1,0 +1,33 @@
+{
+  "name": "defi-yield-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-driven multi-chain DeFi automated yield system",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "clear-test-data": "tsx scripts/clear-test-data.ts",
+    "recover-and-reinvest": "pnpm --filter @defi-yield/executor run recover-and-reinvest",
+    "scanner": "pnpm --filter @defi-yield/scanner dev",
+    "executor": "pnpm --filter @defi-yield/executor dev",
+    "dashboard": "pnpm --filter @defi-yield/dashboard dev",
+    "dashboard:check": "node scripts/dev-dashboard.mjs",
+    "desktop": "pnpm --filter defi-yield-desktop start",
+    "build:desktop": "pnpm --filter defi-yield-desktop build",
+    "build:desktop:win": "pnpm --filter defi-yield-desktop build:win",
+    "build:desktop:mac": "pnpm --filter defi-yield-desktop build:mac"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "devDependencies": {
+    "pg": "^8.18.0",
+    "tsx": "^4.0.0",
+    "turbo": "^2.8.3",
+    "typescript": "^5.9.3"
+  }
+}

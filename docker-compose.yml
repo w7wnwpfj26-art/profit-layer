@@ -1,0 +1,160 @@
+services:
+  # ---- Infrastructure ----
+  timescaledb:
+    image: timescale/timescaledb:latest-pg16
+    container_name: defi-timescaledb
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-defi_yield}
+      POSTGRES_USER: ${POSTGRES_USER:-defi}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_in_production}
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-defi}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: defi-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+      - ./infra/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: defi-grafana
+    restart: unless-stopped
+    ports:
+      - "3003:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infra/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+
+  # ---- Application Services ----
+  scanner:
+    build:
+      context: .
+      dockerfile: packages/scanner/Dockerfile
+    container_name: defi-scanner
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_HOST: timescaledb
+      POSTGRES_PORT: "5432"
+      REDIS_HOST: redis
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  executor:
+    build:
+      context: .
+      dockerfile: packages/executor/Dockerfile
+    container_name: defi-executor
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_HOST: timescaledb
+      POSTGRES_PORT: "5432"
+      REDIS_HOST: redis
+      AI_ENGINE_HOST: ai-engine
+      AI_ENGINE_PORT: "8000"
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  ai-engine:
+    build:
+      context: ./ai-engine
+      dockerfile: Dockerfile
+    container_name: defi-ai-engine
+    restart: unless-stopped
+    ports:
+      - "${AI_ENGINE_PORT:-8000}:8000"
+    env_file: .env
+    environment:
+      POSTGRES_HOST: timescaledb
+      POSTGRES_PORT: "5432"
+      REDIS_HOST: redis
+      USE_MULTI_AGENT: "${USE_MULTI_AGENT:-true}"
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  strategy-worker:
+    build:
+      context: ./ai-engine
+      dockerfile: Dockerfile
+    container_name: defi-strategy-worker
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_HOST: timescaledb
+      POSTGRES_PORT: "5432"
+      REDIS_HOST: redis
+    command: ["python", "-m", "src.workers.strategy_worker"]
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: packages/dashboard/Dockerfile
+    container_name: defi-dashboard
+    restart: unless-stopped
+    ports:
+      - "${DASHBOARD_PORT:-3002}:3000"
+    env_file: .env
+    environment:
+      AI_ENGINE_URL: http://ai-engine:8000
+      POSTGRES_HOST: timescaledb
+      POSTGRES_PORT: "5432"
+      REDIS_HOST: redis
+      JWT_SECRET: ${JWT_SECRET:-nexus_yield_jwt_secret_2026_prod}
+    volumes:
+      - ./packages/dashboard:/app:delegated
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ai-engine:
+        condition: service_started
+
+volumes:
+  timescaledb_data:
+  redis_data:
+  grafana_data:

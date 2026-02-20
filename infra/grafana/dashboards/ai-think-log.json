@@ -1,0 +1,95 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "title": "思考周期数 (24h)",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "targets": [{
+        "rawSql": "SELECT COUNT(*) as value FROM ai_think_log WHERE created_at > NOW() - INTERVAL '24 hours'",
+        "format": "table"
+      }],
+      "fieldConfig": {"defaults": {"thresholds": {"steps": [{"color": "green", "value": null}]}}}
+    },
+    {
+      "title": "累计执行动作 (24h)",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "targets": [{
+        "rawSql": "SELECT COALESCE(SUM(actions_taken), 0)::bigint as value FROM ai_think_log WHERE created_at > NOW() - INTERVAL '24 hours'",
+        "format": "table"
+      }],
+      "fieldConfig": {"defaults": {"thresholds": {"steps": [{"color": "blue", "value": null}]}}}
+    },
+    {
+      "title": "平均耗时 (ms)",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0},
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "targets": [{
+        "rawSql": "SELECT ROUND(AVG(duration_ms)::numeric, 0) as value FROM ai_think_log WHERE created_at > NOW() - INTERVAL '24 hours'",
+        "format": "table"
+      }],
+      "fieldConfig": {"defaults": {"unit": "ms", "thresholds": {"steps": [{"color": "green", "value": null}]}}}
+    },
+    {
+      "title": "累计 Token 消耗 (24h)",
+      "type": "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 18, "y": 0},
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "targets": [{
+        "rawSql": "SELECT COALESCE(SUM(tokens_used), 0)::bigint as value FROM ai_think_log WHERE created_at > NOW() - INTERVAL '24 hours'",
+        "format": "table"
+      }],
+      "fieldConfig": {"defaults": {"thresholds": {"steps": [{"color": "purple", "value": null}]}}}
+    },
+    {
+      "title": "思考周期耗时趋势",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "targets": [{
+        "rawSql": "SELECT created_at AS time, duration_ms FROM ai_think_log WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at",
+        "format": "time_series"
+      }]
+    },
+    {
+      "title": "每周期执行动作数",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "targets": [{
+        "rawSql": "SELECT created_at AS time, actions_taken FROM ai_think_log WHERE created_at > NOW() - INTERVAL '7 days' ORDER BY created_at",
+        "format": "time_series"
+      }]
+    },
+    {
+      "title": "最近 AI 思考日志 (Multi-Agent 决策)",
+      "type": "table",
+      "gridPos": {"h": 10, "w": 24, "x": 0, "y": 12},
+      "datasource": {"type": "postgres", "uid": "timescaledb"},
+      "targets": [{
+        "rawSql": "SELECT cycle_id, input_summary, output_summary, actions_taken, duration_ms, tokens_used, created_at FROM ai_think_log ORDER BY created_at DESC LIMIT 20",
+        "format": "table"
+      }]
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 39,
+  "tags": ["ai", "think-log", "multi-agent"],
+  "templating": {"list": []},
+  "time": {"from": "now-7d", "to": "now"},
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "AI 思考日志 - Multi-Agent 决策监控",
+  "uid": "ai-think-log",
+  "version": 1
+}

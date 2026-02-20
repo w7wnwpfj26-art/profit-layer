@@ -1,0 +1,162 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "title": "活跃池子数量",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT COUNT(*) as value FROM pools WHERE is_active = true AND tvl_usd > 100000",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": { "thresholds": { "steps": [{ "color": "green", "value": null }] } }
+      }
+    },
+    {
+      "title": "总锁仓量 (TVL)",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT ROUND(SUM(tvl_usd) / 1e9, 2) as value FROM pools WHERE is_active = true",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "billshort",
+          "thresholds": { "steps": [{ "color": "green", "value": null }] }
+        }
+      }
+    },
+    {
+      "title": "平均年化率",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT ROUND(AVG(apr_total)::numeric, 2) as value FROM pools WHERE is_active = true AND tvl_usd > 100000",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "thresholds": { "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 50 }, { "color": "red", "value": 100 }] }
+        }
+      }
+    },
+    {
+      "title": "平均健康分",
+      "type": "gauge",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT ROUND(AVG(health_score)::numeric, 1) as value FROM pools WHERE is_active = true AND health_score IS NOT NULL",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0, "max": 100,
+          "thresholds": { "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 50 }, { "color": "green", "value": 70 }] }
+        }
+      }
+    },
+    {
+      "title": "TVL 趋势（按小时）",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT time_bucket('1 hour', time) AS time, ROUND(SUM(tvl_usd)::numeric / 1e9, 2) AS tvl_billions FROM pool_snapshots WHERE time > NOW() - INTERVAL '7 days' GROUP BY 1 ORDER BY 1",
+          "format": "time_series"
+        }
+      ]
+    },
+    {
+      "title": "APR 分布（活跃池）",
+      "type": "histogram",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT apr_total FROM pools WHERE is_active = true AND tvl_usd > 100000 AND apr_total < 200",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "title": "各链 TVL 分布",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 12 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT chain_id as label, ROUND(SUM(tvl_usd)::numeric / 1e9, 2) as value FROM pools WHERE is_active = true GROUP BY chain_id ORDER BY value DESC LIMIT 10",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "title": "策略运行状态",
+      "type": "table",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 12 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT name, strategy_type, is_active, total_allocated_usd, total_pnl_usd, updated_at FROM strategies ORDER BY is_active DESC",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "title": "最近审计日志",
+      "type": "table",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 12 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT severity, source, message, created_at FROM audit_log ORDER BY created_at DESC LIMIT 20",
+          "format": "table"
+        }
+      ]
+    },
+    {
+      "title": "交易执行统计",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 20 },
+      "datasource": { "type": "postgres", "uid": "timescaledb" },
+      "targets": [
+        {
+          "rawSql": "SELECT COUNT(*) as total_tx, COUNT(*) FILTER (WHERE status = 'confirmed') as confirmed, COUNT(*) FILTER (WHERE status = 'failed') as failed, ROUND(SUM(amount_usd)::numeric, 0) as total_volume, ROUND(SUM(gas_cost_usd)::numeric, 2) as total_gas FROM transactions WHERE created_at > NOW() - INTERVAL '24 hours'",
+          "format": "table"
+        }
+      ]
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "tags": ["defi", "yield"],
+  "templating": { "list": [] },
+  "time": { "from": "now-7d", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Nexus Yield - 系统监控",
+  "uid": "defi-yield-overview",
+  "version": 1
+}

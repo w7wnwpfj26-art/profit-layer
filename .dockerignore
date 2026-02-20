@@ -1,0 +1,10 @@
+**/node_modules
+**/.next
+**/.git
+**/*.log
+**/__pycache__
+**/.venv
+**/.pytest_cache
+**/*.egg-info
+.turbo
+.DS_Store

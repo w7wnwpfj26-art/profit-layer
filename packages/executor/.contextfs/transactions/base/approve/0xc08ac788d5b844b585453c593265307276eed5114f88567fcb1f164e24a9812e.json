@@ -1,0 +1,15 @@
+{
+  "txHash": "0xc08ac788d5b844b585453c593265307276eed5114f88567fcb1f164e24a9812e",
+  "chain": "base",
+  "walletAddress": "0x41f74B75de939692191f87C3E671052Eaa956677",
+  "txType": "approve",
+  "amountUsd": 0,
+  "gasCostUsd": 2.08926,
+  "status": "submitted",
+  "metadata": {
+    "action": "auto_approve",
+    "token": "0x4200000000000000000000000000000000000006",
+    "spender": "0xE592427A0AEce92De3Edee1F18E0157C05861564"
+  },
+  "createdAt": "2026-02-14T12:04:08.539Z"
+}

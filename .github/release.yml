@@ -1,0 +1,33 @@
+# release.yml — Auto-generated release notes configuration
+# https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
+
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+    authors:
+      - dependabot
+  categories:
+    - title: "🚀 New Features / 新功能"
+      labels:
+        - feature
+        - enhancement
+    - title: "🐛 Bug Fixes / 修复"
+      labels:
+        - bug
+        - fix
+    - title: "🔒 Security / 安全"
+      labels:
+        - security
+    - title: "📖 Documentation / 文档"
+      labels:
+        - documentation
+        - docs
+    - title: "🏗️ Infrastructure / 基础设施"
+      labels:
+        - infra
+        - ci
+        - devops
+    - title: "🧹 Other Changes / 其他"
+      labels:
+        - "*"
