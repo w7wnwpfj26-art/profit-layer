@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Bell,
   AlertTriangle,
@@ -52,6 +53,7 @@ interface Stats {
 }
 
 export default function AlertsPage() {
+  const t = useTranslations("alerts");
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [stats, setStats] = useState<Stats>({ triggered: 0, acknowledged: 0, resolved: 0, critical: 0 });
   const [total, setTotal] = useState(0);
@@ -134,7 +136,7 @@ export default function AlertsPage() {
 
   const handleBatchAction = async (action: string) => {
     if (selectedIds.size === 0) {
-      setError("请先选择要操作的告警");
+      setError(t("selectFirst"));
       return;
     }
 
@@ -213,9 +215,9 @@ export default function AlertsPage() {
             )}
           </div>
           <div>
-            <h1 className="text-5xl font-black text-white tracking-tighter font-outfit">告警 <span className="text-gradient-danger">中心</span></h1>
+            <h1 className="text-5xl font-black text-white tracking-tighter font-outfit">{t("title")} <span className="text-gradient-danger">{t("titleAccent")}</span></h1>
             <p className="text-muted text-base font-medium mt-2 opacity-80">
-              全天候智能风险监控系统。实时捕捉链上异常、大额波动及流动性风险。
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -224,33 +226,33 @@ export default function AlertsPage() {
           className="group flex items-center gap-3 px-8 py-3.5 rounded-[1.2rem] bg-white/5 hover:bg-white/10 border border-white/10 hover:border-accent/40 text-[11px] font-black uppercase tracking-widest text-white transition-all hover:shadow-2xl hover:shadow-accent/10 active:scale-95"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"}`} />
-          同步最新状态
+          {t("syncStatus")}
         </button>
       </div>
 
       {/* Stats - 增强质感 */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         <StatCard 
-          label="待处理告警" 
+          label={t("pending")} 
           value={stats.triggered} 
           icon={<AlertCircle className="w-6 h-6" />} 
           color="danger" 
           active={stats.triggered > 0}
         />
         <StatCard 
-          label="已确认事件" 
+          label={t("acknowledged")} 
           value={stats.acknowledged} 
           icon={<Eye className="w-6 h-6" />} 
           color="warning" 
         />
         <StatCard 
-          label="已解决问题" 
+          label={t("resolved")} 
           value={stats.resolved} 
           icon={<CheckCircle className="w-6 h-6" />} 
           color="success" 
         />
         <StatCard 
-          label="紧急风险项" 
+          label={t("critical")} 
           value={stats.critical} 
           icon={<AlertTriangle className="w-6 h-6" />} 
           color="danger" 
@@ -263,7 +265,7 @@ export default function AlertsPage() {
       <div className="glass p-8 rounded-[2.5rem] border-white/5 shadow-2xl">
         <div className="flex items-center gap-3 mb-6">
           <Activity className="w-5 h-5 text-accent" />
-          <h3 className="text-lg font-black text-white uppercase tracking-widest">24H 告警趋势矩阵</h3>
+          <h3 className="text-lg font-black text-white uppercase tracking-widest">{t("trendTitle")}</h3>
         </div>
         <AlertTrendChart hours={24} />
       </div>
@@ -277,7 +279,7 @@ export default function AlertsPage() {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted group-focus-within:text-accent transition-colors" />
             <input
               type="text"
-              placeholder="搜索告警消息或规则名称..."
+              placeholder={t("searchPlaceholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-11 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-muted focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all shadow-sm hover:shadow-md"
@@ -294,7 +296,7 @@ export default function AlertsPage() {
             }`}
           >
             <Filter className="w-4 h-4" />
-            高级筛选
+            {t("advancedFilter")}
             {showAdvancedFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
         </div>
@@ -305,7 +307,7 @@ export default function AlertsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* 状态筛选 */}
               <div>
-                <label className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 block">状态筛选</label>
+                <label className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 block">{t("filterStatus")}</label>
                 <div className="flex items-center gap-2 flex-wrap">
                   {["all", "triggered", "acknowledged", "resolved"].map((f) => (
                     <button
@@ -317,7 +319,7 @@ export default function AlertsPage() {
                           : "bg-white/5 text-muted hover:bg-white/10 hover:text-white border border-white/10"
                       }`}
                     >
-                      {f === "all" ? "全部" : f === "triggered" ? "待处理" : f === "acknowledged" ? "已确认" : "已解决"}
+                      {f === "all" ? t("all") : f === "triggered" ? t("triggered") : f === "acknowledged" ? t("ack") : t("resolvedLabel")}
                     </button>
                   ))}
                 </div>
@@ -325,7 +327,7 @@ export default function AlertsPage() {
 
               {/* 严重程度筛选 */}
               <div>
-                <label className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 block">严重程度</label>
+                <label className="text-xs font-semibold text-muted uppercase tracking-wider mb-3 block">{t("filterSeverity")}</label>
                 <div className="flex items-center gap-2 flex-wrap">
                   {["", "critical", "warning", "info"].map((s) => (
                     <button
@@ -343,7 +345,7 @@ export default function AlertsPage() {
                           : "bg-white/5 text-muted hover:bg-white/10 hover:text-white border border-white/10"
                       }`}
                     >
-                      {s === "" ? "全部" : s === "critical" ? "🔥 紧急" : s === "warning" ? "⚠️ 警告" : "ℹ️ 信息"}
+                      {s === "" ? t("all") : s === "critical" ? t("severityCritical") : s === "warning" ? t("severityWarning") : t("severityInfo")}
                     </button>
                   ))}
                 </div>
@@ -363,8 +365,8 @@ export default function AlertsPage() {
                 <CheckSquare className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <span className="text-sm font-bold text-white">已选择 {selectedIds.size} 条告警</span>
-                <p className="text-xs text-muted mt-0.5">批量操作将应用于所有选中项</p>
+                <span className="text-sm font-bold text-white">{t("selectedCount", { count: selectedIds.size })}</span>
+                <p className="text-xs text-muted mt-0.5">{t("batchApply")}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -373,21 +375,21 @@ export default function AlertsPage() {
                 className="group flex items-center gap-2 px-4 py-2 rounded-xl bg-warning/10 hover:bg-warning/20 border border-warning/20 hover:border-warning/30 text-warning text-sm font-medium transition-all hover:shadow-lg hover:shadow-warning/10"
               >
                 <Eye className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                批量确认
+                {t("batchAck")}
               </button>
               <button
                 onClick={() => handleBatchAction("batchResolve")}
                 className="group flex items-center gap-2 px-4 py-2 rounded-xl bg-success/10 hover:bg-success/20 border border-success/20 hover:border-success/30 text-success text-sm font-medium transition-all hover:shadow-lg hover:shadow-success/10"
               >
                 <Check className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                批量解决
+                {t("batchResolve")}
               </button>
               <button
                 onClick={() => handleBatchAction("batchDelete")}
                 className="group flex items-center gap-2 px-4 py-2 rounded-xl bg-danger/10 hover:bg-danger/20 border border-danger/20 hover:border-danger/30 text-danger text-sm font-medium transition-all hover:shadow-lg hover:shadow-danger/10"
               >
                 <Trash2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                批量删除
+                {t("batchDelete")}
               </button>
             </div>
           </div>
@@ -409,7 +411,7 @@ export default function AlertsPage() {
                 <Square className="w-5 h-5 group-hover:scale-110 transition-transform" />
               )}
               <span className="text-sm font-medium">
-                {selectedIds.size === alerts.length ? "取消全选" : `全选 (${alerts.length})`}
+                {selectedIds.size === alerts.length ? t("cancelSelectAll") : `${t("selectAll")} (${alerts.length})`}
               </span>
             </button>
           </div>
@@ -420,8 +422,8 @@ export default function AlertsPage() {
             <div className="inline-flex p-6 rounded-full bg-success/10 border border-success/20 mb-6">
               <CheckCircle className="w-16 h-16 text-success" />
             </div>
-            <p className="text-xl font-bold text-white mb-2">一切正常</p>
-            <p className="text-sm text-muted">暂无告警事件，系统运行良好</p>
+            <p className="text-xl font-bold text-white mb-2">{t("allGood")}</p>
+            <p className="text-sm text-muted">{t("noAlerts")}</p>
           </div>
         ) : (
           alerts.map((alert) => {
@@ -464,7 +466,7 @@ export default function AlertsPage() {
                         alert.status === "acknowledged" ? "bg-warning/10 text-warning border-warning/20" :
                         "bg-success/10 text-success border-success/20"
                       }`}>
-                        {alert.status === "triggered" ? "待处理" : alert.status === "acknowledged" ? "已确认" : "已解决"}
+                        {alert.status === "triggered" ? t("statusTriggered") : alert.status === "acknowledged" ? t("statusAck") : t("statusResolved")}
                       </div>
 
                       <div className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border ${
@@ -472,7 +474,7 @@ export default function AlertsPage() {
                         alert.severity === "warning" ? "bg-warning/10 text-warning border-warning/20" :
                         "bg-accent/10 text-accent border-accent/20"
                       }`}>
-                        {alert.severity === "critical" ? "🔥 紧急风险" : alert.severity === "warning" ? "⚠️ 运行警告" : "ℹ️ 系统信息"}
+                        {alert.severity === "critical" ? t("severityRisk") : alert.severity === "warning" ? t("severityWarn") : t("severityInfoLabel")}
                       </div>
 
                       <span className="text-[10px] font-black text-muted/60 uppercase tracking-[0.2em] px-4 py-1.5 rounded-xl border border-white/5 bg-white/5">
@@ -493,13 +495,13 @@ export default function AlertsPage() {
                       {alert.chain_id && (
                         <div className="flex items-center gap-2">
                           <Activity className="w-4 h-4" />
-                          链: {alert.chain_id}
+                          {t("chain")}: {alert.chain_id}
                         </div>
                       )}
                       {alert.protocol_id && (
                         <div className="flex items-center gap-2">
                           <Database className="w-4 h-4" />
-                          协议: {alert.protocol_id}
+                          {t("protocol")}: {alert.protocol_id}
                         </div>
                       )}
                     </div>
@@ -507,10 +509,10 @@ export default function AlertsPage() {
                     {/* 详情扩展 */}
                     {isExpanded && (
                       <div className="pt-6 mt-6 border-t border-white/5 grid grid-cols-2 md:grid-cols-4 gap-6 animate-in slide-in-from-top-4 duration-500">
-                        <DetailItem label="当前指标值" value={alert.metric_value} />
-                        <DetailItem label="预设阈值" value={alert.threshold_value} />
-                        <DetailItem label="资产池" value={alert.pool_id || "全局"} mono />
-                        {alert.acknowledged_at && <DetailItem label="确认时间" value={new Date(alert.acknowledged_at).toLocaleTimeString()} />}
+                        <DetailItem label={t("currentMetric")} value={alert.metric_value} />
+                        <DetailItem label={t("threshold")} value={alert.threshold_value} />
+                        <DetailItem label={t("pool")} value={alert.pool_id || t("global")} mono />
+                        {alert.acknowledged_at && <DetailItem label={t("ackTime")} value={new Date(alert.acknowledged_at).toLocaleTimeString()} />}
                       </div>
                     )}
                   </div>
@@ -529,7 +531,7 @@ export default function AlertsPage() {
                           <button
                             onClick={() => handleAction(alert.event_id, "acknowledge")}
                             className="p-3 rounded-xl hover:bg-warning/20 text-warning/60 hover:text-warning transition-all"
-                            title="确认告警"
+                            title={t("confirmAlert")}
                           >
                             <Eye className="w-5 h-5" />
                           </button>
@@ -537,7 +539,7 @@ export default function AlertsPage() {
                         <button
                           onClick={() => handleAction(alert.event_id, "resolve")}
                           className="p-3 rounded-xl hover:bg-success/20 text-success/60 hover:text-success transition-all"
-                          title="标记为已解决"
+                          title={t("markResolved")}
                         >
                           <Check className="w-5 h-5" />
                         </button>
@@ -556,9 +558,7 @@ export default function AlertsPage() {
         <div className="glass-cyber p-5 rounded-2xl">
           <div className="flex items-center justify-between">
             <div className="text-sm text-muted">
-              共 <span className="text-white font-semibold">{total}</span> 条告警，第{" "}
-              <span className="text-accent font-semibold">{currentPage}</span> /{" "}
-              <span className="text-white font-semibold">{totalPages}</span> 页
+              {t("totalCount", { total, current: currentPage, totalPages })}
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -567,14 +567,14 @@ export default function AlertsPage() {
                 className="group flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-accent/30 text-white text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-white/10 hover:shadow-lg hover:shadow-accent/5"
               >
                 <ChevronDown className="w-4 h-4 rotate-90 group-hover:-translate-x-0.5 transition-transform" />
-                上一页
+                {t("prevPage")}
               </button>
               <button
                 onClick={() => setOffset(offset + limit)}
                 disabled={offset + limit >= total}
                 className="group flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-accent/30 text-white text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:border-white/10 hover:shadow-lg hover:shadow-accent/5"
               >
-                下一页
+                {t("nextPage")}
                 <ChevronDown className="w-4 h-4 -rotate-90 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>

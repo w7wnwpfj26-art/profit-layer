@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { 
   PieChart as PieChartIcon, 
   Wallet, 
@@ -66,23 +67,7 @@ const CHAIN_ICONS: Record<string, string> = {
   ethereum: "🔹", arbitrum: "🔵", bsc: "🔶", polygon: "🟣", base: "🔵", optimism: "🔴", avalanche: "🔺", solana: "🟢", aptos: "⚪",
 };
 
-const TX_TYPE_MAP: Record<string, string> = {
-  enter: "入场",
-  exit: "退出",
-  harvest: "提取收益",
-  compound: "自动复投",
-  rebalance: "再平衡",
-  deposit: "存款",
-  withdraw: "取款",
-  swap: "兑换",
-  approve: "授权",
-  bridge: "跨链",
-  supply: "存入",
-  borrow: "借贷",
-  repay: "还款",
-  stake: "质押",
-  unstake: "解质押",
-};
+const TX_TYPE_KEYS = ["enter", "exit", "harvest", "compound", "rebalance", "deposit", "withdraw", "swap", "approve", "bridge", "supply", "borrow", "repay", "stake", "unstake"] as const;
 
 const EXPLORER_MAP: Record<string, string> = {
   ethereum: "https://etherscan.io/tx/",
@@ -96,6 +81,7 @@ const EXPLORER_MAP: Record<string, string> = {
 };
 
 export default function PositionsPage() {
+  const t = useTranslations("positions");
   const [positions, setPositions] = useState<Position[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [stats, setStats] = useState({ totalValue: 0, totalPnl: 0, count: 0, realizedPnl: 0 });
@@ -150,20 +136,20 @@ export default function PositionsPage() {
     try {
       const result = await apiFetch<{ success?: boolean; message?: string }>("/api/positions/sync", { method: "POST" });
       if (result.ok) {
-        setSuccess(result.data?.message || "同步成功");
+        setSuccess(result.data?.message || t("syncSuccess"));
         fetchData(false, activeTab);
       } else {
-        setError(result.error || "同步失败");
+        setError(result.error || t("syncFail"));
       }
     } catch (err) {
-      setError("同步请求失败");
+      setError(t("syncRequestFail"));
     }
     setSyncing(false);
   }, [activeTab, fetchData]);
 
   // 退出单个持仓
   const handleExit = useCallback(async (positionId: string) => {
-    if (!confirm("确定要退出此持仓吗？")) return;
+    if (!confirm(t("exitConfirm"))) return;
     setError(null);
     try {
       const result = await apiFetch<{ success?: boolean; txHash?: string; error?: string }>(`/api/positions/exit`, {
@@ -172,13 +158,13 @@ export default function PositionsPage() {
       });
       if (result.ok) {
         const txHash = result.data?.txHash || "";
-        setSuccess(`交易已提交: ${txHash.substring(0, 10)}...`);
+        setSuccess(`${t("exitSuccess")}: ${txHash.substring(0, 10)}...`);
         fetchData(false, activeTab);
       } else {
-        setError(result.error || "退出失败");
+        setError(result.error || t("exitFail"));
       }
     } catch (err) {
-      setError("退出请求失败");
+      setError(t("exitRequestFail"));
     }
   }, [activeTab, fetchData]);
 
@@ -186,31 +172,31 @@ export default function PositionsPage() {
   const handleExitAll = useCallback(async () => {
     const activePositions = positions.filter(p => p.status === "active");
     if (activePositions.length === 0) {
-      setError("没有活跃持仓");
+      setError(t("noActivePositions"));
       return;
     }
-    if (!confirm(`确定要退出全部 ${activePositions.length} 个持仓吗？`)) return;
+    if (!confirm(t("exitAllConfirm", { count: activePositions.length }))) return;
     setError(null);
-    setSuccess("正在执行一键清仓...");
+    setSuccess(t("exitAllDoing"));
     try {
       const result = await apiFetch<{ success?: boolean; txHashes?: string[]; errors?: string[] }>(`/api/positions/exit-all`, {
         method: "POST",
       });
       if (result.ok) {
         const txCount = result.data?.txHashes?.length || 0;
-        setSuccess(`清仓完成，已提交 ${txCount} 笔交易`);
+        setSuccess(t("exitAllDone", { count: txCount }));
         fetchData(false, activeTab);
       } else {
-        setError(result.error || "清仓失败");
+        setError(result.error || t("exitAllFail"));
       }
     } catch (err) {
-      setError("清仓请求失败");
+      setError(t("exitAllRequestFail"));
     }
   }, [positions, activeTab, fetchData]);
 
   // 导出 CSV
   const handleExportCSV = useCallback(() => {
-    const headers = ["协议", "链", "策略", "价值 (USD)", "入场价值 (USD)", "未实现盈亏", "年化收益率 (%)", "持有天数", "状态", "开仓时间"];
+    const headers = [t("exportProtocol"), t("exportChain"), t("exportStrategy"), t("exportValueUsd"), t("exportEntryValueUsd"), t("exportUnrealizedPnl"), t("exportApr"), t("exportHoldingDays"), t("exportStatus"), t("exportOpenedAt")];
     const rows = positions.map(p => [
       p.protocolName || p.protocolId,
       p.chain,
@@ -231,7 +217,7 @@ export default function PositionsPage() {
     a.download = `positions_${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-  }, [positions]);
+  }, [positions, t]);
 
   // Tab 切换
   const handleTabChange = useCallback((tab: "active" | "closed") => {
@@ -269,10 +255,10 @@ export default function PositionsPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-2">
           <div className="space-y-3">
             <h1 className="text-5xl font-black text-white tracking-tighter font-outfit">
-              持仓<span className="text-gradient-accent">管理</span>
+              {t("title")}<span className="text-gradient-accent">{t("titleAccent")}</span>
             </h1>
             <p className="text-muted-strong text-sm max-w-xl">
-              实时监控您的 DeFi 投资组合，一键清仓、策略分布与操作日志
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -303,7 +289,7 @@ export default function PositionsPage() {
               </div>
               
               <div className="flex flex-col">
-                <span className="text-[11px] font-black text-white/40 uppercase tracking-[0.4em] mb-2">当前净资产</span>
+                <span className="text-[11px] font-black text-white/40 uppercase tracking-[0.4em] mb-2">{t("netWorth")}</span>
                 <h2 className="text-7xl font-black text-white tracking-tighter font-outfit">
                   <span className="text-white/40 font-light">$</span>{formatCurrency(stats.totalValue)}
                 </h2>
@@ -315,7 +301,7 @@ export default function PositionsPage() {
                   {stats.totalPnl >= 0 ? "+" : ""}${formatCurrency(stats.totalPnl)}
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-muted-strong text-[10px] font-black uppercase tracking-widest">未实现总盈亏</span>
+                  <span className="text-muted-strong text-[10px] font-black uppercase tracking-widest">{t("unrealizedPnl")}</span>
                   <span className={`text-[11px] font-bold ${stats.totalPnl >= 0 ? "text-success/80" : "text-danger/80"}`}>
                     {stats.totalValue > 0 ? ((stats.totalPnl / (stats.totalValue - stats.totalPnl)) * 100).toFixed(2) : "0.00"}% All-time ROI
                   </span>
@@ -406,7 +392,7 @@ export default function PositionsPage() {
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 px-6">
               <div className="space-y-2">
                 <h3 className="text-3xl font-black text-white tracking-tight flex items-center gap-4">
-                  <Briefcase className="w-8 h-8 text-accent" /> 资产矩阵 <span className="text-gradient-accent">实时追踪</span>
+                  <Briefcase className="w-8 h-8 text-accent" /> {t("trackingTitle")} <span className="text-gradient-accent">{t("trackingAccent")}</span>
                 </h3>
                 <p className="text-muted-strong text-[11px] font-bold uppercase tracking-[0.3em] opacity-60">
                   Real-time position monitoring & panic-switch control
@@ -422,7 +408,7 @@ export default function PositionsPage() {
                       activeTab === "active" ? "bg-accent text-white shadow-xl scale-105" : "text-muted-strong hover:text-white"
                     }`}
                   >
-                    活跃持仓 ({stats.count})
+                    {t("activePositions")} ({stats.count})
                   </button>
                   <button
                     onClick={() => handleTabChange("closed")}
@@ -430,7 +416,7 @@ export default function PositionsPage() {
                       activeTab === "closed" ? "bg-accent text-white shadow-xl scale-105" : "text-muted-strong hover:text-white"
                     }`}
                   >
-                    历史记录
+                    {t("history")}
                   </button>
                 </div>
                 
@@ -654,7 +640,7 @@ export default function PositionsPage() {
                       
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start mb-1">
-                          <span className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-accent transition-colors">{TX_TYPE_MAP[tx.txType] || tx.txType}</span>
+                          <span className="text-[10px] font-black text-white uppercase tracking-widest group-hover:text-accent transition-colors">{TX_TYPE_KEYS.includes(tx.txType as (typeof TX_TYPE_KEYS)[number]) ? t(tx.txType as (typeof TX_TYPE_KEYS)[number]) : tx.txType}</span>
                           <span className="text-[9px] text-muted-strong font-black uppercase tracking-tighter opacity-40">{new Date(tx.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                         </div>
                         <div className="flex items-center gap-2 mb-4">

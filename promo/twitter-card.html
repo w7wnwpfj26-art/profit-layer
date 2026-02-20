@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, initial-scale=1">
+    <title>ProfitLayer - Twitter Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0f19 0%, #1a1f2e 100%);
+            width: 1200px;
+            height: 628px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* 背景装饰 */
+        .bg-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+        }
+        
+        .container {
+            text-align: center;
+            z-index: 1;
+            padding: 40px;
+        }
+        
+        .logo {
+            font-size: 100px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -3px;
+            margin-bottom: 20px;
+        }
+        
+        .tagline {
+            font-size: 38px;
+            color: #ffffff;
+            font-weight: 300;
+            margin-bottom: 50px;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .feature-tag {
+            padding: 15px 30px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 30px;
+            font-size: 24px;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        
+        .cta {
+            font-size: 30px;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+        
+        .github-link {
+            color: #3b82f6;
+            text-decoration: none;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    
+    <div class="container">
+        <h1 class="logo">ProfitLayer</h1>
+        <p class="tagline">AI-Driven Multi-Chain DeFi Yield Optimizer</p>
+        
+        <div class="features">
+            <div class="feature-tag">🤖 AI-Powered</div>
+            <div class="feature-tag">⛓️ Multi-Chain</div>
+            <div class="feature-tag">🔒 Secure</div>
+            <div class="feature-tag">📊 Real-time</div>
+        </div>
+        
+        <div class="cta">
+            <a href="https://github.com/w7wnwpfj26-art/profit-layer" class="github-link">
+                github.com/w7wnwpfj26-art/profit-layer
+            </a>
+        </div>
+    </div>
+</body>
+</html>

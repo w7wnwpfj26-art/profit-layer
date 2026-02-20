@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import {
   TrendingUp, TrendingDown, Zap, Shield, Clock, DollarSign,
   RefreshCw, AlertTriangle, Check, X, Loader2, Activity,
@@ -19,9 +20,9 @@ interface CEXFundingRate { instId: string; rate: number; annualized: number; nex
 const fmt = (n: number, d = 2) => n.toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
 const pnlColor = (v: number) => v >= 0 ? "text-success" : "text-danger";
 const annColor = (v: number) => v >= 50 ? "text-success" : v >= 20 ? "text-warning" : "text-muted";
-function fmtCountdown(ms: string) {
+function fmtCountdown(ms: string, t?: (k: string) => string) {
   const d = parseInt(ms) - Date.now();
-  if (d <= 0) return "结算中";
+  if (d <= 0) return (t && t("settling")) || "Settling";
   const h = Math.floor(d / 3600000), m = Math.floor((d % 3600000) / 60000);
   return h > 0 ? `${h}h ${m}m` : `${m}min`;
 }
@@ -47,6 +48,7 @@ function PlatformBadge({ platform, chain }: { platform: string; chain: string })
 // 主页面
 // ============================================================
 export default function TradingPage() {
+  const t = useTranslations("trading");
   const [tab, setTab] = useState<"overview" | "defi-perp" | "defi-spot" | "cex">("overview");
 
   // 数据
@@ -147,9 +149,9 @@ export default function TradingPage() {
     setSwapLoading(true);
     try {
       const okx = (window as any).okxwallet || (window as any).ethereum;
-      if (!okx) throw new Error("未检测到 OKX 钱包");
+      if (!okx) throw new Error(t("noOkxWallet"));
       const hash = await okx.request({ method: "eth_sendTransaction", params: [swapTx.tx] });
-      setSwapResult({ ok: true, msg: `交易已提交 ${String(hash).slice(0, 14)}...` });
+      setSwapResult({ ok: true, msg: `${t("txSubmitted")} ${String(hash).slice(0, 14)}...` });
     } catch (e: any) {
       setSwapResult({ ok: false, msg: e.message });
     }
@@ -173,7 +175,7 @@ export default function TradingPage() {
     // 用 OKX 钱包 EIP-712 签名
     try {
       const okx = (window as any).okxwallet || (window as any).ethereum;
-      if (!okx) throw new Error("未检测到 OKX 钱包");
+      if (!okx) throw new Error(t("noOkxWallet"));
 
       const sig = await okx.request({
         method: "eth_signTypedData_v4",
@@ -191,9 +193,9 @@ export default function TradingPage() {
       }).then(r => r.json());
 
       if (submitRes.success) {
-        setArbResult({ ok: true, msg: `Hyperliquid 空单已提交，${arbModal.coin} 套利开仓成功！` });
+        setArbResult({ ok: true, msg: t("hlArbSuccess", { coin: arbModal.coin }) });
       } else {
-        setArbResult({ ok: false, msg: submitRes.error || "提交失败" });
+        setArbResult({ ok: false, msg: submitRes.error || t("submitFail") });
       }
     } catch (e: any) {
       setArbResult({ ok: false, msg: e.message });
@@ -217,11 +219,11 @@ export default function TradingPage() {
     // 逐步通过 OKX 钱包签名
     try {
       const okx = (window as any).okxwallet || (window as any).ethereum;
-      if (!okx) throw new Error("未检测到 OKX 钱包");
+      if (!okx) throw new Error(t("noOkxWallet"));
       for (const step of res.transactions) {
         await okx.request({ method: "eth_sendTransaction", params: [step.tx] });
       }
-      setGmxResult({ ok: true, msg: `GMX v2 ${gmxLong ? "多" : "空"}单已发送，等待 keeper 执行...` });
+      setGmxResult({ ok: true, msg: t("gmxSent", { side: gmxLong ? t("long") : t("shortArb") }) });
     } catch (e: any) {
       setGmxResult({ ok: false, msg: e.message });
     }
@@ -239,23 +241,23 @@ export default function TradingPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 relative z-10">
         <div>
           <h2 className="text-5xl font-black text-white tracking-tighter font-outfit uppercase">
-            交易<span className="text-gradient-accent">中心</span>
+            {t("title")}<span className="text-gradient-accent">{t("titleAccent")}</span>
           </h2>
           <p className="text-muted text-sm font-medium mt-2 opacity-80 flex items-center gap-4 flex-wrap">
             <span className="flex items-center gap-1.5"><Wallet className="w-3.5 h-3.5 text-violet-400" /> DeFi: Hyperliquid · GMX v2 · 1inch</span>
             <span className="text-white/10">|</span>
-            <span className="flex items-center gap-1.5"><BarChart3 className="w-3.5 h-3.5 text-accent" /> CEX: OKX 交易所（需 API Key）</span>
+            <span className="flex items-center gap-1.5"><BarChart3 className="w-3.5 h-3.5 text-accent" /> {t("subtitleCex")}</span>
           </p>
         </div>
         <div className="flex items-center gap-3">
           {walletAddress ? (
             <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-success/30 bg-success/10 text-[10px] font-black uppercase text-success">
               <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-              钱包已连接
+              {t("walletConnected")}
             </div>
           ) : (
             <Link href="/wallet" className="flex items-center gap-2 px-4 py-2 rounded-full border border-warning/30 bg-warning/10 text-[10px] font-black uppercase text-warning hover:bg-warning/20 transition-all">
-              <Wallet className="w-3.5 h-3.5" /> 连接钱包
+              <Wallet className="w-3.5 h-3.5" /> {t("connectWallet")}
             </Link>
           )}
           <button onClick={loadData} disabled={loading}
@@ -269,10 +271,10 @@ export default function TradingPage() {
       {/* 概览指标 */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 relative z-10">
         {[
-          { label: "链上最高年化", value: bestAnn > 0 ? `${fmt(bestAnn, 1)}%` : "加载中", sub: topRates[0] ? `${topRates[0].symbol} · ${topRates[0].platform}` : "—", icon: Zap, color: "warning" },
-          { label: "套利机会", value: `${viableOpps.length}`, sub: `净年化 ≥ 15%`, icon: TrendingUp, color: "success" },
-          { label: "Hyperliquid 市场", value: `${hlOpps.length}`, sub: "永续合约，OKX 钱包直连", icon: Activity, color: "accent" },
-          { label: "CEX 接入状态", value: apiConfigured === true ? "已连接" : "未配置", sub: apiConfigured ? "OKX Exchange API" : "前往设置配置 API Key", icon: BarChart3, color: apiConfigured ? "success" : "danger" },
+          { label: t("bestAnn"), value: bestAnn > 0 ? `${fmt(bestAnn, 1)}%` : t("loading"), sub: topRates[0] ? `${topRates[0].symbol} · ${topRates[0].platform}` : "—", icon: Zap, color: "warning" },
+          { label: t("arbOpportunities"), value: `${viableOpps.length}`, sub: t("arbNetAnn"), icon: TrendingUp, color: "success" },
+          { label: t("hlMarkets"), value: `${hlOpps.length}`, sub: t("hlSub"), icon: Activity, color: "accent" },
+          { label: t("cexStatus"), value: apiConfigured === true ? t("connected") : t("notConfigured"), sub: apiConfigured ? "OKX Exchange API" : t("goSettings"), icon: BarChart3, color: apiConfigured ? "success" : "danger" },
         ].map(({ label, value, sub, icon: Icon, color }) => (
           <div key={label} className="glass-cyber p-7 rounded-[2rem] border border-white/5 group">
             <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-4 ${
@@ -295,10 +297,10 @@ export default function TradingPage() {
       {/* Tab */}
       <div className="flex gap-2 flex-wrap relative z-10">
         {[
-          { id: "overview",   label: "资金费率总览", icon: Activity },
-          { id: "defi-perp",  label: `链上套利 ${viableOpps.length > 0 ? `(${viableOpps.length})` : ""}`, icon: TrendingUp },
-          { id: "defi-spot",  label: "DEX 现货", icon: ArrowLeftRight },
-          { id: "cex",        label: "CEX 合约", icon: BarChart3 },
+          { id: "overview",   label: t("tabOverview"), icon: Activity },
+          { id: "defi-perp",  label: `${t("tabArb")} ${viableOpps.length > 0 ? `(${viableOpps.length})` : ""}`, icon: TrendingUp },
+          { id: "defi-spot",  label: t("tabDexSpot"), icon: ArrowLeftRight },
+          { id: "cex",        label: t("tabCex"), icon: BarChart3 },
         ].map(({ id, label, icon: Icon }) => (
           <button key={id} onClick={() => setTab(id as any)}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all ${
@@ -318,8 +320,8 @@ export default function TradingPage() {
             <div className="glass-cyber rounded-[2.5rem] border border-white/5 overflow-hidden">
               <div className="p-8 border-b border-white/5 flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-black text-white uppercase tracking-widest font-outfit">跨平台资金费率排行</h3>
-                  <p className="text-[10px] text-muted mt-1">Hyperliquid + GMX v2 + OKX，资金费率 &gt; 0 空头收费</p>
+                  <h3 className="text-sm font-black text-white uppercase tracking-widest font-outfit">{t("fundingRankTitle")}</h3>
+                  <p className="text-[10px] text-muted mt-1">{t("fundingRankSub")}</p>
                 </div>
                 <div className="flex gap-3 text-[9px] font-black text-muted uppercase">
                   <span className="flex items-center gap-1"><div className="w-2 h-2 rounded bg-violet-400" />Hyperliquid</span>
@@ -329,7 +331,7 @@ export default function TradingPage() {
               </div>
               <div className="p-6 space-y-2">
                 {loading && !topRates.length ? (
-                  <div className="flex items-center justify-center py-12 gap-3 text-muted"><Loader2 className="w-5 h-5 animate-spin" />加载中...</div>
+                  <div className="flex items-center justify-center py-12 gap-3 text-muted"><Loader2 className="w-5 h-5 animate-spin" />{t("loadingDot")}</div>
                 ) : topRates.map((r, i) => (
                   <div key={`${r.platform}-${r.symbol}-${i}`}
                     className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] border border-transparent hover:border-white/5 transition-all group cursor-default">
@@ -362,7 +364,7 @@ export default function TradingPage() {
                     <PlatformBadge platform="OKX" chain="CEX" />
                     <div className="flex-1 font-mono font-black text-sm text-success">+{(r.rate * 100).toFixed(4)}% / 8h</div>
                     <div className={`w-28 text-right font-black text-base font-outfit ${annColor(r.annualized)}`}>{fmt(r.annualized, 1)}%<span className="text-[9px] text-muted font-bold"> /年</span></div>
-                    <div className="w-28 text-right text-[10px] text-muted font-bold">{fmtCountdown(r.nextFundingTime)}</div>
+                    <div className="w-28 text-right text-[10px] text-muted font-bold">{fmtCountdown(r.nextFundingTime, t)}</div>
                   </div>
                 ))}
               </div>
@@ -635,7 +637,7 @@ export default function TradingPage() {
                       <PlatformBadge platform="OKX" chain="CEX" />
                       <div className="flex-1 font-mono font-black text-success">+{(r.rate * 100).toFixed(4)}% / 8h</div>
                       <div className={`font-black font-outfit ${annColor(r.annualized)}`}>{fmt(r.annualized, 1)}% / 年</div>
-                      <div className="text-[10px] text-muted font-bold">{fmtCountdown(r.nextFundingTime)}</div>
+                      <div className="text-[10px] text-muted font-bold">{fmtCountdown(r.nextFundingTime, t)}</div>
                     </div>
                   ))}
                 </div>

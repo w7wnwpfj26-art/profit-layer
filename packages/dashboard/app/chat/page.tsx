@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import {
   Send,
   Loader2,
@@ -33,57 +34,6 @@ interface Message {
   feedback?: "up" | "down" | null;
 }
 
-const SUGGESTED_PROMPTS = [
-  {
-    icon: <TrendingUp className="w-5 h-5 text-emerald-400" />,
-    title: "分析投资机会",
-    prompt: "帮我分析当前市场的高收益投资机会",
-    desc: "基于 APY 和 TVL 的智能推荐",
-    gradient: "from-emerald-500/10 to-emerald-600/5",
-    border: "border-emerald-500/20",
-    hover: "hover:border-emerald-500/40 hover:shadow-emerald-500/10",
-  },
-  {
-    icon: <ShieldAlert className="w-5 h-5 text-amber-400" />,
-    title: "风险扫描",
-    prompt: "扫描我当前持仓的风险情况",
-    desc: "检查无常损失和清算风险",
-    gradient: "from-amber-500/10 to-amber-600/5",
-    border: "border-amber-500/20",
-    hover: "hover:border-amber-500/40 hover:shadow-amber-500/10",
-  },
-  {
-    icon: <Zap className="w-5 h-5 text-blue-400" />,
-    title: "推荐高收益池",
-    prompt: "推荐当前收益率最高的 3 个流动性池",
-    desc: "筛选优质 DeFi 矿池",
-    gradient: "from-blue-500/10 to-blue-600/5",
-    border: "border-blue-500/20",
-    hover: "hover:border-blue-500/40 hover:shadow-blue-500/10",
-  },
-  {
-    icon: <RefreshCcw className="w-5 h-5 text-purple-400" />,
-    title: "持仓再平衡",
-    prompt: "我的持仓需要再平衡吗？",
-    desc: "优化资产配置比例",
-    gradient: "from-purple-500/10 to-purple-600/5",
-    border: "border-purple-500/20",
-    hover: "hover:border-purple-500/40 hover:shadow-purple-500/10",
-  },
-];
-
-const QUICK_ACTIONS = [
-  {
-    icon: <Wallet className="w-4 h-4" />,
-    label: "查看持仓",
-    href: "/positions",
-  },
-  {
-    icon: <BarChart3 className="w-4 h-4" />,
-    label: "查看策略",
-    href: "/strategies",
-  },
-];
 
 const CHAT_STORAGE_KEY = "nexus_chat_messages";
 
@@ -94,6 +44,7 @@ function formatTime(date: Date): string {
 }
 
 export default function ChatPage() {
+  const t = useTranslations("chat");
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -202,7 +153,7 @@ export default function ChatPage() {
         {
           id: (Date.now() + 1).toString(),
           role: "assistant",
-          content: data.message || data.error || "抱歉，我暂时无法处理这个请求。",
+          content: data.message || data.error || t("sorry"),
           timestamp: new Date(),
         },
       ]);
@@ -212,7 +163,7 @@ export default function ChatPage() {
         {
           id: (Date.now() + 1).toString(),
           role: "assistant",
-          content: "网络错误，请稍后重试。",
+          content: t("networkError"),
           timestamp: new Date(),
         },
       ]);
@@ -235,7 +186,7 @@ export default function ChatPage() {
   };
 
   const clearChat = () => {
-    if (!confirm("确定要清空所有对话吗？")) return;
+    if (!confirm(t("clearConfirm"))) return;
     setMessages([]);
     localStorage.removeItem(CHAT_STORAGE_KEY);
     inputRef.current?.focus();
@@ -259,7 +210,7 @@ export default function ChatPage() {
     const chatText = messages
       .map((m) => {
         const time = formatTime(m.timestamp);
-        const role = m.role === "user" ? "用户" : "Nexus AI";
+        const role = m.role === "user" ? t("user") : t("assistantName");
         return `[${time}] ${role}:\n${m.content}\n`;
       })
       .join("\n");
@@ -273,7 +224,17 @@ export default function ChatPage() {
     URL.revokeObjectURL(url);
   };
 
-  // Render "Hero" section if no messages
+  const quickActions = [
+    { icon: <Wallet className="w-4 h-4" />, label: t("viewPositions"), href: "/positions" },
+    { icon: <BarChart3 className="w-4 h-4" />, label: t("viewStrategies"), href: "/strategies" },
+  ];
+  const suggestedPrompts = [
+    { icon: <TrendingUp className="w-5 h-5 text-emerald-400" />, title: t("promptAnalyze"), prompt: t("promptAnalyzePrompt"), desc: t("promptAnalyzeDesc"), gradient: "from-emerald-500/10 to-emerald-600/5", border: "border-emerald-500/20", hover: "hover:border-emerald-500/40 hover:shadow-emerald-500/10" },
+    { icon: <ShieldAlert className="w-5 h-5 text-amber-400" />, title: t("promptRisk"), prompt: t("promptRiskPrompt"), desc: t("promptRiskDesc"), gradient: "from-amber-500/10 to-amber-600/5", border: "border-amber-500/20", hover: "hover:border-amber-500/40 hover:shadow-amber-500/10" },
+    { icon: <Zap className="w-5 h-5 text-blue-400" />, title: t("promptPools"), prompt: t("promptPoolsPrompt"), desc: t("promptPoolsDesc"), gradient: "from-blue-500/10 to-blue-600/5", border: "border-blue-500/20", hover: "hover:border-blue-500/40 hover:shadow-blue-500/10" },
+    { icon: <RefreshCcw className="w-5 h-5 text-purple-400" />, title: t("promptRebalance"), prompt: t("promptRebalancePrompt"), desc: t("promptRebalanceDesc"), gradient: "from-purple-500/10 to-purple-600/5", border: "border-purple-500/20", hover: "hover:border-purple-500/40 hover:shadow-purple-500/10" },
+  ];
+
   const renderEmptyState = () => (
     <div className="flex-1 flex flex-col items-center justify-center p-8 max-w-5xl mx-auto w-full animate-in fade-in duration-1000">
       <div className="relative mb-8">
@@ -284,15 +245,14 @@ export default function ChatPage() {
       </div>
 
       <h1 className="text-5xl font-black text-white mb-4 text-center tracking-tight">
-        Nexus AI 助手
+        {t("welcomeTitle")}
       </h1>
       <p className="text-muted text-center max-w-2xl mb-12 text-lg leading-relaxed">
-        我是您的智能 DeFi 投资顾问，可以帮您分析持仓、监控风险、发现高收益机会，并提供专业的投资建议。
+        {t("welcomeDesc")}
       </p>
 
-      {/* Quick Actions */}
       <div className="flex items-center gap-3 mb-8">
-        {QUICK_ACTIONS.map((action, idx) => (
+        {quickActions.map((action, idx) => (
           <Link
             key={idx}
             href={action.href}
@@ -304,9 +264,8 @@ export default function ChatPage() {
         ))}
       </div>
 
-      {/* Suggested Prompts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl">
-        {SUGGESTED_PROMPTS.map((item, idx) => (
+        {suggestedPrompts.map((item, idx) => (
           <button
             key={idx}
             onClick={() => sendMessage(item.prompt)}
@@ -328,7 +287,7 @@ export default function ChatPage() {
       </div>
 
       <p className="text-xs text-muted text-center mt-12 opacity-60 max-w-lg">
-        提示：您可以询问关于 DeFi 投资、风险管理、收益优化等任何问题
+        {t("hint")}
       </p>
     </div>
   );
@@ -353,14 +312,14 @@ export default function ChatPage() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-black text-white text-sm tracking-tight">AI 对话</span>
+                <span className="font-black text-white text-sm tracking-tight">{t("conversation")}</span>
                 <span className="text-[9px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-black uppercase tracking-wider">
                   Beta
                 </span>
               </div>
               {messages.length > 0 && (
                 <span className="text-[10px] text-muted font-bold">
-                  {messages.length} 条消息
+                  {t("messageCount", { count: messages.length })}
                 </span>
               )}
             </div>
@@ -372,17 +331,17 @@ export default function ChatPage() {
             <button
               onClick={exportChat}
               className="flex items-center gap-2 px-3 py-2 rounded-xl glass border border-white/10 hover:border-blue-500/40 text-sm font-bold text-muted hover:text-blue-400 transition-all hover:scale-105"
-              title="导出对话"
+              title={t("exportChat")}
             >
               <Download className="w-4 h-4" />
-              <span className="hidden sm:inline">导出</span>
+              <span className="hidden sm:inline">{t("export")}</span>
             </button>
             <button
               onClick={clearChat}
               className="flex items-center gap-2 px-3 py-2 rounded-xl glass border border-white/10 hover:border-red-500/40 text-sm font-bold text-muted hover:text-red-400 transition-all hover:scale-105"
             >
               <Trash2 className="w-4 h-4" />
-              <span className="hidden sm:inline">清空</span>
+              <span className="hidden sm:inline">{t("clear")}</span>
             </button>
           </div>
         )}
@@ -424,7 +383,7 @@ export default function ChatPage() {
                 >
                   <div className="flex items-baseline gap-2 mb-2 px-1">
                     <span className="text-sm font-black text-white tracking-tight">
-                      {msg.role === "user" ? "你" : "Nexus AI"}
+                      {msg.role === "user" ? t("you") : t("assistantName")}
                     </span>
                     <span className="text-xs text-muted font-bold opacity-60">
                       {formatTime(msg.timestamp)}
@@ -459,7 +418,7 @@ export default function ChatPage() {
                       <button
                         onClick={() => copyToClipboard(msg.id, msg.content)}
                         className="p-2 rounded-lg glass border border-white/10 text-muted hover:text-white hover:border-white/20 transition-all hover:scale-110"
-                        title="复制"
+                        title={t("copy")}
                       >
                         {copiedId === msg.id ? (
                           <Check className="w-4 h-4 text-emerald-400" />
@@ -477,7 +436,7 @@ export default function ChatPage() {
                                 ? "border-emerald-500/40 text-emerald-400 bg-emerald-500/10"
                                 : "border-white/10 text-muted hover:text-emerald-400 hover:border-emerald-500/20"
                             }`}
-                            title="有帮助"
+                            title={t("helpful")}
                           >
                             <ThumbsUp className="w-4 h-4" />
                           </button>
@@ -488,7 +447,7 @@ export default function ChatPage() {
                                 ? "border-red-500/40 text-red-400 bg-red-500/10"
                                 : "border-white/10 text-muted hover:text-red-400 hover:border-red-500/20"
                             }`}
-                            title="无帮助"
+                            title={t("notHelpful")}
                           >
                             <ThumbsDown className="w-4 h-4" />
                           </button>
@@ -511,7 +470,7 @@ export default function ChatPage() {
                   </span>
                   <div className="px-6 py-4 rounded-2xl rounded-tl-sm glass border border-white/10 flex items-center gap-3 shadow-xl">
                     <Loader2 className="w-5 h-5 animate-spin text-blue-400" />
-                    <span className="text-sm text-muted font-bold">正在思考中...</span>
+                    <span className="text-sm text-muted font-bold">{t("thinking")}</span>
                   </div>
                 </div>
               </div>
@@ -530,7 +489,7 @@ export default function ChatPage() {
               value={input}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
-              placeholder="输入您的问题... (Shift + Enter 换行)"
+              placeholder={t("inputPlaceholder")}
               className="flex-1 bg-transparent px-4 py-3 text-[15px] text-white placeholder-muted focus:outline-none resize-none min-h-[52px] max-h-[200px] font-medium"
               rows={1}
               disabled={isLoading}
@@ -544,7 +503,7 @@ export default function ChatPage() {
             </button>
           </div>
           <p className="text-[11px] text-muted text-center mt-3 opacity-60 font-bold">
-            Nexus AI 可能会产生错误信息，请核实重要信息
+            {t("disclaimer")}
           </p>
         </div>
       </footer>

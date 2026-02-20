@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, initial-scale=1">
+    <title>ProfitLayer - Promotional Banner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0f19 0%, #1a1f2e 100%);
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        /* 背景装饰 */
+        .bg-decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+        
+        .circle1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+        
+        .circle2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+        }
+        
+        /* 主内容 */
+        .container {
+            text-align: center;
+            z-index: 1;
+            padding: 60px;
+        }
+        
+        .logo {
+            font-size: 140px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -4px;
+            margin-bottom: 30px;
+            text-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .tagline {
+            font-size: 56px;
+            color: #ffffff;
+            font-weight: 300;
+            margin-bottom: 80px;
+            letter-spacing: 1px;
+        }
+        
+        .divider {
+            width: 600px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 0%, #3b82f6 50%, transparent 100%);
+            margin: 0 auto 60px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto 80px;
+        }
+        
+        .feature {
+            font-size: 42px;
+            color: #9ca3af;
+            text-align: left;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature:hover {
+            background: rgba(59, 130, 246, 0.05);
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            margin-right: 20px;
+            font-size: 48px;
+        }
+        
+        .footer {
+            font-size: 38px;
+            color: #3b82f6;
+            font-weight: 500;
+            letter-spacing: 2px;
+        }
+        
+        .footer-divider {
+            display: inline-block;
+            margin: 0 30px;
+            color: #4b5563;
+        }
+        
+        /* 动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .logo {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+        }
+        
+        .circle1 {
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        .circle2 {
+            animation: pulse 5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-decoration">
+        <div class="circle circle1"></div>
+        <div class="circle circle2"></div>
+    </div>
+    
+    <div class="container">
+        <h1 class="logo">ProfitLayer</h1>
+        <p class="tagline">AI-Driven Multi-Chain DeFi Yield Optimizer</p>
+        
+        <div class="divider"></div>
+        
+        <div class="features">
+            <div class="feature">
+                <span class="feature-icon">🤖</span>
+                AI Risk Scoring & Portfolio Optimization
+            </div>
+            <div class="feature">
+                <span class="feature-icon">⛓️</span>
+                10+ Chains (EVM + Aptos + Solana)
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🔒</span>
+                Enterprise Security (2FA + AES-256)
+            </div>
+            <div class="feature">
+                <span class="feature-icon">📊</span>
+                Real-time Dashboard & Analytics
+            </div>
+        </div>
+        
+        <div class="footer">
+            github.com/w7wnwpfj26-art/profit-layer
+            <span class="footer-divider">•</span>
+            MIT License
+            <span class="footer-divider">•</span>
+            200+ Protocols
+        </div>
+    </div>
+    
+    <script>
+        // 在页面加载后，可以使用浏览器的截图功能
+        console.log('🎨 Promotional banner ready!');
+        console.log('📸 Press Cmd+Shift+4 to take a screenshot (macOS)');
+        console.log('💡 Or use your browser\'s screenshot feature');
+    </script>
+</body>
+</html>

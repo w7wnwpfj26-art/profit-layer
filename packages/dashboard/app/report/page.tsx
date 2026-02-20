@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import {
   FileText,
   Download,
@@ -47,21 +48,10 @@ interface ReportData {
   }[];
 }
 
-const TX_TYPE_LABELS: Record<string, string> = {
-  enter: "进入",
-  exit: "退出",
-  deposit: "存款",
-  withdraw: "提款",
-  swap: "兑换",
-  wrap: "包装",
-  unwrap: "解包",
-  approve: "授权",
-  supply: "供应",
-  borrow: "借款",
-  repay: "还款",
-};
+const TX_TYPE_KEYS = ["enter", "exit", "deposit", "withdraw", "swap", "wrap", "unwrap", "approve", "supply", "borrow", "repay"] as const;
 
 export default function ReportPage() {
+  const t = useTranslations("report");
   const [data, setData] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -100,7 +90,7 @@ export default function ReportPage() {
     if (result.ok) {
       setData(result.data);
     } else {
-      setError(result.error ?? "加載失敗");
+      setError(result.error ?? t("loadFail"));
       setData(null);
     }
     setLoading(false);
@@ -162,9 +152,9 @@ export default function ReportPage() {
               <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center border border-accent/20">
                 <FileText className="w-6 h-6 text-accent" />
               </div>
-              <h2 className="text-5xl font-black text-white tracking-tighter">报告 <span className="text-gradient-accent">导出</span></h2>
+              <h2 className="text-5xl font-black text-white tracking-tighter">{t("title")} <span className="text-gradient-accent">{t("titleAccent")}</span></h2>
             </div>
-            <p className="text-muted text-base font-medium opacity-80">生成并导出多维度的资产投资与操作报告</p>
+            <p className="text-muted text-base font-medium opacity-80">{t("subtitle")}</p>
           </div>
         </div>
         
@@ -176,16 +166,16 @@ export default function ReportPage() {
           <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-8 border border-white/5">
             <FileText className="w-10 h-10 text-muted/20" />
           </div>
-          <h3 className="text-white font-black text-xl uppercase tracking-[0.2em] mb-4">报告加载失败</h3>
+          <h3 className="text-white font-black text-xl uppercase tracking-[0.2em] mb-4">{t("loadFailTitle")}</h3>
           <p className="text-muted/60 text-xs max-w-md mx-auto mb-10 uppercase tracking-widest font-bold">
-            无法从神经链路获取报告数据。请检查 API 状态或网络连接。
+            {t("loadFailDesc")}
           </p>
           <button
             onClick={() => dateRange.start && dateRange.end && fetchReport(dateRange.start, dateRange.end)}
             className="group flex items-center gap-3 px-8 py-4 glass rounded-2xl bg-accent/10 hover:bg-accent text-white transition-all active:scale-95 border border-accent/20"
           >
             <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
-            <span className="text-[11px] font-black uppercase tracking-widest">重新同步</span>
+            <span className="text-[11px] font-black uppercase tracking-widest">{t("resync")}</span>
           </button>
         </div>
       </div>
@@ -212,9 +202,9 @@ export default function ReportPage() {
             <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center border border-accent/20">
               <FileText className="w-6 h-6 text-accent" />
             </div>
-            <h2 className="text-5xl font-black text-white tracking-tighter">报告 <span className="text-gradient-accent">导出</span></h2>
+            <h2 className="text-5xl font-black text-white tracking-tighter">{t("title")} <span className="text-gradient-accent">{t("titleAccent")}</span></h2>
           </div>
-          <p className="text-muted text-base font-medium opacity-80">生成并导出多维度的资产投资与操作报告</p>
+          <p className="text-muted text-base font-medium opacity-80">{t("subtitle")}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
@@ -240,7 +230,7 @@ export default function ReportPage() {
               onClick={() => fetchReport(dateRange.start, dateRange.end)}
               disabled={syncing || loading}
               className="p-3 rounded-xl bg-white/5 hover:bg-accent/10 text-accent border border-white/5 hover:border-accent/30 transition-all disabled:opacity-50 group"
-              title="同步持倉價格並刷新報告"
+              title={t("syncAndRefresh")}
             >
               <RefreshCw className={`w-4 h-4 ${syncing || loading ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"}`} />
             </button>
@@ -250,7 +240,7 @@ export default function ReportPage() {
                 autoRefresh ? "bg-accent/10 text-accent border border-accent/20" : "text-muted hover:text-white"
               }`}
             >
-              {autoRefresh ? "实时更新" : "手动刷新"}
+              {autoRefresh ? t("autoUpdate") : t("manualRefresh")}
             </button>
           </div>
 
@@ -260,14 +250,14 @@ export default function ReportPage() {
               className="flex items-center gap-3 px-6 py-3.5 glass rounded-2xl border-white/5 hover:border-white/20 text-muted hover:text-white transition-all active:scale-95"
             >
               <Printer className="w-4 h-4" />
-              <span className="text-[11px] font-black uppercase tracking-widest">打印报告</span>
+              <span className="text-[11px] font-black uppercase tracking-widest">{t("printReport")}</span>
             </button>
             <button
               onClick={handleExportJSON}
               className="flex items-center gap-3 px-8 py-3.5 bg-accent hover:bg-accent/90 text-white rounded-2xl shadow-lg shadow-accent/20 transition-all active:scale-95"
             >
               <Download className="w-4 h-4" />
-              <span className="text-[11px] font-black uppercase tracking-widest">导出 JSON</span>
+              <span className="text-[11px] font-black uppercase tracking-widest">{t("exportJson")}</span>
             </button>
           </div>
         </div>
@@ -289,9 +279,9 @@ export default function ReportPage() {
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 text-accent text-[9px] font-black uppercase tracking-[0.2em] mb-4 border border-accent/20">
                 ProfitLayer Intelligence Report
               </div>
-              <h3 className="text-3xl font-black text-white tracking-tight">智能投资决策报告</h3>
+              <h3 className="text-3xl font-black text-white tracking-tight">{t("reportTitle")}</h3>
               <p className="text-muted text-sm mt-3 font-medium opacity-80">
-                周期覆盖: <span className="text-white">{new Date(period.startDate).toLocaleDateString("zh-CN")}</span> 至 <span className="text-white">{new Date(period.endDate).toLocaleDateString("zh-CN")}</span>
+                {t("periodCover")}: <span className="text-white">{new Date(period.startDate).toLocaleDateString()}</span> {t("to")} <span className="text-white">{new Date(period.endDate).toLocaleDateString()}</span>
               </p>
             </div>
             <div className="text-right">
@@ -308,29 +298,29 @@ export default function ReportPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard
             icon={<DollarSign className="w-5 h-5 text-accent" />}
-            label="持仓总市值"
+            label={t("totalMarketValue")}
             value={`$${(Number(data.positions?.total_value) || 0).toLocaleString()}`}
-            desc="当前 Matrix 资产总和"
+            desc={t("totalMarketValueDesc")}
           />
           <MetricCard
             icon={totalPnl >= 0 ? <TrendingUp className="w-5 h-5 text-success" /> : <TrendingDown className="w-5 h-5 text-danger" />}
-            label="累计总盈亏"
+            label={t("totalPnl")}
             value={`${totalPnl >= 0 ? "+" : ""}$${safeNum(totalPnl)}`}
             color={totalPnl >= 0 ? "success" : "danger"}
-            desc="已实现与未实现总和"
+            desc={t("totalPnlDesc")}
           />
           <MetricCard
             icon={<BarChart3 className="w-5 h-5 text-accent" />}
-            label="活跃策略数"
+            label={t("activeStrategies")}
             value={Number(data.overview?.total_pools) || 0}
-            desc="多链活跃投资节点"
+            desc={t("activeStrategiesDesc")}
           />
           <MetricCard
             icon={<AlertTriangle className="w-5 h-5 text-warning" />}
-            label="系统告警"
+            label={t("systemAlerts")}
             value={Number(data.alerts?.total_alerts) || 0}
-            sub={`${Number(data.alerts?.critical) || 0} 个严重风险`}
-            desc="网络与健康度监测"
+            sub={t("criticalRisks", { count: Number(data.alerts?.critical) || 0 })}
+            desc={t("systemAlertsDesc")}
           />
         </div>
 
@@ -339,19 +329,19 @@ export default function ReportPage() {
           <div className="xl:col-span-8 glass rounded-[2.5rem] overflow-hidden border border-white/5 shadow-2xl relative group/table">
             <div className="p-8 border-b border-white/5 flex items-center justify-between">
               <h3 className="text-lg font-black text-white uppercase tracking-[0.2em] flex items-center gap-3">
-                <PieChart className="w-5 h-5 text-accent" /> 资产配置分布
+                <PieChart className="w-5 h-5 text-accent" /> {t("assetAllocation")}
               </h3>
-              <span className="text-[10px] font-black text-muted-strong uppercase tracking-widest">{topPositions.length} 个活跃节点</span>
+              <span className="text-[10px] font-black text-muted-strong uppercase tracking-widest">{t("activeNodes", { count: topPositions.length })}</span>
             </div>
             
             <div className="overflow-x-auto scrollbar-hide">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-white/30 text-[10px] font-black uppercase tracking-[0.2em] bg-white/[0.01] border-b border-white/5">
-                    <th className="text-left px-10 py-6">资产池</th>
-                    <th className="text-left px-10 py-6">所属网络</th>
-                    <th className="text-right px-10 py-6">持仓价值</th>
-                    <th className="text-right px-10 py-6">浮动盈亏</th>
+                    <th className="text-left px-10 py-6">{t("pool")}</th>
+                    <th className="text-left px-10 py-6">{t("network")}</th>
+                    <th className="text-right px-10 py-6">{t("positionValue")}</th>
+                    <th className="text-right px-10 py-6">{t("floatingPnl")}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -376,7 +366,7 @@ export default function ReportPage() {
                   )) : (
                     <tr>
                       <td colSpan={4} className="px-10 py-20 text-center opacity-40">
-                        <p className="text-[10px] font-black uppercase tracking-[0.2em]">暂无活跃持仓记录</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em]">{t("noPositions")}</p>
                       </td>
                     </tr>
                   )}
@@ -389,35 +379,33 @@ export default function ReportPage() {
           <div className="xl:col-span-4 space-y-10">
             <div className="glass rounded-[2.5rem] p-10 border border-white/5 shadow-2xl relative overflow-hidden bg-black/20">
               <h3 className="text-lg font-black text-white uppercase tracking-[0.2em] flex items-center gap-3 mb-10">
-                <AlertTriangle className="w-5 h-5 text-warning" /> 异常监测摘要
+                <AlertTriangle className="w-5 h-5 text-warning" /> {t("alertSummary")}
               </h3>
               
               <div className="grid grid-cols-2 gap-8 relative z-10">
                 <div className="space-y-2 group/alert">
-                  <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60 group-hover/alert:text-white transition-colors">总触发次数</p>
+                  <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60 group-hover/alert:text-white transition-colors">{t("totalTriggers")}</p>
                   <p className="text-4xl font-black text-white tracking-tighter font-outfit">{Number(data.alerts?.total_alerts) || 0}</p>
                 </div>
                 <div className="space-y-2 group/alert">
-                  <p className="text-[10px] font-black text-danger uppercase tracking-[0.2em] opacity-60">严重级别</p>
+                  <p className="text-[10px] font-black text-danger uppercase tracking-[0.2em] opacity-60">{t("criticalLevel")}</p>
                   <p className="text-4xl font-black text-danger tracking-tighter font-outfit">{Number(data.alerts?.critical) || 0}</p>
                 </div>
                 <div className="space-y-2 group/alert">
-                  <p className="text-[10px] font-black text-warning uppercase tracking-[0.2em] opacity-60">预警级别</p>
+                  <p className="text-[10px] font-black text-warning uppercase tracking-[0.2em] opacity-60">{t("warningLevel")}</p>
                   <p className="text-4xl font-black text-warning tracking-tighter font-outfit">{Number(data.alerts?.warning) || 0}</p>
                 </div>
                 <div className="space-y-2 group/alert">
-                  <p className="text-[10px] font-black text-success uppercase tracking-[0.2em] opacity-60">已解决</p>
+                  <p className="text-[10px] font-black text-success uppercase tracking-[0.2em] opacity-60">{t("resolvedCount")}</p>
                   <p className="text-4xl font-black text-success tracking-tighter font-outfit">{Number(data.alerts?.resolved) || 0}</p>
                 </div>
               </div>
 
               <div className="mt-12 pt-10 border-t border-white/5">
-                <p className="text-[10px] font-black text-muted uppercase tracking-[0.3em] mb-4 opacity-40">AI 审计结论</p>
+                <p className="text-[10px] font-black text-muted uppercase tracking-[0.3em] mb-4 opacity-40">{t("aiConclusion")}</p>
                 <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/5">
                   <p className="text-[11px] text-muted-strong font-bold leading-relaxed uppercase tracking-wider">
-                    {Number(data.alerts?.critical) > 0 
-                      ? "系统检测到关键风险暴露，建议立即执行 Panic Exit 或调整头寸权重。" 
-                      : "各节点运行指标平稳，暂无重大安全隐患，建议维持当前策略配置。"}
+                    {Number(data.alerts?.critical) > 0 ? t("conclusionRisk") : t("conclusionOk")}
                   </p>
                 </div>
               </div>
@@ -429,7 +417,7 @@ export default function ReportPage() {
         <div className="glass rounded-[2.5rem] overflow-hidden border border-white/5 shadow-2xl">
           <div className="p-8 border-b border-white/5">
             <h3 className="text-lg font-black text-white uppercase tracking-[0.2em] flex items-center gap-3">
-              <Clock className="w-5 h-5 text-accent" /> 近期操作审计流水
+              <Clock className="w-5 h-5 text-accent" /> {t("recentOps")}
             </h3>
           </div>
           
@@ -437,10 +425,10 @@ export default function ReportPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-white/30 text-[10px] font-black uppercase tracking-[0.2em] bg-white/[0.01] border-b border-white/5">
-                  <th className="text-left px-10 py-6">操作类型</th>
-                  <th className="text-left px-10 py-6">目标网络</th>
-                  <th className="text-right px-10 py-6">清算金额</th>
-                  <th className="text-right px-10 py-6">执行时间</th>
+                  <th className="text-left px-10 py-6">{t("opType")}</th>
+                  <th className="text-left px-10 py-6">{t("targetNetwork")}</th>
+                  <th className="text-right px-10 py-6">{t("amount")}</th>
+                  <th className="text-right px-10 py-6">{t("execTime")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5">
@@ -452,7 +440,7 @@ export default function ReportPage() {
                         tx.tx_type === 'enter' || tx.tx_type === 'deposit' ? 'text-success border-success/20 bg-success/5' :
                         'text-accent border-accent/20 bg-accent/5'
                       }`}>
-                        {TX_TYPE_LABELS[tx.tx_type] || tx.tx_type}
+                        {(TX_TYPE_KEYS as readonly string[]).includes(tx.tx_type) ? t(tx.tx_type as (typeof TX_TYPE_KEYS)[number]) : tx.tx_type}
                       </span>
                     </td>
                     <td className="px-10 py-6">
@@ -468,7 +456,7 @@ export default function ReportPage() {
                 )) : (
                   <tr>
                     <td colSpan={4} className="px-10 py-20 text-center opacity-40">
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em]">周期内无操作记录</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em]">{t("noOps")}</p>
                     </td>
                   </tr>
                 )}
@@ -479,7 +467,7 @@ export default function ReportPage() {
 
         <div className="flex flex-col items-center justify-center pt-10 border-t border-white/5 opacity-30 text-center space-y-2">
           <p className="text-[10px] font-black text-muted uppercase tracking-[0.4em]">Quantum Matrix Financial Report</p>
-          <p className="text-[9px] text-muted-strong font-bold uppercase tracking-widest">此报告由 ProfitLayer 核心引擎自动生成 · 仅供参考</p>
+          <p className="text-[9px] text-muted-strong font-bold uppercase tracking-widest">{t("disclaimer")}</p>
         </div>
       </div>
     </div>

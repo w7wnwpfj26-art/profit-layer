@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import {
   Wallet,
   Link2,
@@ -142,7 +143,8 @@ export default function WalletPage() {
   const [lastScanTime, setLastScanTime] = useState<Date | null>(null);
   const [cacheAge, setCacheAge] = useState<number>(0); // 缓存已过时间（分钟）
   const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(true); // 自动刷新开关
-  const [showOneClickInvest, setShowOneClickInvest] = useState(false); // 一键投资模态框
+  const [showOneClickInvest, setShowOneClickInvest] = useState(false);
+  const t = useTranslations("wallet");
   // 缓存配置：2 分钟自动刷新（减少数据过时）
   const CACHE_TTL_MS = 2 * 60 * 1000;
   const AUTO_REFRESH_INTERVAL = 2 * 60 * 1000;
@@ -291,14 +293,14 @@ export default function WalletPage() {
         saveBalancesToCache(address, balances);
         const totalFromChains = balances.reduce((s, c) => s + (c.totalUsd ?? 0), 0);
         console.log("[Wallet] Scan complete. Found assets on", balances.length, "chains, total $", totalFromChains);
-        showMessage("success", "余额已更新");
+        showMessage("success", t("balanceUpdated"));
       } else {
         console.warn("[Wallet] API returned no data:", data);
-        showMessage("error", "余额查询失败");
+        showMessage("error", t("balanceFailed"));
       }
     } catch (err) {
       console.error("[Wallet] Balance fetch failed:", err);
-      showMessage("error", "余额扫描失败，请稍后重试");
+      showMessage("error", t("balanceFailed"));
     } finally {
       setLoadingBalances(false);
     }
@@ -348,7 +350,7 @@ export default function WalletPage() {
       if (data.success) {
         setWallets((prev) => ({ ...prev, [chainType]: "" }));
         setChainBalances([]);
-        showMessage("success", "钱包已断开连接");
+        showMessage("success", t("disconnected"));
       }
     } catch (err) {
       showMessage("error", `断开失败: ${(err as Error).message}`);
@@ -384,7 +386,7 @@ export default function WalletPage() {
     return () => clearInterval(interval);
   }, [lastScanTime]);
 
-  if (loading) return <div className="flex items-center justify-center h-96 text-muted animate-pulse font-bold uppercase tracking-widest">正在初始化钱包模块...</div>;
+  if (loading) return <div className="flex items-center justify-center h-96 text-muted animate-pulse font-bold uppercase tracking-widest">{t("initWallet")}</div>;
 
   const isConnected = !!wallets.evm;
 
@@ -409,11 +411,11 @@ export default function WalletPage() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 px-4">
           <div>
             <h2 className="text-4xl font-black text-white tracking-tight font-outfit uppercase">
-              金库<span className="text-gradient-accent">中心</span>
+              {t("title")}<span className="text-gradient-accent">{t("titleAccent")}</span>
             </h2>
             <p className="text-muted-strong text-[11px] font-bold mt-2 flex items-center gap-2 uppercase tracking-[0.2em]">
               <Wallet className="w-4 h-4 text-accent" />
-              多链资产管理与钱包连接
+              {t("subtitle")}
             </p>
           </div>
           {isConnected && (
@@ -428,15 +430,15 @@ export default function WalletPage() {
                 }`}
               >
                 <RefreshCw className={`w-3 h-3 ${autoRefreshEnabled ? "animate-spin" : ""}`} style={{ animationDuration: "3s" }} />
-                {autoRefreshEnabled ? "自动" : "手动"}
+                {autoRefreshEnabled ? t("auto") : t("manual")}
               </button>
               
               {lastScanTime && (
                 <div className="hidden sm:flex flex-col items-end">
-                  <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">上次扫描</span>
+                  <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">{t("lastScan")}</span>
                   <span className="text-[10px] text-muted-strong font-mono">
                     {lastScanTime.toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
-                    {cacheAge > 0 && <span className="text-white/30 ml-1">({cacheAge}分钟前)</span>}
+                    {cacheAge > 0 && <span className="text-white/30 ml-1">({cacheAge}{t("minutesAgo")})</span>}
                   </span>
                 </div>
               )}
@@ -446,7 +448,7 @@ export default function WalletPage() {
                 className="flex items-center gap-3 glass px-6 py-3 rounded-2xl hover:bg-white/5 transition-all active:scale-95 group disabled:opacity-50 border border-white/5 hover:border-accent/30"
               >
                 <Scan className={`w-4 h-4 text-muted group-hover:text-accent transition-colors ${loadingBalances ? "animate-pulse" : ""}`} />
-                <span className="text-xs font-black text-muted group-hover:text-white uppercase tracking-widest">{loadingBalances ? "扫描中..." : "刷新余额"}</span>
+                <span className="text-xs font-black text-muted group-hover:text-white uppercase tracking-widest">{loadingBalances ? t("scanning") : t("refreshBalances")}</span>
               </button>
               
               {/* 一键跨链投资按钮 */}
@@ -455,7 +457,7 @@ export default function WalletPage() {
                 className="flex items-center gap-3 bg-accent/20 hover:bg-accent/30 px-6 py-3 rounded-2xl transition-all active:scale-95 group border border-accent/30 hover:border-accent/50"
               >
                 <Zap className="w-4 h-4 text-accent" />
-                <span className="text-xs font-black text-accent uppercase tracking-widest">一键投资</span>
+                <span className="text-xs font-black text-accent uppercase tracking-widest">{t("oneClickInvest")}</span>
               </button>
             </div>
           )}

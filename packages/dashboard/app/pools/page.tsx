@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { 
   Search, 
   Filter, 
@@ -33,10 +34,10 @@ interface Pool {
   stablecoin: boolean;
 }
 
-const RISK_MAP: Record<string, { label: string; color: string; bg: string }> = {
-  low: { label: "稳健", color: "text-success", bg: "bg-success/10" },
-  medium: { label: "平衡", color: "text-warning", bg: "bg-warning/10" },
-  high: { label: "激进", color: "text-danger", bg: "bg-danger/10" },
+const RISK_MAP: Record<string, { labelKey: string; color: string; bg: string }> = {
+  low: { labelKey: "riskLow", color: "text-success", bg: "bg-success/10" },
+  medium: { labelKey: "riskMedium", color: "text-warning", bg: "bg-warning/10" },
+  high: { labelKey: "riskHigh", color: "text-danger", bg: "bg-danger/10" },
 };
 
 const CHAIN_ICONS: Record<string, string> = {
@@ -122,6 +123,7 @@ interface PoolsResponse {
 }
 
 export default function PoolsPage() {
+  const t = useTranslations("pools");
   const [pools, setPools] = useState<Pool[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -229,10 +231,10 @@ export default function PoolsPage() {
               <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center border border-accent/20">
                 <Database className="w-6 h-6 text-accent" />
               </div>
-              <h2 className="text-5xl font-black text-white tracking-tighter font-outfit">池子 <span className="text-gradient-accent">资源库</span></h2>
+              <h2 className="text-5xl font-black text-white tracking-tighter font-outfit">{t("title")} <span className="text-gradient-accent">{t("titleAccent")}</span></h2>
             </div>
             <p className="text-muted text-base font-medium opacity-80 max-w-xl">
-              {loading ? "正在深度扫描协议层..." : `聚合全球 ${total} 个顶级协议流动性池。实时监控年化收益、深度及安全评分，一键直达协议交互界面。`}
+              {loading ? t("loadingSubtitle") : t("subtitle", { total })}
             </p>
           </div>
           
@@ -241,7 +243,7 @@ export default function PoolsPage() {
               <div className="flex items-center gap-3 px-5 py-2.5 glass rounded-[1.2rem] border-white/5">
                 <div className="w-2 h-2 rounded-full bg-success animate-pulse shadow-[0_0_10px_#10b981]" />
                 <Clock className="w-4 h-4 text-muted" />
-                <span className="text-[11px] font-black text-muted uppercase tracking-widest">{formatCountdown(countdown)} 后更新</span>
+                <span className="text-[11px] font-black text-muted uppercase tracking-widest">{formatCountdown(countdown)} {t("countdownUpdate")}</span>
               </div>
             )}
             <button 
@@ -250,7 +252,7 @@ export default function PoolsPage() {
               className="group flex items-center gap-3 px-6 py-3 glass rounded-[1.2rem] bg-accent/10 hover:bg-accent text-white transition-all active:scale-95 disabled:opacity-50 shadow-lg shadow-accent/10"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"}`} />
-              <span className="text-[11px] font-black uppercase tracking-widest">立即刷新</span>
+              <span className="text-[11px] font-black uppercase tracking-widest">{t("refreshNow")}</span>
             </button>
           </div>
         </div>
@@ -261,7 +263,7 @@ export default function PoolsPage() {
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted group-focus-within:text-accent transition-colors" />
             <input
               type="text"
-              placeholder="搜索资产、协议 ID 或合约地址 (如: USDC, Uniswap...)"
+              placeholder={t("searchPlaceholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full bg-black/20 border border-white/10 rounded-2xl pl-14 pr-6 py-4 text-sm text-white placeholder:text-muted/50 focus:outline-none focus:border-accent/50 focus:bg-black/40 transition-all shadow-inner"
@@ -270,13 +272,13 @@ export default function PoolsPage() {
 
           <div className="flex items-center gap-2 bg-black/20 p-1.5 rounded-2xl border border-white/5">
             <button onClick={() => setSortBy("apr")} className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${sortBy === "apr" ? "bg-accent text-white shadow-xl scale-105" : "text-muted hover:text-white"}`}>
-              最高收益
+              {t("sortByYield")}
             </button>
             <button onClick={() => setSortBy("tvl")} className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${sortBy === "tvl" ? "bg-accent text-white shadow-xl scale-105" : "text-muted hover:text-white"}`}>
-              最大深度
+              {t("sortByDepth")}
             </button>
             <button onClick={() => setSortBy("health")} className={`px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${sortBy === "health" ? "bg-accent text-white shadow-xl scale-105" : "text-muted hover:text-white"}`}>
-              最优安全
+              {t("sortBySafety")}
             </button>
           </div>
 
@@ -287,7 +289,7 @@ export default function PoolsPage() {
               className="bg-black/20 border border-white/10 rounded-2xl px-6 py-4 text-[11px] font-black text-white uppercase tracking-widest outline-none cursor-pointer hover:bg-black/40 transition-all appearance-none min-w-[140px] text-center"
             >
               {chains.map((c) => (
-                <option key={c} value={c} className="bg-[#0a0a0f]">{c === "all" ? "所有区块链" : `${c.toUpperCase()}`}</option>
+                <option key={c} value={c} className="bg-[#0a0a0f]">{c === "all" ? t("allChains") : `${c.toUpperCase()}`}</option>
               ))}
             </select>
 
@@ -297,7 +299,7 @@ export default function PoolsPage() {
                 type="number"
                 min={0}
                 max={100}
-                placeholder="最低评分"
+                placeholder={t("minScorePlaceholder")}
                 value={minHealth}
                 onChange={(e) => setMinHealth(e.target.value)}
                 className="bg-transparent w-16 text-[11px] font-black text-white uppercase tracking-widest outline-none border-none placeholder:text-muted/50"
@@ -317,8 +319,8 @@ export default function PoolsPage() {
         ) : pools.length === 0 ? (
           <div className="glass rounded-[2.5rem] p-16 text-center border-white/5">
             <Search className="w-12 h-12 text-muted/20 mx-auto mb-4" />
-            <p className="text-muted font-bold uppercase tracking-[0.2em] text-xs">未找到符合条件的池子</p>
-            <p className="text-muted/60 text-[10px] mt-2">尝试调整筛选条件或降低最低健康分</p>
+            <p className="text-muted font-bold uppercase tracking-[0.2em] text-xs">{t("noPools")}</p>
+            <p className="text-muted/60 text-[10px] mt-2">{t("noPoolsHint")}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -333,6 +335,7 @@ export default function PoolsPage() {
 }
 
 function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
+  const t = useTranslations("pools");
   const risk = RISK_MAP[pool.riskLevel] || RISK_MAP.medium;
   const dappUrl = getDappUrl(pool.protocolId);
   const llamaUrl = getDefiLlamaUrl(pool.poolId);
@@ -367,7 +370,7 @@ function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
           </div>
         </div>
         <div className={`px-4 py-1.5 rounded-xl ${risk.bg} ${risk.color} text-[10px] font-black uppercase tracking-[0.2em] border border-current/10 shadow-sm`}>
-          {risk.label}风险
+          {t(risk.labelKey)}{t("riskSuffix")}
         </div>
       </div>
 
@@ -375,7 +378,7 @@ function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
       <div className="bg-white/5 rounded-[2rem] p-6 mb-8 border border-white/5 group-hover:bg-white/10 transition-all relative z-10 shadow-inner">
         <div className="flex justify-between items-end">
           <div className="space-y-1">
-            <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60">预期年化收益 (APY)</p>
+            <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60">{t("apyLabel")}</p>
             <div className="flex items-baseline gap-2">
               <span className="text-4xl font-black text-success tracking-tighter drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">{pool.aprTotal.toFixed(2)}%</span>
               <div className="w-6 h-6 rounded-full bg-success/10 flex items-center justify-center group-hover:animate-bounce">
@@ -384,7 +387,7 @@ function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
             </div>
           </div>
           <div className="text-right">
-            <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] mb-1 opacity-60">安全评分</p>
+            <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] mb-1 opacity-60">{t("healthLabel")}</p>
             <span className={`text-2xl font-black tracking-tighter ${(pool.healthScore ?? 0) >= 70 ? 'text-success' : (pool.healthScore ?? 0) >= 50 ? 'text-warning' : 'text-danger'}`}>
               {pool.healthScore?.toFixed(0) || "N/A"}
             </span>
@@ -405,13 +408,13 @@ function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
       {/* 底部统计 */}
       <div className="grid grid-cols-2 gap-8 mt-auto relative z-10">
         <div className="space-y-1.5">
-          <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60">总锁仓量 (TVL)</p>
+          <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60">{t("tvlLabel")}</p>
           <p className="text-lg font-black text-white tracking-tight">
             ${pool.tvlUsd >= 1e9 ? `${(pool.tvlUsd / 1e9).toFixed(2)}B` : pool.tvlUsd >= 1e6 ? `${(pool.tvlUsd / 1e6).toFixed(1)}M` : `${(pool.tvlUsd / 1e3).toFixed(0)}K`}
           </p>
         </div>
         <div className="space-y-1.5 text-right">
-          <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60">24H 交易额</p>
+          <p className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60">{t("volume24Label")}</p>
           <p className="text-lg font-black text-white tracking-tight">
             {pool.volume24hUsd > 0 ? `$${pool.volume24hUsd >= 1e6 ? `${(pool.volume24hUsd / 1e6).toFixed(1)}M` : `${(pool.volume24hUsd / 1e3).toFixed(0)}K`}` : "---"}
           </p>
@@ -423,11 +426,11 @@ function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
         <div className="flex gap-2">
           {pool.stablecoin && (
             <span className="flex items-center gap-1.5 text-[9px] font-black text-accent px-3 py-1.5 rounded-xl bg-accent/10 border border-accent/20 uppercase tracking-widest shadow-lg shadow-accent/5">
-              <Shield className="w-3 h-3" /> 稳定币
+              <Shield className="w-3 h-3" /> {t("stablecoin")}
             </span>
           )}
           <span className="flex items-center gap-1.5 text-[9px] font-black text-warning px-3 py-1.5 rounded-xl bg-warning/10 border border-warning/20 uppercase tracking-widest shadow-lg shadow-warning/5">
-            <Zap className="w-3 h-3" /> 自动复投
+            <Zap className="w-3 h-3" /> {t("autoCompound")}
           </span>
         </div>
 
@@ -437,7 +440,7 @@ function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            title="查看 DefiLlama 链上数据"
+            title={t("viewDefiLlama")}
             className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 text-muted hover:text-white flex items-center justify-center transition-all border border-white/5 hover:scale-110"
           >
             📊
@@ -447,7 +450,7 @@ function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
               onClick={(e) => { e.stopPropagation(); onInvest(); }}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-success/20 hover:bg-success text-success hover:text-white transition-all text-[11px] font-black uppercase tracking-widest border border-success/30 hover:border-success shadow-lg shadow-success/10 hover:scale-105 active:scale-95"
             >
-              <Rocket className="w-3.5 h-3.5" /> 投资
+              <Rocket className="w-3.5 h-3.5" /> {t("invest")}
             </button>
           )}
           {dappUrl && (
@@ -458,7 +461,7 @@ function PoolCard({ pool, onInvest }: { pool: Pool; onInvest?: () => void }) {
               onClick={(e) => e.stopPropagation()}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-accent/20 hover:bg-accent text-accent hover:text-white transition-all text-[11px] font-black uppercase tracking-widest border border-accent/30 hover:border-accent shadow-lg shadow-accent/10 hover:scale-105 active:scale-95"
             >
-              交互 <ExternalLink className="w-3 h-3" />
+              {t("interact")} <ExternalLink className="w-3 h-3" />
             </a>
           )}
         </div>

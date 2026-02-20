@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import {
   ScrollText,
   Search,
@@ -51,51 +52,13 @@ interface HealthStatus {
   killSwitch: boolean;
 }
 
-const SEVERITY_CONFIG: Record<string, { icon: any; color: string; bg: string; label: string }> = {
-  info: { icon: CheckCircle2, color: "text-accent", bg: "bg-accent/10", label: "信息" },
-  warning: { icon: AlertTriangle, color: "text-warning", bg: "bg-warning/10", label: "警告" },
-  error: { icon: XCircle, color: "text-danger", bg: "bg-danger/10", label: "错误" },
-  critical: { icon: AlertCircle, color: "text-danger", bg: "bg-danger/20", label: "严重" },
-};
-
-const SOURCE_LABELS: Record<string, string> = {
-  scanner: "扫描器",
-  dashboard: "控制台",
-  risk_monitor: "风控引擎",
-  executor: "执行器",
-  telegram_bot: "TG 机器人",
-  ai: "AI 顾问",
-  strategy_worker: "策略引擎",
-};
-
-// 事件类型中文翻译
-const EVENT_TYPE_LABELS: Record<string, string> = {
-  pool_scan_complete: "池子扫描完成",
-  price_scan_complete: "价格更新完成",
-  config_updated: "系统配置变更",
-  strategy_enabled: "策略已启用",
-  strategy_disabled: "策略已停用",
-  wallet_connected: "钱包已连接",
-  wallet_disconnected: "钱包已断开",
-  kill_switch_activated: "紧急停止已触发",
-  kill_switch_deactivated: "紧急停止已解除",
-  tx_submitted: "交易已提交",
-  tx_confirmed: "交易已确认",
-  tx_failed: "交易执行失败",
-  stop_loss_triggered: "触发止损",
-  take_profit_triggered: "触发止盈",
-  exposure_violation: "风险敞口超限",
-  anomaly_tvl_crash: "TVL 异常暴跌",
-  anomaly_apr_spike: "APR 异常飙升",
-  anomaly_tvl_drain: "TVL 持续流出",
-  alert_warning: "系统告警（警告）",
-  alert_error: "系统告警（错误）",
-  alert_critical: "系统告警（严重）",
-  ai_analysis_complete: "AI 市场分析完成",
-  ai_signal_approved: "AI 审批通过",
-  ai_signal_rejected: "AI 审批驳回",
-  rebalance_triggered: "触发再平衡",
-  compound_triggered: "触发自动复投",
+const SEVERITY_KEYS = ["info", "warning", "error", "critical"] as const;
+const SOURCE_KEYS = ["scanner", "dashboard", "risk_monitor", "executor", "telegram_bot", "ai", "strategy_worker"] as const;
+const SEVERITY_CONFIG: Record<string, { icon: any; color: string; bg: string }> = {
+  info: { icon: CheckCircle2, color: "text-accent", bg: "bg-accent/10" },
+  warning: { icon: AlertTriangle, color: "text-warning", bg: "bg-warning/10" },
+  error: { icon: XCircle, color: "text-danger", bg: "bg-danger/10" },
+  critical: { icon: AlertCircle, color: "text-danger", bg: "bg-danger/20" },
 };
 
 // 将英文日志消息翻译为中文（常见模式匹配）
@@ -119,6 +82,7 @@ function translateMessage(msg: string): string {
 }
 
 export default function LogsPage() {
+  const t = useTranslations("logs");
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [stats, setStats] = useState<LogStats | null>(null);
   const [sources, setSources] = useState<{ source: string; count: number }[]>([]);
@@ -167,19 +131,19 @@ export default function LogsPage() {
       linkElement.setAttribute('download', exportFileDefaultName);
       linkElement.click();
     } catch (e) {
-      setError("导出失败");
+      setError(t("exportFail"));
     }
     setTimeout(() => setExporting(false), 1000);
   };
 
   const handleCleanup = async () => {
-    if (!confirm("确定要清理 24 小时前的旧日志吗？")) return;
+    if (!confirm(t("cleanConfirm"))) return;
     setCleaning(true);
     const result = await apiFetch("/api/logs/cleanup", { method: "POST" });
     if (result.ok) {
       fetchLogs();
     } else {
-      setError(result.error || "清理失败");
+      setError(result.error || t("cleanFail"));
     }
     setCleaning(false);
   };
@@ -213,11 +177,11 @@ export default function LogsPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <h2 className="text-4xl font-black text-white tracking-tight font-outfit">
-              运行<span className="text-gradient-accent">日志</span>
+              {t("title")}<span className="text-gradient-accent">{t("titleAccent")}</span>
             </h2>
             <p className="text-muted text-sm mt-1 flex items-center gap-2">
               <ScrollText className="w-4 h-4 text-accent" />
-              AI 分析记录、交易执行日志、系统健康监控
+              {t("subtitle")}
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
@@ -225,19 +189,19 @@ export default function LogsPage() {
               onClick={handleExport}
               disabled={exporting || logs.length === 0}
               className="flex items-center gap-2 px-4 py-2.5 glass rounded-2xl hover:bg-white/5 transition-all text-xs font-bold text-muted hover:text-white disabled:opacity-50"
-              title="导出当前日志为 JSON"
+              title={t("exportTitle")}
             >
               <Download className={`w-4 h-4 ${exporting ? "animate-bounce" : ""}`} />
-              {exporting ? "导出中..." : "导出 JSON"}
+              {exporting ? t("exporting") : t("exportJson")}
             </button>
             <button
               onClick={handleCleanup}
               disabled={cleaning}
               className="flex items-center gap-2 px-4 py-2.5 glass rounded-2xl border-danger/10 hover:border-danger/30 hover:bg-danger/5 transition-all text-xs font-bold text-muted hover:text-danger disabled:opacity-50"
-              title="清理 24h 前的旧日志"
+              title={t("cleanTitle")}
             >
               <Trash2 className={`w-4 h-4 ${cleaning ? "animate-pulse" : ""}`} />
-              {cleaning ? "清理中..." : "日志清理"}
+              {cleaning ? t("cleaning") : t("logClean")}
             </button>
             <div className="h-8 w-[1px] bg-white/10 mx-1 hidden md:block" />
             <button
@@ -247,14 +211,14 @@ export default function LogsPage() {
               }`}
             >
               <Radio className={`w-3 h-3 ${autoRefresh ? "animate-pulse" : ""}`} />
-              {autoRefresh ? `实时 (${countdown}s)` : "已暂停"}
+              {autoRefresh ? `${t("realtime")} (${countdown}s)` : t("paused")}
             </button>
             <button
               onClick={() => fetchLogs()}
               className="flex items-center gap-2 px-4 py-2.5 glass rounded-2xl hover:bg-white/5 transition-all active:scale-95 group"
             >
               <RefreshCw className={`w-4 h-4 text-muted group-hover:text-accent ${loading ? "animate-spin" : ""}`} />
-              <span className="text-xs font-bold text-muted group-hover:text-white uppercase">刷新</span>
+              <span className="text-xs font-bold text-muted group-hover:text-white uppercase">{t("refresh")}</span>
             </button>
           </div>
         </div>
@@ -268,27 +232,27 @@ export default function LogsPage() {
         {health && (
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
             <HealthBadge
-              label="扫描器"
+              label={t("scanner")}
               status={health.scannerAlive}
-              detail={health.scannerAlive ? `${health.scanAgeSec}s 前` : "离线"}
+              detail={health.scannerAlive ? `${health.scanAgeSec}s ${t("ago")}` : t("offline")}
             />
             <HealthBadge
-              label="策略自动驾驶"
+              label={t("autopilot")}
               status={health.autopilotEnabled}
-              detail={health.autopilotEnabled ? (health.dryRun ? "模拟中" : "实盘") : "关闭"}
+              detail={health.autopilotEnabled ? (health.dryRun ? t("dryRun") : t("live")) : t("off")}
               warning={health.dryRun}
             />
             <HealthBadge
-              label="熔断开关"
+              label={t("killSwitch")}
               status={!health.killSwitch}
-              detail={health.killSwitch ? "已触发!" : "正常"}
+              detail={health.killSwitch ? t("triggered") : t("normal")}
               danger={health.killSwitch}
             />
-            <HealthBadge label="追踪池子" status={health.poolCount > 0} detail={`${health.poolCount}`} />
-            <HealthBadge label="活跃持仓" status={true} detail={`${health.activePositions}`} />
-            <HealthBadge label="24h 日志" status={true} detail={`${stats?.last24h || 0}`} />
+            <HealthBadge label={t("trackingPools")} status={health.poolCount > 0} detail={`${health.poolCount}`} />
+            <HealthBadge label={t("activePositions")} status={true} detail={`${health.activePositions}`} />
+            <HealthBadge label={t("logs24h")} status={true} detail={`${stats?.last24h || 0}`} />
             <HealthBadge
-              label="异常计数"
+              label={t("anomalyCount")}
               status={(stats?.error || 0) + (stats?.critical || 0) === 0}
               detail={`${(stats?.error || 0) + (stats?.critical || 0)}`}
               danger={(stats?.error || 0) + (stats?.critical || 0) > 0}
@@ -302,11 +266,11 @@ export default function LogsPage() {
           <div className="xl:col-span-5 grid grid-cols-2 sm:grid-cols-5 gap-3">
             {stats && (
               <>
-                <StatBadge label="全部" count={stats.total} color="text-white" active={severity === "all"} onClick={() => setSeverity("all")} />
-                <StatBadge label="信息" count={stats.info} color="text-accent" active={severity === "info"} onClick={() => setSeverity("info")} />
-                <StatBadge label="警告" count={stats.warning} color="text-warning" active={severity === "warning"} onClick={() => setSeverity("warning")} />
-                <StatBadge label="错误" count={stats.error} color="text-danger" active={severity === "error"} onClick={() => setSeverity("error")} />
-                <StatBadge label="严重" count={stats.critical} color="text-danger" active={severity === "critical"} onClick={() => setSeverity("critical")} />
+                <StatBadge label={t("all")} count={stats.total} color="text-white" active={severity === "all"} onClick={() => setSeverity("all")} />
+                <StatBadge label={t("info")} count={stats.info} color="text-accent" active={severity === "info"} onClick={() => setSeverity("info")} />
+                <StatBadge label={t("warning")} count={stats.warning} color="text-warning" active={severity === "warning"} onClick={() => setSeverity("warning")} />
+                <StatBadge label={t("error")} count={stats.error} color="text-danger" active={severity === "error"} onClick={() => setSeverity("error")} />
+                <StatBadge label={t("critical")} count={stats.critical} color="text-danger" active={severity === "critical"} onClick={() => setSeverity("critical")} />
               </>
             )}
           </div>
@@ -317,7 +281,7 @@ export default function LogsPage() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted group-focus-within:text-accent transition-colors" />
               <input
                 type="text"
-                placeholder="搜索日志内容、来源或事件类型..."
+                placeholder={t("searchPlaceholder")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-medium"
@@ -332,9 +296,9 @@ export default function LogsPage() {
                   onChange={(e) => setSource(e.target.value)}
                   className="w-full sm:w-48 bg-white/5 border border-white/10 rounded-2xl pl-11 pr-4 py-3.5 text-sm text-white outline-none cursor-pointer hover:bg-white/10 transition-all appearance-none"
                 >
-                  <option value="all" className="bg-[#030406]">所有来源</option>
-                  {Object.entries(SOURCE_LABELS).map(([key, label]) => (
-                    <option key={key} value={key} className="bg-[#030406]">{label}</option>
+                  <option value="all" className="bg-[#030406]">{t("allSources")}</option>
+                  {SOURCE_KEYS.map((key) => (
+                    <option key={key} value={key} className="bg-[#030406]">{t(key)}</option>
                   ))}
                 </select>
                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted pointer-events-none" />
@@ -357,7 +321,7 @@ export default function LogsPage() {
               <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-6 border border-white/5">
                 <ScrollText className="w-8 h-8 text-muted/20" />
               </div>
-              <p className="text-muted font-black uppercase tracking-[0.2em] text-[10px]">没有找到匹配的系统日志</p>
+              <p className="text-muted font-black uppercase tracking-[0.2em] text-[10px]">{t("noLogs")}</p>
             </div>
           ) : (
             <div className="divide-y divide-white/5">
@@ -385,14 +349,14 @@ export default function LogsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-2">
                           <span className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full border shadow-sm ${sev.bg} ${sev.color.replace('text-', 'border-')}/20 ${sev.color}`}>
-                            {sev.label}
+                            {(SEVERITY_KEYS as readonly string[]).includes(log.severity) ? t(log.severity as (typeof SEVERITY_KEYS)[number]) : log.severity}
                           </span>
                           <span className="flex items-center gap-1.5 text-[10px] font-bold text-accent font-outfit uppercase tracking-wider">
                             <Cpu className="w-3 h-3" />
-                            {SOURCE_LABELS[log.source] || log.source}
+                            {(SOURCE_KEYS as readonly string[]).includes(log.source) ? t(log.source as (typeof SOURCE_KEYS)[number]) : log.source}
                           </span>
                           <span className="text-[10px] font-black text-muted-strong uppercase tracking-tight">
-                            {EVENT_TYPE_LABELS[log.eventType] || log.eventType}
+                            {t(log.eventType as any) !== log.eventType ? t(log.eventType as any) : log.eventType}
                           </span>
                         </div>
                         <p className={`text-sm text-white font-medium leading-relaxed transition-all ${isExpanded ? "" : "line-clamp-2"}`}>
@@ -459,7 +423,7 @@ export default function LogsPage() {
                 }`}
               >
                 <div className={`w-1.5 h-1.5 rounded-full ${s.source === source ? "bg-accent animate-pulse" : "bg-muted-strong opacity-40"}`} />
-                {SOURCE_LABELS[s.source] || s.source}
+                {(SOURCE_KEYS as readonly string[]).includes(s.source) ? t(s.source as (typeof SOURCE_KEYS)[number]) : s.source}
                 <span className={`px-2 py-0.5 rounded-lg text-[10px] font-black font-outfit ${s.source === source ? "bg-accent/20 text-accent" : "bg-white/10 text-muted-strong"}`}>
                   {s.count}
                 </span>
