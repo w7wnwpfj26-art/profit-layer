@@ -336,7 +336,7 @@ export default function StrategiesPage() {
           <div className="space-y-2">
             <h4 className="text-sm font-bold text-white">小额试跑</h4>
             <p className="text-xs text-muted leading-relaxed">
-              先用 < 5% 资金实盘测试,验证后再逐步加仓
+              先用 &lt; 5% 资金实盘测试,验证后再逐步加仓
             </p>
           </div>
         </div>

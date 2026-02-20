@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { 
   ShieldAlert, 
   Bell, 
@@ -40,6 +41,7 @@ interface AIStatus {
 }
 
 export default function SettingsPage() {
+  const t = useTranslations("settings");
   const [configs, setConfigs] = useState<ConfigItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -235,11 +237,11 @@ export default function SettingsPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h2 className="text-4xl font-black text-white tracking-tighter font-outfit uppercase">
-            核心<span className="text-gradient-accent">配置中心</span>
+            <span className="text-gradient-accent">{t("configCenter")}</span>
           </h2>
           <p className="text-muted text-sm mt-2 flex items-center gap-2">
             <Lock className="w-3.5 h-3.5 text-accent" /> 
-            安全管理 AI 顾问、执行钱包与风险控制矩阵
+            {t("configSubtitle")}
           </p>
         </div>
         
@@ -254,7 +256,7 @@ export default function SettingsPage() {
             onClick={handleLogout}
             className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white/5 text-muted hover:text-white hover:bg-white/10 transition-all font-bold text-[10px] uppercase tracking-wider border border-white/5"
           >
-            <LogOut className="w-4 h-4" /> 退出
+            <LogOut className="w-4 h-4" /> {t("logout")}
           </button>
           
           <button
@@ -266,7 +268,7 @@ export default function SettingsPage() {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : success ? <CheckCircle2 className="w-4 h-4" /> : <Save className="w-4 h-4" />}
-            {success ? "同步完成" : "应用配置"}
+            {success ? t("syncDone") : t("applyConfig")}
           </button>
         </div>
       </div>
@@ -281,14 +283,14 @@ export default function SettingsPage() {
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-white font-black uppercase tracking-[0.2em] text-[10px] flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-accent animate-pulse" /> AI 策略顾问
+                  <Sparkles className="w-4 h-4 text-accent animate-pulse" /> {t("aiAdvisor")}
                 </h3>
                 {aiStatus && (
                   <div className={`px-3 py-1 rounded-full text-[9px] font-black uppercase flex items-center gap-2 border ${
                     aiStatus.enabled ? "bg-success/10 text-success border-success/20" : "bg-warning/10 text-warning border-warning/20"
                   }`}>
                     <div className={`w-1.5 h-1.5 rounded-full ${aiStatus.enabled ? "bg-success animate-glow" : "bg-warning"}`} />
-                    {aiStatus.enabled ? "在线" : "规则模式"}
+                    {aiStatus.enabled ? t("online") : t("ruleMode")}
                   </div>
                 )}
               </div>

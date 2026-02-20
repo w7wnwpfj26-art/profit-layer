@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Shield, Lock, Key, AlertTriangle, CheckCircle2, Eye, EyeOff, Server, FileKey } from "lucide-react";
+import { Shield, Lock, Key, AlertTriangle, CheckCircle2, Eye, EyeOff, Server, FileKey, Zap } from "lucide-react";
 
 export default function SecurityPage() {
   return (

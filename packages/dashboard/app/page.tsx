@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar,
@@ -129,6 +130,7 @@ const TX_TYPE_LABELS: Record<string, string> = {
 };
 
 export default function Dashboard() {
+  const t = useTranslations("dashboard");
   const [stats, setStats] = useState<Stats | null>(null);
   const [profitData, setProfitData] = useState<ProfitData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -230,12 +232,12 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h2 className="text-4xl font-black text-white tracking-tight font-outfit uppercase">
-            核心<span className="text-gradient-accent">仪表盘</span>
+            <span className="text-gradient-accent">{t("headerTitle")}</span>
           </h2>
           <div className="flex flex-wrap items-center gap-4 mt-3">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20 shadow-lg shadow-success/5">
               <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-              <span className="text-[10px] font-black text-success uppercase tracking-widest">实时同步中</span>
+              <span className="text-[10px] font-black text-success uppercase tracking-widest">{t("headerSubtitle")}</span>
             </div>
             <p className="text-muted-strong text-[11px] font-bold flex items-center gap-2 uppercase tracking-wider">
               <Clock className="w-3.5 h-3.5 text-accent" /> 
@@ -249,7 +251,7 @@ export default function Dashboard() {
           className="flex items-center gap-2 px-6 py-3 glass rounded-2xl hover:bg-white/5 transition-all active:scale-95 group border border-white/5 hover:border-accent/30"
         >
           <RefreshCcw className="w-4 h-4 text-muted group-hover:text-accent group-hover:rotate-180 transition-all duration-700" />
-          <span className="text-xs font-black text-muted group-hover:text-white uppercase tracking-widest">强制刷新</span>
+          <span className="text-xs font-black text-muted group-hover:text-white uppercase tracking-widest">{t("refresh")}</span>
         </button>
       </div>
 
@@ -263,32 +265,32 @@ export default function Dashboard() {
               <div className="p-2 rounded-lg bg-accent/10 border border-accent/20">
                 <DollarSign className="w-4 h-4 text-accent" /> 
               </div>
-              投资组合表现 (Portfolio Performance)
+              {t("portfolioPerformance")}
             </h3>
           </div>
           {profitData && (
             <div className="flex items-center gap-2 text-[10px] font-black text-accent uppercase tracking-widest bg-accent/5 px-4 py-2 rounded-full border border-accent/10 shadow-lg shadow-accent/5">
               <Activity className="w-3 h-3 animate-pulse" />
-              {profitData.count} 个活跃持仓
+              {profitData.count}{t("activePositions")}
             </div>
           )}
         </div>
 
         {profitData && profitData.count > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <StatCard label="持仓总值" value={`$${profitData.totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} sub="当前净值" icon={BarChart3} color="accent" />
-            <StatCard label="未实现盈亏" value={`${profitData.totalPnl >= 0 ? "+" : ""}$${profitData.totalPnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} sub="浮动盈亏" icon={TrendingUp} color={profitData.totalPnl >= 0 ? "success" : "danger"} />
-            <StatCard label="已实现盈亏" value={`${profitData.realizedPnl >= 0 ? "+" : ""}$${profitData.realizedPnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} sub="已实现收益" icon={Coins} color={profitData.realizedPnl >= 0 ? "success" : "danger"} />
-            <StatCard label="综合回报" value={`${(profitData.totalPnl + profitData.realizedPnl) >= 0 ? "+" : ""}$${(profitData.totalPnl + profitData.realizedPnl).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} sub="总回报" icon={Activity} color={(profitData.totalPnl + profitData.realizedPnl) >= 0 ? "success" : "danger"} />
+            <StatCard label={t("totalValue")} value={`$${profitData.totalValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} sub={t("currentNav")} icon={BarChart3} color="accent" />
+            <StatCard label={t("unrealizedPnl")} value={`${profitData.totalPnl >= 0 ? "+" : ""}$${profitData.totalPnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} sub={t("floatingPnl")} icon={TrendingUp} color={profitData.totalPnl >= 0 ? "success" : "danger"} />
+            <StatCard label={t("realizedPnl")} value={`${profitData.realizedPnl >= 0 ? "+" : ""}$${profitData.realizedPnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} sub={t("realizedPnl")} icon={Coins} color={profitData.realizedPnl >= 0 ? "success" : "danger"} />
+            <StatCard label={t("totalReturn")} value={`${(profitData.totalPnl + profitData.realizedPnl) >= 0 ? "+" : ""}$${(profitData.totalPnl + profitData.realizedPnl).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`} sub={t("totalReturn")} icon={Activity} color={(profitData.totalPnl + profitData.realizedPnl) >= 0 ? "success" : "danger"} />
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-12 text-center bg-white/[0.02] rounded-3xl border border-dashed border-white/5">
             <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4">
               <Briefcase className="w-8 h-8 text-muted/30" />
             </div>
-            <p className="text-muted font-bold text-sm">暂无活跃持仓，盈利统计将在策略执行后自动生成</p>
+            <p className="text-muted font-bold text-sm">{t("noPositions")}</p>
             <Link href="/positions" className="mt-6 text-accent text-[10px] font-black uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2 group">
-              探索收益机会 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              {t("exploreOpportunities")} <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
         )}

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import path from "path";
 import { readFileSync, existsSync } from "fs";
+import createNextIntlPlugin from "next-intl/plugin";
 
 // 若存在项目根目录 .env，优先加载（方便 monorepo 下与 docker-compose 共用配置）
 const rootEnv = path.resolve(__dirname, "../../.env");
@@ -11,6 +12,8 @@ if (existsSync(rootEnv)) {
     if (m && !process.env[m[1]]) process.env[m[1]] = m[2].replace(/^["']|["']$/g, "").trim();
   }
 }
+
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -68,4 +71,4 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

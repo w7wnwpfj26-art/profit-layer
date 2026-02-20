@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Lock, User, AlertCircle, Zap, ArrowRight, Eye, EyeOff, ShieldCheck, ArrowLeft } from "lucide-react";
+import { LanguageSwitcher } from "@/app/components/LanguageSwitcher";
 
 export default function LoginPage() {
+  const t = useTranslations("login");
+  const tLayout = useTranslations("layout");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isRegister, setIsRegister] = useState(false);
@@ -13,12 +17,14 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // TOTP 二步验证状态
   const [totpStep, setTotpStep] = useState(false);
   const [totpCode, setTotpCode] = useState("");
   const [tempToken, setTempToken] = useState("");
 
-  /** 登录成功后保存凭证 */
+  useEffect(() => {
+    document.title = tLayout("titleLogin");
+  }, [tLayout]);
+
   const saveCredentials = (data: { token: string; username: string; userId: string | number }) => {
     localStorage.setItem("token", data.token);
     localStorage.setItem("username", data.username);
@@ -33,7 +39,6 @@ export default function LoginPage() {
 
     try {
       if (totpStep) {
-        // TOTP 验证步骤
         const res = await fetch("/api/auth/totp/validate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -41,7 +46,7 @@ export default function LoginPage() {
         });
         const data = await res.json();
         if (!res.ok) {
-          setError(data.error || "验证码错误");
+          setError(data.error || t("errorTotp"));
           setLoading(false);
           return;
         }
@@ -50,7 +55,6 @@ export default function LoginPage() {
         return;
       }
 
-      // 密码登录 / 注册
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -62,12 +66,11 @@ export default function LoginPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || "操作失败");
+        setError(data.error || t("errorGeneric"));
         setLoading(false);
         return;
       }
 
-      // 需要 TOTP 二次验证
       if (data.requireTotp) {
         setTempToken(data.tempToken);
         setTotpStep(true);
@@ -75,11 +78,10 @@ export default function LoginPage() {
         return;
       }
 
-      // 直接登录成功
       saveCredentials(data);
       router.push("/");
     } catch {
-      setError("网络错误，请稍后再试");
+      setError(t("errorNetwork"));
     }
     setLoading(false);
   };
@@ -93,14 +95,12 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] relative overflow-hidden">
-      {/* 背景装饰 */}
       <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-accent/10 rounded-full blur-[150px]" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-success/5 rounded-full blur-[120px]" />
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-md px-6">
         <div className="glass p-10 rounded-[3rem] border-white/5 shadow-2xl relative overflow-hidden">
-          {/* 内部微光 */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
 
           <div className="text-center mb-10">
@@ -112,42 +112,40 @@ export default function LoginPage() {
               )}
             </div>
             <h1 className="text-3xl font-black text-white tracking-tighter uppercase">
-              {totpStep ? "二次验证" : "协议控制台"}
+              {totpStep ? t("titleTotp") : t("title")}
             </h1>
             <p className="text-muted text-[10px] font-bold uppercase tracking-[0.3em] mt-3">
-              {totpStep ? "请输入 Google Authenticator 验证码" : "AI 驱动的自动化收益调度协议"}
+              {totpStep ? t("subtitleTotp") : t("subtitle")}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {!totpStep ? (
               <>
-                {/* 用户名 */}
                 <div className="space-y-2 group">
-                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">身份标识</label>
+                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">{t("identityLabel")}</label>
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted group-focus-within:text-accent transition-colors" />
                     <input
                       type="text"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      placeholder="输入用户名"
+                      placeholder={t("usernamePlaceholder")}
                       className="w-full bg-white/2 border border-white/5 rounded-2xl pl-12 pr-4 py-3.5 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/5 transition-all"
                       required
                     />
                   </div>
                 </div>
 
-                {/* 密码 */}
                 <div className="space-y-2 group">
-                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">访问凭证</label>
+                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">{t("passwordLabel")}</label>
                   <div className="relative">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted group-focus-within:text-accent transition-colors" />
                     <input
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="输入加密密钥"
+                      placeholder={t("passwordPlaceholder")}
                       className="w-full bg-white/2 border border-white/5 rounded-2xl pl-12 pr-12 py-3.5 text-sm text-white focus:outline-none focus:border-accent/50 focus:bg-white/5 transition-all"
                       required
                       minLength={isRegister ? 6 : 1}
@@ -164,9 +162,8 @@ export default function LoginPage() {
               </>
             ) : (
               <>
-                {/* TOTP 验证码输入 */}
                 <div className="space-y-2 group">
-                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">6 位验证码</label>
+                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">{t("totpLabel")}</label>
                   <div className="relative">
                     <ShieldCheck className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted group-focus-within:text-accent transition-colors" />
                     <input
@@ -176,7 +173,7 @@ export default function LoginPage() {
                       maxLength={6}
                       value={totpCode}
                       onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                      placeholder="000000"
+                      placeholder={t("totpPlaceholder")}
                       className="w-full bg-white/2 border border-white/5 rounded-2xl pl-12 pr-4 py-3.5 text-sm text-white text-center font-mono tracking-[0.5em] focus:outline-none focus:border-accent/50 focus:bg-white/5 transition-all"
                       required
                       autoFocus
@@ -189,7 +186,7 @@ export default function LoginPage() {
                   onClick={handleBackToPassword}
                   className="flex items-center gap-2 text-[10px] font-bold text-muted hover:text-white transition-colors"
                 >
-                  <ArrowLeft className="w-3 h-3" /> 返回密码登录
+                  <ArrowLeft className="w-3 h-3" /> {t("backToPassword")}
                 </button>
               </>
             )}
@@ -212,12 +209,12 @@ export default function LoginPage() {
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : totpStep ? (
                   <>
-                    验证并登录
+                    {t("verifyAndLogin")}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </>
                 ) : (
                   <>
-                    {isRegister ? "初始化账户" : "进入控制台"}
+                    {isRegister ? t("initAccount") : t("enterConsole")}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
@@ -231,7 +228,7 @@ export default function LoginPage() {
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-white/5"></div>
                 </div>
-                <span className="relative px-4 bg-[#14141c] text-[9px] font-black text-muted uppercase tracking-widest">模式切换</span>
+                <span className="relative px-4 bg-[#14141c] text-[9px] font-black text-muted uppercase tracking-widest">{t("modeSwitch")}</span>
               </div>
 
               <div className="text-center mt-6">
@@ -239,15 +236,18 @@ export default function LoginPage() {
                   onClick={() => { setIsRegister(!isRegister); setError(""); }}
                   className="text-[10px] font-black text-accent hover:text-indigo-400 uppercase tracking-widest transition-colors"
                 >
-                  {isRegister ? "已有账号？去登录" : "新操作员？创建实例"}
+                  {isRegister ? t("hasAccount") : t("createInstance")}
                 </button>
               </div>
             </>
           )}
         </div>
 
-        <p className="mt-8 text-center text-[10px] font-bold text-muted/50 uppercase tracking-[0.2em]">
-          由端到端加密与 AI 实时风险监控系统保护
+        <div className="mt-6 flex justify-center">
+          <LanguageSwitcher />
+        </div>
+        <p className="mt-6 text-center text-[10px] font-bold text-muted/50 uppercase tracking-[0.2em]">
+          {t("footer")}
         </p>
       </div>
 
