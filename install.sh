@@ -160,11 +160,17 @@ start_database() {
     cd "$INSTALL_DIR"
     info "Starting database services (TimescaleDB + Redis)..."
     
-    if [[ -f docker-compose.yml ]]; then
-        docker compose up -d postgres redis 2>/dev/null || docker-compose up -d postgres redis
-        success "Database services started"
-    else
+    if [[ ! -f docker-compose.yml ]]; then
         warn "docker-compose.yml not found, skipping database setup"
+        return
+    fi
+    # docker-compose.yml uses service name "timescaledb"; docker-compose.prod.yml uses "postgres"
+    if docker compose up -d timescaledb redis 2>/dev/null || docker-compose up -d timescaledb redis 2>/dev/null; then
+        success "Database services started (timescaledb + redis)"
+    elif [[ -f docker-compose.prod.yml ]] && ( docker compose -f docker-compose.prod.yml up -d postgres redis 2>/dev/null || docker-compose -f docker-compose.prod.yml up -d postgres redis 2>/dev/null ); then
+        success "Database services started (postgres + redis)"
+    else
+        warn "Could not start DB. Run manually: docker compose up -d timescaledb redis"
     fi
 }
 

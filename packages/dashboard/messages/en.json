@@ -291,6 +291,10 @@
     "noOkxWallet": "OKX wallet not detected",
     "txSubmitted": "Tx submitted",
     "submitFail": "Submit failed",
+    "cexStep1": "Login to OKX Exchange (www.okx.com)",
+    "cexStep2": "API Management → Create API Key",
+    "cexStep3": "Permissions: Read + Trade (no withdrawal)",
+    "cexStep4": "Add three variables to .env.local",
     "gmxSent": "GMX v2 {side} sent, waiting for keeper...",
     "hlArbSuccess": "HL short submitted, {coin} arb opened."
   },

@@ -342,7 +342,7 @@ export default function TradingPage() {
                       +{(r.fundingRateHourly * 100).toFixed(4)}% / h
                     </div>
                     <div className={`w-28 text-right font-black text-base font-outfit ${annColor(r.annualized)}`}>
-                      {fmt(r.annualized, 1)}%<span className="text-[9px] text-muted font-bold"> /年</span>
+                      {fmt(r.annualized, 1)}%<span className="text-[9px] text-muted font-bold"> {t("perYear")}</span>
                     </div>
                     <div className="w-28 text-right text-[10px] text-muted font-bold">
                       OI: ${r.openInterest >= 1e9 ? `${(r.openInterest / 1e9).toFixed(1)}B` : `${(r.openInterest / 1e6).toFixed(0)}M`}
@@ -351,7 +351,7 @@ export default function TradingPage() {
                       <button
                         onClick={() => { setArbModal(hlOpps.find(o => o.coin === r.symbol) || null); setTab("defi-perp"); }}
                         className="ml-2 px-3 py-1.5 rounded-xl bg-success/10 text-success text-[9px] font-black uppercase border border-success/20 hover:bg-success/20 transition-all opacity-0 group-hover:opacity-100">
-                        套利
+                        {t("arbitrage")}
                       </button>
                     )}
                   </div>
@@ -379,19 +379,19 @@ export default function TradingPage() {
             <div className="glass p-6 rounded-2xl border border-white/5 flex items-start gap-4">
               <Shield className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-black text-white mb-2">OKX 钱包链上资金费率套利</p>
+                <p className="text-sm font-black text-white mb-2">{t("strategyTitle")}</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[11px] text-muted">
                   <div className="space-y-1">
-                    <p className="font-black text-white text-[10px] uppercase tracking-widest">Hyperliquid 路线（推荐）</p>
-                    <p>① 1inch 买入现货 → OKX 钱包签名</p>
-                    <p>② Hyperliquid 做空永续 → EIP-712 签名</p>
-                    <p>③ 每小时收取资金费率，Delta 中性</p>
+                    <p className="font-black text-white text-[10px] uppercase tracking-widest">{t("hlRoute")}</p>
+                    <p>{t("hlStep1")}</p>
+                    <p>{t("hlStep2")}</p>
+                    <p>{t("hlStep3")}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="font-black text-white text-[10px] uppercase tracking-widest">GMX v2 路线</p>
-                    <p>① 1inch 买入现货 → OKX 钱包签名</p>
-                    <p>② GMX 做空合约 → OKX 钱包签名</p>
-                    <p>③ 收取 GMX 协议资金费，适合大资金</p>
+                    <p className="font-black text-white text-[10px] uppercase tracking-widest">{t("gmxRoute")}</p>
+                    <p>{t("gmxStep1")}</p>
+                    <p>{t("gmxStep2")}</p>
+                    <p>{t("gmxStep3")}</p>
                   </div>
                 </div>
               </div>
@@ -401,12 +401,12 @@ export default function TradingPage() {
             <div>
               <div className="flex items-center gap-3 mb-4 px-1">
                 <div className="w-2 h-2 rounded bg-violet-400" />
-                <p className="text-[10px] font-black text-white uppercase tracking-widest">Hyperliquid 套利机会</p>
-                <span className="text-[9px] text-muted font-bold ml-auto">OI = 未平仓合约总量</span>
+                <p className="text-[10px] font-black text-white uppercase tracking-widest">{t("hlArbTitle")}</p>
+                <span className="text-[9px] text-muted font-bold ml-auto">{t("oiHint")}</span>
               </div>
               <div className="space-y-4">
                 {hlOpps.length === 0 ? (
-                  <div className="flex items-center gap-3 p-6 text-muted"><Loader2 className="w-4 h-4 animate-spin" />扫描中...</div>
+                  <div className="flex items-center gap-3 p-6 text-muted"><Loader2 className="w-4 h-4 animate-spin" />{t("scanning")}</div>
                 ) : hlOpps.slice(0, 8).map(o => (
                   <div key={o.coin} className={`glass-cyber rounded-[2rem] p-7 border transition-all ${o.viable ? "border-success/20 bg-success/[0.02]" : "border-white/5"}`}>
                     <div className="flex items-center justify-between gap-4">
@@ -417,14 +417,14 @@ export default function TradingPage() {
                         <div>
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-lg font-black text-white font-outfit">{o.coin}/USDC</span>
-                            {o.viable && <span className="px-2 py-0.5 rounded-full bg-success/15 text-success text-[8px] font-black uppercase border border-success/20">可套利</span>}
+                            {o.viable && <span className="px-2 py-0.5 rounded-full bg-success/15 text-success text-[8px] font-black uppercase border border-success/20">{t("canArb")}</span>}
                           </div>
-                          <p className="text-[9px] text-muted font-bold">Hyperliquid L1 · 标记价 ${fmt(o.markPx)}</p>
+                          <p className="text-[9px] text-muted font-bold">{t("hlL1")} ${fmt(o.markPx)}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-6">
                         <div className="text-right">
-                          <p className="text-[9px] text-muted font-bold uppercase">年化（净）</p>
+                          <p className="text-[9px] text-muted font-bold uppercase">{t("annNet")}</p>
                           <p className={`text-xl font-black font-outfit ${annColor(o.netAnnualized)}`}>{fmt(o.netAnnualized, 1)}%</p>
                         </div>
                         <div className="text-right">
@@ -434,7 +434,7 @@ export default function TradingPage() {
                         {o.viable && (
                           <button onClick={() => setArbModal(o)}
                             className="px-5 py-3 rounded-2xl bg-violet-500/10 border border-violet-500/30 text-violet-400 text-[10px] font-black uppercase tracking-widest hover:bg-violet-500/20 active:scale-95 transition-all">
-                            开仓套利
+                            {t("openArb")}
                           </button>
                         )}
                       </div>
@@ -448,7 +448,7 @@ export default function TradingPage() {
             <div>
               <div className="flex items-center gap-3 mb-4 px-1">
                 <div className="w-2 h-2 rounded bg-blue-400" />
-                <p className="text-[10px] font-black text-white uppercase tracking-widest">GMX v2 链上合约（Arbitrum）</p>
+                <p className="text-[10px] font-black text-white uppercase tracking-widest">{t("gmxTitle")}</p>
               </div>
               <div className="space-y-4">
                 {topRates.filter(r => r.platform === "GMX v2").slice(0, 4).map(r => (
@@ -460,17 +460,17 @@ export default function TradingPage() {
                         </div>
                         <div>
                           <p className="text-lg font-black text-white font-outfit mb-1">{r.symbol}/USD</p>
-                          <p className="text-[9px] text-muted">GMX v2 · Arbitrum · 价格 ${fmt(r.price)}</p>
+                          <p className="text-[9px] text-muted">{t("gmxPrice")} ${fmt(r.price)}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-6">
                         <div className="text-right">
-                          <p className="text-[9px] text-muted font-bold uppercase">年化费率</p>
+                          <p className="text-[9px] text-muted font-bold uppercase">{t("annRate")}</p>
                           <p className="text-xl font-black font-outfit text-blue-400">{fmt(r.annualized, 1)}%</p>
                         </div>
                         <button onClick={() => setGmxModal(r)}
                           className="px-5 py-3 rounded-2xl bg-blue-500/10 border border-blue-500/30 text-blue-400 text-[10px] font-black uppercase tracking-widest hover:bg-blue-500/20 active:scale-95 transition-all">
-                          构建交易
+                          {t("buildTx")}
                         </button>
                       </div>
                     </div>
@@ -486,12 +486,12 @@ export default function TradingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="glass-cyber p-8 rounded-[2.5rem] border border-white/5">
               <h3 className="text-sm font-black text-white uppercase tracking-widest font-outfit mb-8 flex items-center gap-3">
-                <ArrowLeftRight className="w-5 h-5 text-accent" /> DEX 现货兑换（Arbitrum）
+                <ArrowLeftRight className="w-5 h-5 text-accent" /> {t("dexSpotTitle")}
               </h3>
               <div className="space-y-5">
                 {/* From */}
                 <div>
-                  <label className="text-[9px] font-black text-muted uppercase tracking-widest mb-2 block">卖出代币</label>
+                  <label className="text-[9px] font-black text-muted uppercase tracking-widest mb-2 block">{t("sellToken")}</label>
                   <div className="flex gap-3">
                     <select value={swapFrom} onChange={e => { setSwapFrom(e.target.value); setSwapQuote(null); }}
                       className="flex-1 px-4 py-3.5 glass rounded-2xl border border-white/10 text-white text-sm outline-none focus:border-accent/50 bg-transparent appearance-none">
@@ -499,19 +499,19 @@ export default function TradingPage() {
                     </select>
                     <input type="number" value={swapAmount} onChange={e => { setSwapAmount(e.target.value); setSwapQuote(null); }}
                       className="w-36 px-4 py-3.5 glass rounded-2xl border border-white/10 text-white text-sm outline-none focus:border-accent/50"
-                      placeholder="金额" />
+                      placeholder={t("amountPlaceholder")} />
                   </div>
                 </div>
 
                 <div className="flex justify-center">
-                  <button onClick={() => { const t = swapFrom; setSwapFrom(swapTo); setSwapTo(t); setSwapQuote(null); }}
+                  <button onClick={() => { const temp = swapFrom; setSwapFrom(swapTo); setSwapTo(temp); setSwapQuote(null); }}
                     className="w-10 h-10 rounded-full glass border border-white/10 hover:border-accent/40 flex items-center justify-center hover:rotate-180 transition-all duration-500 group">
                     <ArrowLeftRight className="w-4 h-4 text-muted group-hover:text-accent" />
                   </button>
                 </div>
 
                 <div>
-                  <label className="text-[9px] font-black text-muted uppercase tracking-widest mb-2 block">买入代币</label>
+                  <label className="text-[9px] font-black text-muted uppercase tracking-widest mb-2 block">{t("buyToken")}</label>
                   <select value={swapTo} onChange={e => { setSwapTo(e.target.value); setSwapQuote(null); }}
                     className="w-full px-4 py-3.5 glass rounded-2xl border border-white/10 text-white text-sm outline-none focus:border-accent/50 bg-transparent appearance-none">
                     {["ETH", "WETH", "WBTC", "ARB", "LINK", "USDC", "USDT"].map(t => <option key={t} value={t}>{t}</option>)}
@@ -522,11 +522,11 @@ export default function TradingPage() {
                 {swapQuote && (
                   <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-3">
                     {[
-                      { l: "预计收到", v: `${swapQuote.toAmount} ${swapQuote.toToken}`, c: "text-success" },
-                      { l: "最少收到", v: `${swapQuote.toAmountMin} ${swapQuote.toToken}`, c: "text-muted" },
-                      { l: "价格影响", v: `${swapQuote.priceImpact}%`, c: swapQuote.priceImpact > 1 ? "text-danger" : "text-muted" },
-                      { l: "路由", v: swapQuote.protocols.join(" → "), c: "text-muted" },
-                      { l: "滑点保护", v: `${swapQuote.slippage}%`, c: "text-muted" },
+                      { l: t("expectedReceive"), v: `${swapQuote.toAmount} ${swapQuote.toToken}`, c: "text-success" },
+                      { l: t("minReceive"), v: `${swapQuote.toAmountMin} ${swapQuote.toToken}`, c: "text-muted" },
+                      { l: t("priceImpact"), v: `${swapQuote.priceImpact}%`, c: swapQuote.priceImpact > 1 ? "text-danger" : "text-muted" },
+                      { l: t("route"), v: swapQuote.protocols.join(" → "), c: "text-muted" },
+                      { l: t("slippageProtection"), v: `${swapQuote.slippage}%`, c: "text-muted" },
                     ].map(({ l, v, c }) => (
                       <div key={l} className="flex justify-between text-sm">
                         <span className="text-muted font-bold">{l}</span>
@@ -549,35 +549,35 @@ export default function TradingPage() {
                   <button onClick={fetchSwapQuote} disabled={swapLoading}
                     className="flex-1 py-3.5 rounded-2xl glass border border-white/10 hover:border-accent/30 text-white text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2">
                     {swapLoading && !swapTx ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-                    获取报价
+                    {t("getQuote")}
                   </button>
                   {swapQuote && !swapTx && (
                     <button onClick={buildSwapTxHandler} disabled={swapLoading || !walletAddress}
                       className="flex-1 py-3.5 rounded-2xl bg-accent/10 border border-accent/20 text-accent text-[10px] font-black uppercase tracking-widest hover:bg-accent/20 transition-all active:scale-95 disabled:opacity-50">
-                      构建交易
+                      {t("buildTx")}
                     </button>
                   )}
                   {swapTx && (
                     <button onClick={executeSwap} disabled={swapLoading}
                       className="flex-1 py-3.5 rounded-2xl bg-accent text-white text-[10px] font-black uppercase tracking-widest hover:bg-accent/90 transition-all active:scale-95 shadow-lg shadow-accent/20 flex items-center justify-center gap-2">
                       {swapLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
-                      OKX 钱包签名
+                      {t("okxSign")}
                     </button>
                   )}
                 </div>
-                {!walletAddress && <p className="text-[9px] text-center text-warning font-bold">请先连接 OKX 插件钱包</p>}
+                {!walletAddress && <p className="text-[9px] text-center text-warning font-bold">{t("connectWalletHint")}</p>}
               </div>
             </div>
 
             {/* 说明 */}
             <div className="space-y-5">
               <div className="glass p-8 rounded-[2.5rem] border border-white/5">
-                <p className="text-[10px] font-black text-white uppercase tracking-widest mb-5">DEX 现货流程</p>
+                <p className="text-[10px] font-black text-white uppercase tracking-widest mb-5">{t("dexFlowTitle")}</p>
                 {[
-                  { step: "01", title: "选择代币对", desc: "选择来源和目标代币，输入金额" },
-                  { step: "02", title: "获取最优报价", desc: "1inch 聚合 Uniswap、Camelot 等多个 DEX 最优路径" },
-                  { step: "03", title: "OKX 钱包签名", desc: "系统构建交易，弹出 OKX 钱包，你确认即可" },
-                  { step: "04", title: "链上结算", desc: "几秒内完成，代币直接到你的钱包" },
+                  { step: "01", title: t("step1Title"), desc: t("step1Desc") },
+                  { step: "02", title: t("step2Title"), desc: t("step2Desc") },
+                  { step: "03", title: t("step3Title"), desc: t("step3Desc") },
+                  { step: "04", title: t("step4Title"), desc: t("step4Desc") },
                 ].map(({ step, title, desc }) => (
                   <div key={step} className="flex gap-4 mb-5 last:mb-0">
                     <div className="w-8 h-8 rounded-xl bg-accent/15 border border-accent/30 flex items-center justify-center text-[9px] font-black text-accent shrink-0">{step}</div>
@@ -591,7 +591,7 @@ export default function TradingPage() {
               <div className="glass p-6 rounded-2xl border border-warning/10 bg-warning/[0.02] flex items-start gap-3">
                 <AlertTriangle className="w-4 h-4 text-warning shrink-0" />
                 <p className="text-[10px] text-warning/80 font-bold">
-                  1inch API 免费版有频率限制。生产环境建议在 .env.local 配置 ONEINCH_API_KEY 获取更稳定的报价。
+                  {t("oneinchLimit")}
                 </p>
               </div>
             </div>
@@ -604,22 +604,22 @@ export default function TradingPage() {
             {!apiConfigured ? (
               <div className="glass-cyber p-12 rounded-[2.5rem] border border-warning/20 text-center">
                 <Lock className="w-10 h-10 text-muted opacity-20 mx-auto mb-6" />
-                <h3 className="text-xl font-black text-white mb-3">需要 OKX 交易所 API Key</h3>
+                <h3 className="text-xl font-black text-white mb-3">{t("cexNeedApi")}</h3>
                 <p className="text-muted text-sm mb-6 max-w-md mx-auto">
-                  CEX 合约交易需要单独的 OKX 交易所账户和 API Key（与 OKX 插件钱包账户完全独立）。
+                  {t("cexDesc")}
                 </p>
                 <div className="flex gap-4 justify-center flex-wrap">
                   <Link href="/settings" className="px-6 py-3 rounded-2xl bg-accent/10 border border-accent/20 text-accent text-[10px] font-black uppercase tracking-widest hover:bg-accent/20 transition-all flex items-center gap-2">
-                    <Settings className="w-4 h-4" /> 配置 API Key
+                    <Settings className="w-4 h-4" /> {t("configApi")}
                   </Link>
                   <a href="https://www.okx.com/account/my-api" target="_blank" rel="noopener noreferrer"
                     className="px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2">
-                    <ExternalLink className="w-4 h-4" /> OKX 创建 API Key
+                    <ExternalLink className="w-4 h-4" /> {t("okxCreateApi")}
                   </a>
                 </div>
                 <div className="mt-8 p-5 rounded-2xl bg-white/5 border border-white/5 text-left max-w-sm mx-auto">
-                  <p className="text-[9px] font-black text-muted uppercase tracking-widest mb-3">配置步骤</p>
-                  {["登录 OKX 交易所 (www.okx.com)", "API 管理 → 创建 API Key", "权限：读取 + 交易（不开提现）", "填入 .env.local 中三个变量"].map((s, i) => (
+                  <p className="text-[9px] font-black text-muted uppercase tracking-widest mb-3">{t("configSteps")}</p>
+                  {[t("cexStep1"), t("cexStep2"), t("cexStep3"), t("cexStep4")].map((s, i) => (
                     <p key={i} className="text-[10px] text-muted flex gap-2 mb-2"><span className="text-accent font-black">0{i+1}</span>{s}</p>
                   ))}
                 </div>
@@ -628,7 +628,7 @@ export default function TradingPage() {
               <div className="glass-cyber p-8 rounded-[2.5rem] border border-white/5">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                  <p className="text-sm font-black text-white uppercase tracking-widest">OKX Exchange API 已连接</p>
+                  <p className="text-sm font-black text-white uppercase tracking-widest">{t("cexConnected")}</p>
                 </div>
                 <div className="space-y-4">
                   {cexRates.slice(0, 10).map(r => (
@@ -636,13 +636,13 @@ export default function TradingPage() {
                       <div className="w-24 font-black text-white">{r.instId.replace("-USDT-SWAP", "")}</div>
                       <PlatformBadge platform="OKX" chain="CEX" />
                       <div className="flex-1 font-mono font-black text-success">+{(r.rate * 100).toFixed(4)}% / 8h</div>
-                      <div className={`font-black font-outfit ${annColor(r.annualized)}`}>{fmt(r.annualized, 1)}% / 年</div>
+                      <div className={`font-black font-outfit ${annColor(r.annualized)}`}>{fmt(r.annualized, 1)}% {t("perYear")}</div>
                       <div className="text-[10px] text-muted font-bold">{fmtCountdown(r.nextFundingTime, t)}</div>
                     </div>
                   ))}
                 </div>
                 <p className="text-[9px] text-center text-muted mt-6 font-bold uppercase tracking-widest">
-                  CEX 合约下单功能在 /trading（旧版）页面，当前页面侧重 DeFi 链上交易
+                  {t("cexNote")}
                 </p>
               </div>
             )}
@@ -656,8 +656,8 @@ export default function TradingPage() {
           <div className="glass-cyber rounded-[2.5rem] border border-violet-500/30 w-full max-w-md p-10 shadow-2xl shadow-violet-500/10 animate-in slide-in-from-bottom-8">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h3 className="text-xl font-black text-white font-outfit">Hyperliquid 套利开仓</h3>
-                <p className="text-[10px] text-muted mt-1">买现货（1inch）+ 做空合约（HL），Delta 中性</p>
+                <h3 className="text-xl font-black text-white font-outfit">{t("arbModalTitle")}</h3>
+                <p className="text-[10px] text-muted mt-1">{t("arbModalSub")}</p>
               </div>
               <button onClick={() => { setArbModal(null); setArbResult(null); }} className="p-2.5 rounded-xl hover:bg-white/10 text-muted"><X className="w-5 h-5" /></button>
             </div>
@@ -665,18 +665,18 @@ export default function TradingPage() {
             <div className="space-y-5">
               <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-3 text-sm">
                 {[
-                  { l: "标的", v: `${arbModal.coin} / USDC` },
-                  { l: "标记价", v: `$${fmt(arbModal.markPx)}` },
-                  { l: "当期资金费率", v: `+${(arbModal.fundingRate * 100).toFixed(4)}%/h`, c: "text-success" },
-                  { l: "预期年化（净）", v: `${fmt(arbModal.netAnnualized, 1)}%`, c: "text-success" },
-                  { l: "OI 规模", v: `$${(arbModal.openInterest / 1e6).toFixed(0)}M` },
+                  { l: t("asset"), v: `${arbModal.coin} / USDC` },
+                  { l: t("markPrice"), v: `$${fmt(arbModal.markPx)}` },
+                  { l: t("fundingRate"), v: `+${(arbModal.fundingRate * 100).toFixed(4)}%/h`, c: "text-success" },
+                  { l: t("expectedAnn"), v: `${fmt(arbModal.netAnnualized, 1)}%`, c: "text-success" },
+                  { l: t("oiSize"), v: `$${(arbModal.openInterest / 1e6).toFixed(0)}M` },
                 ].map(({ l, v, c }) => (
                   <div key={l} className="flex justify-between"><span className="text-muted">{l}</span><span className={`font-black ${c || "text-white"}`}>{v}</span></div>
                 ))}
               </div>
 
               <div>
-                <label className="text-[9px] font-black text-muted uppercase tracking-widest mb-2 block">仓位金额 (USD)</label>
+                <label className="text-[9px] font-black text-muted uppercase tracking-widest mb-2 block">{t("positionAmountUsd")}</label>
                 <input type="number" value={arbSize} onChange={e => setArbSize(e.target.value)}
                   className="w-full px-5 py-4 glass rounded-2xl border border-white/10 text-white text-lg font-black outline-none focus:border-violet-500/50 transition-all" />
                 <div className="flex gap-2 mt-2">
@@ -687,10 +687,10 @@ export default function TradingPage() {
               </div>
 
               <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-[10px] space-y-2 text-muted">
-                <p className="font-black text-white">执行步骤：</p>
-                <p>① 1inch 买入 ${arbSize} 的 {arbModal.coin}（OKX 钱包签名）</p>
-                <p>② Hyperliquid 做空等量 {arbModal.coin}（EIP-712 签名）</p>
-                <p>③ 每小时自动收取资金费率，无价格风险</p>
+                <p className="font-black text-white">{t("execSteps")}</p>
+                <p>{t("arbExec1")} ${arbSize} {t("arbExec2")} {arbModal.coin} {t("arbExec2b")}</p>
+                <p>{t("arbExec3")} {arbModal.coin} {t("arbExec3b")}</p>
+                <p>{t("arbExec4")}</p>
               </div>
 
               {arbResult && (
@@ -705,9 +705,9 @@ export default function TradingPage() {
               <button onClick={openHLArb} disabled={arbLoading || !walletAddress}
                 className="w-full py-4 rounded-2xl bg-violet-500 text-white font-black text-sm uppercase tracking-widest hover:bg-violet-500/90 active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-3 shadow-xl shadow-violet-500/20">
                 {arbLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Zap className="w-5 h-5" />}
-                {arbLoading ? "签名中..." : "确认开仓"}
+                {arbLoading ? t("signing") : t("confirmOpen")}
               </button>
-              {!walletAddress && <p className="text-center text-[9px] text-warning font-bold">请先连接 OKX 插件钱包</p>}
+              {!walletAddress && <p className="text-center text-[9px] text-warning font-bold">{t("connectWalletHint")}</p>}
             </div>
           </div>
         </div>
@@ -719,8 +719,8 @@ export default function TradingPage() {
           <div className="glass-cyber rounded-[2.5rem] border border-blue-500/30 w-full max-w-md p-10 shadow-2xl animate-in slide-in-from-bottom-8">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h3 className="text-xl font-black text-white font-outfit">GMX v2 开仓</h3>
-                <p className="text-[10px] text-muted mt-1">链上永续合约，OKX 钱包签名执行</p>
+                <h3 className="text-xl font-black text-white font-outfit">{t("gmxModalTitle")}</h3>
+                <p className="text-[10px] text-muted mt-1">{t("gmxModalSub")}</p>
               </div>
               <button onClick={() => { setGmxModal(null); setGmxResult(null); }} className="p-2.5 rounded-xl hover:bg-white/10 text-muted"><X className="w-5 h-5" /></button>
             </div>
@@ -728,16 +728,16 @@ export default function TradingPage() {
             <div className="space-y-5">
               <div className="p-5 rounded-2xl bg-white/5 border border-white/10 space-y-3 text-sm">
                 {[
-                  { l: "标的", v: `${gmxModal.symbol} / USD` },
-                  { l: "当前价格", v: `$${fmt(gmxModal.price)}` },
-                  { l: "年化费率", v: `${fmt(gmxModal.annualized, 1)}%` },
+                  { l: t("asset"), v: `${gmxModal.symbol} / USD` },
+                  { l: t("currentPrice"), v: `$${fmt(gmxModal.price)}` },
+                  { l: t("annRate"), v: `${fmt(gmxModal.annualized, 1)}%` },
                 ].map(({ l, v }) => (
                   <div key={l} className="flex justify-between"><span className="text-muted">{l}</span><span className="font-black text-white">{v}</span></div>
                 ))}
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                {[["做多", false], ["做空（套利）", true]].map(([label, isShort]) => (
+                {[[t("long"), false], [t("shortArb"), true]].map(([label, isShort]) => (
                   <button key={String(isShort)} onClick={() => setGmxLong(!isShort as boolean)}
                     className={`py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest border transition-all ${
                       gmxLong === !isShort
@@ -748,7 +748,7 @@ export default function TradingPage() {
               </div>
 
               <div>
-                <label className="text-[9px] font-black text-muted uppercase tracking-widest mb-2 block">仓位大小 (USD)</label>
+                <label className="text-[9px] font-black text-muted uppercase tracking-widest mb-2 block">{t("positionSizeUsd")}</label>
                 <input type="number" value={gmxSize} onChange={e => setGmxSize(e.target.value)}
                   className="w-full px-5 py-4 glass rounded-2xl border border-white/10 text-white text-lg font-black outline-none focus:border-blue-500/50 transition-all" />
               </div>
@@ -765,7 +765,7 @@ export default function TradingPage() {
               <button onClick={openGMXArb} disabled={gmxLoading || !walletAddress}
                 className="w-full py-4 rounded-2xl bg-blue-500 text-white font-black text-sm uppercase tracking-widest hover:bg-blue-500/90 active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-3 shadow-xl shadow-blue-500/20">
                 {gmxLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Zap className="w-5 h-5" />}
-                {gmxLoading ? "签名中..." : "OKX 钱包签名执行"}
+                {gmxLoading ? t("signing") : t("okxSignExecute")}
               </button>
             </div>
           </div>

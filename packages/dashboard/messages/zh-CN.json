@@ -291,6 +291,10 @@
     "noOkxWallet": "未检测到 OKX 钱包",
     "txSubmitted": "交易已提交",
     "submitFail": "提交失败",
+    "cexStep1": "登录 OKX 交易所 (www.okx.com)",
+    "cexStep2": "API 管理 → 创建 API Key",
+    "cexStep3": "权限：读取 + 交易（不开提现）",
+    "cexStep4": "填入 .env.local 中三个变量",
     "gmxSent": "GMX v2 {side}单已发送，等待 keeper 执行...",
     "hlArbSuccess": "Hyperliquid 空单已提交，{coin} 套利开仓成功！"
   },
